@@ -26,10 +26,10 @@ The tutor asks guiding questions, diagnoses missing logic, points to learning re
 - Data direction — synthetic dialogues are the initial fine-tuning data source.
 - Success claim — materially higher compliance with equal tutoring utility.
 - Demo boundary — a fixed exercise gallery, not an unbounded free-form product.
+- [Define the Socratic benchmark contract](tickets/01-benchmark-contract.md) — 48 multi-turn cases; binary leakage and actionable diagnosis; calibrated strong-model judging; 20-point compliance gain with a 5-point utility floor.
 
 ## Not yet specified
 
-- The exact compliance and utility rubric, scenario set, scoring method, and pass thresholds.
 - How synthetic conversations are generated, filtered, audited for leakage, and versioned.
 - Which base model, fine-tuning method, training budget, and reproducibility level make the comparison credible.
 - The minimum demo/evaluation artifact needed to present results clearly and safely.
