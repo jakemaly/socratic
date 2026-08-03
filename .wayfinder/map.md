@@ -15,7 +15,7 @@ The tutor asks guiding questions, diagnoses missing logic, points to learning re
 - Domain: introductory Python tutoring and AI alignment/fine-tuning portfolio work.
 - Skills: grilling, domain-modeling, research, prototype, and tdd as decisions become actionable.
 - Standing preference: keep the first version narrow, inspectable, and benchmarkable; prefer evidence over platform breadth.
-- Tracker: local Markdown; ticket files are the child issues, and `blocked-by` records dependencies.
+- Tracker: GitHub Issues; [Socratic Tutor Portfolio Map](https://github.com/jakemaly/socratic/issues/1) is canonical, with GitHub sub-issues for child tickets and `Blocked by` body lines for sequencing.
 
 ## Decisions so far
 
@@ -26,7 +26,7 @@ The tutor asks guiding questions, diagnoses missing logic, points to learning re
 - Data direction — synthetic dialogues are the initial fine-tuning data source.
 - Success claim — materially higher compliance with equal tutoring utility.
 - Demo boundary — a fixed exercise gallery, not an unbounded free-form product.
-- [Define the Socratic benchmark contract](tickets/01-benchmark-contract.md) — 48 multi-turn cases; binary leakage and actionable diagnosis; calibrated strong-model judging; 20-point compliance gain with a 5-point utility floor.
+- [Define the Socratic benchmark contract](https://github.com/jakemaly/socratic/issues/2) — 48 multi-turn cases; binary leakage and actionable diagnosis; calibrated strong-model judging; 20-point compliance gain with a 5-point utility floor.
 
 ## Not yet specified
 
