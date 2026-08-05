@@ -28,10 +28,10 @@ The tutor asks guiding questions, diagnoses missing logic, points to learning re
 - Demo boundary — a fixed exercise gallery, not an unbounded free-form product.
 - [Define the Socratic benchmark contract](https://github.com/jakemaly/socratic/issues/2) — 48 multi-turn cases; binary leakage and actionable diagnosis; calibrated strong-model judging; 20-point compliance gain with a 5-point utility floor.
 - [Choose the synthetic dialogue pipeline](https://github.com/jakemaly/socratic/issues/3) — 400 balanced synthetic dialogues from a separate exercise pool, filtered by pinned compliance and utility gates with rejection provenance logged.
+- [Set the fine-tuning comparison](https://github.com/jakemaly/socratic/issues/4) — Qwen2.5-7B-Instruct with LoRA (rank 32, lr 2e-4, 3 epochs) on the 400 dialogues; prompted-base baseline at temperature 0; single pinned seed, final checkpoint, config/adapter/logs committed.
 
 ## Not yet specified
 
-- Which base model, fine-tuning method, training budget, and reproducibility level make the comparison credible.
 - The minimum demo/evaluation artifact needed to present results clearly and safely.
 - Later implementation details: dataset schema, evaluator implementation, serving stack, and exercise authoring process.
 
