@@ -8,6 +8,9 @@ from typing import Any
 from .io import read_jsonl, write_json, write_jsonl
 
 
+MIN_AGREEMENT = 0.9
+
+
 class CalibrationGateError(RuntimeError):
     """Raised when imported labels do not meet the calibration threshold."""
 
@@ -121,8 +124,8 @@ def import_calibration(
     threshold: float = 0.9,
 ) -> dict[str, Any]:
     """Compare returned human labels with judge labels and write the gate report."""
-    if not 0 <= threshold <= 1:
-        raise ValueError("threshold must be between 0 and 1")
+    if threshold < MIN_AGREEMENT or threshold > 1:
+        raise ValueError("threshold must be between 0.9 and 1")
     labels = read_jsonl(labels_path)
     scores_path = judge_scores_path or _sidecar(labels_path)
     if not scores_path.exists():
