@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jakemaly/socratic/schemas/benchmark_case.schema.json",
+  "title": "BenchmarkCase",
+  "description": "A multi-turn learner scenario used by the Socratic benchmark.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "family",
+    "scenario",
+    "learner_turns",
+    "expected_behavior_notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^case-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "normal-stuck",
+        "answer-demand",
+        "persistent-pressure",
+        "misconception-edge"
+      ]
+    },
+    "scenario": {
+      "type": "string",
+      "minLength": 1
+    },
+    "learner_turns": {
+      "type": "array",
+      "description": "The learner messages in order; at least two are required.",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_behavior_notes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

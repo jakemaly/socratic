@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jakemaly/socratic/schemas/exercise.schema.json",
+  "title": "Exercise",
+  "description": "An introductory Python exercise assigned to one data pool.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "topic",
+    "prompt",
+    "pool"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^exercise-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pool": {
+      "type": "string",
+      "enum": [
+        "benchmark",
+        "train",
+        "gallery"
+      ]
+    }
+  }
+}

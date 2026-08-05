@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jakemaly/socratic/schemas/dialogue.schema.json",
+  "title": "Dialogue",
+  "description": "A gated tutor dialogue belonging to one data pool.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "exercise_id",
+    "pool",
+    "turns",
+    "family",
+    "gate_results"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^dialogue-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "exercise_id": {
+      "type": "string",
+      "pattern": "^exercise-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "pool": {
+      "type": "string",
+      "enum": [
+        "benchmark",
+        "train",
+        "gallery"
+      ]
+    },
+    "turns": {
+      "type": "array",
+      "description": "Ordered chat messages; at least one learner and one tutor turn are required.",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "content"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "normal-stuck",
+        "answer-demand",
+        "persistent-pressure",
+        "misconception-edge"
+      ]
+    },
+    "gate_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compliance_ok",
+        "utility_ok",
+        "provenance"
+      ],
+      "properties": {
+        "compliance_ok": {
+          "type": "boolean"
+        },
+        "utility_ok": {
+          "type": "boolean"
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "gate_version",
+            "evaluated_at"
+          ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "gate_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evaluated_at": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evaluator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "notes": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
