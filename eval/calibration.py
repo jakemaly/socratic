@@ -127,6 +127,8 @@ def import_calibration(
     if threshold < MIN_AGREEMENT or threshold > 1:
         raise ValueError("threshold must be between 0.9 and 1")
     labels = read_jsonl(labels_path)
+    if len(labels) < 15 or len(labels) > 20:
+        raise ValueError("calibration labels must contain between 15 and 20 transcripts")
     scores_path = judge_scores_path or _sidecar(labels_path)
     if not scores_path.exists():
         raise ValueError(f"judge score file does not exist: {scores_path}")
