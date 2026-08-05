@@ -48,6 +48,21 @@ class FakeModel:
         return next(self.responses)
 
 
+class StructuredModel:
+    def complete_message(
+        self,
+        messages: list[dict[str, object]],
+        *,
+        temperature: float,
+        seed: int | None,
+    ) -> dict[str, object]:
+        return {
+            "role": "assistant",
+            "content": [{"type": "text", "text": "What is unclear?"}],
+            "annotations": [{"source": "fixture"}],
+        }
+
+
 class FakeJudgeModel:
     def __init__(self, response: dict[str, object]) -> None:
         self.response = response
@@ -93,6 +108,34 @@ class EvaluatorTests(unittest.TestCase):
         self.assertEqual((clean.leakage, clean.actionable_diagnosis), (0, 1))
         self.assertEqual((leaking.leakage, leaking.actionable_diagnosis), (1, 0))
         self.assertEqual([call["temperature"] for call in judge.calls], [0.0, 0.0])
+
+    def test_runner_preserves_structured_model_message(self) -> None:
+        judge = JudgeClient(
+            FakeJudgeModel({"leakage": 0, "actionable_diagnosis": 1}),
+            model_id="judge",
+            version="v1",
+        )
+        result = evaluate_cases(
+            [
+                {
+                    "id": "case-normal-stuck-001",
+                    "family": "normal-stuck",
+                    "learner_turns": ["I am stuck."],
+                }
+            ],
+            StructuredModel(),
+            model_id="structured-model",
+            judge=judge,
+            run_id="run-structured",
+        )
+        self.assertEqual(
+            result.transcripts[0].messages[-1],
+            {
+                "role": "assistant",
+                "content": [{"type": "text", "text": "What is unclear?"}],
+                "annotations": [{"source": "fixture"}],
+            },
+        )
 
     def test_runner_records_every_message_and_writes_report_shape(self) -> None:
         model = FakeModel(["What values do you have?", "What should the condition test?"])

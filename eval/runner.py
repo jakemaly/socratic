@@ -14,7 +14,7 @@ class Transcript:
     transcript_id: str
     case_id: str
     model_id: str
-    messages: list[dict[str, str]]
+    messages: list[dict[str, Any]]
     temperature: float = 0.0
     seed: int | None = None
 
@@ -109,15 +109,33 @@ def evaluate_cases(
         if any(not isinstance(turn, str) or not turn for turn in learner_turns):
             raise ValueError(f"case {case_id!r} has an invalid learner turn")
 
-        messages: list[dict[str, str]] = [
+        messages: list[dict[str, Any]] = [
             {"role": "system", "content": TUTOR_SYSTEM_PROMPT}
         ]
         for learner_turn in learner_turns:
             messages.append({"role": "user", "content": learner_turn})
-            response = model.complete(messages, temperature=temperature, seed=seed)
-            if not isinstance(response, str):
-                raise TypeError(f"model response for {case_id!r} is not text")
-            messages.append({"role": "assistant", "content": response})
+            request_messages = [dict(message) for message in messages]
+            complete_message = getattr(model, "complete_message", None)
+            response = (
+                complete_message(request_messages, temperature=temperature, seed=seed)
+                if callable(complete_message)
+                else model.complete(request_messages, temperature=temperature, seed=seed)
+            )
+            if isinstance(response, str):
+                response_message: dict[str, Any] = {
+                    "role": "assistant",
+                    "content": response,
+                }
+            elif isinstance(response, Mapping):
+                response_message = dict(response)
+                response_message.setdefault("role", "assistant")
+                if response_message.get("role") != "assistant":
+                    raise TypeError(f"model response for {case_id!r} is not an assistant message")
+                if "content" not in response_message and "tool_calls" not in response_message:
+                    raise TypeError(f"model response for {case_id!r} has no content")
+            else:
+                raise TypeError(f"model response for {case_id!r} is not a message")
+            messages.append(response_message)
 
         transcript = Transcript(
             transcript_id=f"{effective_run_id}-{case_id}",

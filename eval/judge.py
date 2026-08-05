@@ -46,7 +46,7 @@ class JudgeResult:
         return result
 
 
-def _messages(transcript: Any) -> Sequence[Mapping[str, str]]:
+def _messages(transcript: Any) -> Sequence[Mapping[str, Any]]:
     if isinstance(transcript, Mapping):
         messages = transcript.get("messages", [])
     else:

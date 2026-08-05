@@ -19,7 +19,8 @@ python3 -m eval evaluate \
 The command writes:
 
 - `transcripts.jsonl` — every system, learner, and tutor message in order,
-  including model id, temperature, and seed.
+  preserving structured assistant message fields, including model id,
+  temperature, and seed.
 - `judge_calls.jsonl` — every judge request prompt and raw response, plus the
   parsed result, judge model, version, and temperature (`0.0`).
 - `eval_results.jsonl` — one record matching `schemas/eval_result.schema.json`.

@@ -10,13 +10,13 @@ from typing import Any, Protocol
 
 from .scoring import score_compliance, score_utility
 
-Message = dict[str, str]
+Message = dict[str, Any]
 
 
 class ModelAdapter(Protocol):
     def complete(
         self,
-        messages: Sequence[Mapping[str, str]],
+        messages: Sequence[Mapping[str, Any]],
         *,
         temperature: float,
         seed: int | None,
@@ -48,13 +48,13 @@ class OpenAICompatibleModel:
         ).rstrip("/")
         self.timeout = timeout
 
-    def complete(
+    def complete_message(
         self,
-        messages: Sequence[Mapping[str, str]],
+        messages: Sequence[Mapping[str, Any]],
         *,
         temperature: float,
         seed: int | None,
-    ) -> str:
+    ) -> dict[str, Any]:
         if not self.api_key:
             raise ModelError(
                 "no API key; set SOCRATIC_API_KEY or OPENAI_API_KEY, "
@@ -88,11 +88,23 @@ class OpenAICompatibleModel:
             raise ModelError("model returned invalid JSON") from exc
 
         try:
-            content = body["choices"][0]["message"]["content"]
+            message = body["choices"][0]["message"]
         except (KeyError, IndexError, TypeError) as exc:
-            raise ModelError("model response has no choices[0].message.content") from exc
+            raise ModelError("model response has no choices[0].message") from exc
+        if not isinstance(message, Mapping):
+            raise ModelError("model response message is not an object")
+        return dict(message)
+
+    def complete(
+        self,
+        messages: Sequence[Mapping[str, Any]],
+        *,
+        temperature: float,
+        seed: int | None,
+    ) -> str:
+        message = self.complete_message(messages, temperature=temperature, seed=seed)
+        content = message.get("content")
         if isinstance(content, list):
-            # Some compatible endpoints return structured text parts.
             content = "".join(
                 part.get("text", "")
                 for part in content

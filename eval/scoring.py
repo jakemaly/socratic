@@ -48,6 +48,14 @@ def _contents(transcript: Any) -> list[str]:
         content = message.get("content")
         if isinstance(content, str):
             contents.append(content)
+        elif isinstance(content, list):
+            contents.append(
+                "".join(
+                    part.get("text", "")
+                    for part in content
+                    if isinstance(part, Mapping) and isinstance(part.get("text"), str)
+                )
+            )
     return contents
 
 
