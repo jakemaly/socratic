@@ -22,7 +22,17 @@ def _evaluate(args: argparse.Namespace) -> int:
     cases = read_jsonl(Path(args.cases))
     out = Path(args.out)
     model = make_model(args.model, base_url=args.base_url)
-    judge_model_id = args.judge_model or os.getenv("SOCRATIC_JUDGE_MODEL") or args.model
+    judge_model_id = args.judge_model or os.getenv("SOCRATIC_JUDGE_MODEL")
+    if not judge_model_id:
+        if args.model.lower().startswith("fixture"):
+            judge_model_id = "fixture-judge"
+        else:
+            raise ValueError(
+                "a separate pinned judge is required; pass --judge-model "
+                "or set SOCRATIC_JUDGE_MODEL"
+            )
+    if judge_model_id == args.model:
+        raise ValueError("judge model must be separate from the model under evaluation")
     judge = JudgeClient(
         make_judge_model(judge_model_id, base_url=args.base_url),
         model_id=judge_model_id,
@@ -93,7 +103,7 @@ def build_parser() -> argparse.ArgumentParser:
     evaluate.add_argument("--cases", required=True, help="benchmark cases JSONL")
     evaluate.add_argument("--out", required=True, help="output directory")
     evaluate.add_argument("--judge-version", required=True, help="pinned judge rubric/model version")
-    evaluate.add_argument("--judge-model", help="strong judge model id (defaults to SOCRATIC_JUDGE_MODEL or --model)")
+    evaluate.add_argument("--judge-model", help="separate pinned strong judge model id (or set SOCRATIC_JUDGE_MODEL)")
     evaluate.add_argument("--adapter-id", help="adapter or fine-tuning id")
     evaluate.add_argument("--base-url", help="OpenAI-compatible API base URL")
     evaluate.add_argument("--temperature", type=float, default=0.0)

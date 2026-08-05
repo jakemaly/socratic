@@ -63,8 +63,8 @@ def export_calibration(
     seed: int = 0,
 ) -> list[dict[str, Any]]:
     """Write a model-blinded labels template and a private judge-score sidecar."""
-    if sample_size < 1 or sample_size > 20:
-        raise ValueError("calibration sample size must be between 1 and 20")
+    if sample_size < 15 or sample_size > 20:
+        raise ValueError("calibration sample size must be between 15 and 20")
     transcripts = read_jsonl(transcripts_path)
     if sample_size > len(transcripts):
         raise ValueError(

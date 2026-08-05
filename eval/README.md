@@ -31,7 +31,9 @@ defaults to `0`; model temperature defaults to `0.0`. The judge always runs at
 
 Non-`fixture-*` model ids use the standard-library OpenAI-compatible
 `/chat/completions` endpoint. Set `SOCRATIC_API_KEY` (or `OPENAI_API_KEY`) and,
-when needed, `SOCRATIC_API_BASE` (or pass `--base-url`). `fixture-clean`,
+when needed, `SOCRATIC_API_BASE` (or pass `--base-url`). A production run must
+pass a separate pinned `--judge-model` or set `SOCRATIC_JUDGE_MODEL`; the
+harness refuses to let the evaluated model judge itself. `fixture-clean`,
 `fixture-leaking`, and `fixture-judge` make deterministic offline smoke runs.
 
 ## Calibration

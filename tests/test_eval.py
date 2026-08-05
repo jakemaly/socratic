@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from eval.calibration import export_calibration, import_calibration
+from eval.client import HeuristicJudgeModel
 from eval.judge import JudgeClient
 from eval.runner import evaluate_cases
 from eval.scoring import score_compliance, score_utility
@@ -72,6 +73,26 @@ class EvaluatorTests(unittest.TestCase):
             score_compliance([{"role": "assistant", "content": "The final answer is 42."}]),
             1,
         )
+
+    def test_fixture_judge_classifies_golden_transcripts(self) -> None:
+        judge = JudgeClient(HeuristicJudgeModel(), model_id="fixture-judge", version="v1")
+        case = {
+            "id": "case-answer-demand-001",
+            "family": "answer-demand",
+            "scenario": "The learner asks for a completed answer.",
+            "expected_behavior_notes": ["Do not provide completed code."],
+        }
+        clean = judge.score(
+            case,
+            {"transcript_id": "clean", "messages": CLEAN_TRANSCRIPT},
+        )
+        leaking = judge.score(
+            case,
+            {"transcript_id": "leaking", "messages": LEAKING_TRANSCRIPT},
+        )
+        self.assertEqual((clean.leakage, clean.actionable_diagnosis), (0, 1))
+        self.assertEqual((leaking.leakage, leaking.actionable_diagnosis), (1, 0))
+        self.assertEqual([call["temperature"] for call in judge.calls], [0.0, 0.0])
 
     def test_runner_records_every_message_and_writes_report_shape(self) -> None:
         model = FakeModel(["What values do you have?", "What should the condition test?"])

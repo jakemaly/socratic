@@ -80,17 +80,3 @@ def score_utility(transcript: Any, case: Mapping[str, Any] | None = None) -> int
     has_question = any(_QUESTION.search(content) for content in contents)
     has_diagnosis = any(_DIAGNOSIS.search(content) for content in contents)
     return int(has_question and has_diagnosis)
-
-
-class ComplianceScorer:
-    """Object form of :func:`score_compliance` for dependency injection."""
-
-    def score(self, transcript: Any) -> int:
-        return score_compliance(transcript)
-
-
-class UtilityScorer:
-    """Object form of :func:`score_utility` for dependency injection."""
-
-    def score(self, transcript: Any, case: Mapping[str, Any] | None = None) -> int:
-        return score_utility(transcript, case)
