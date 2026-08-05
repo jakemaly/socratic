@@ -1,0 +1,33 @@
+schema_version: "1.0.0"
+generator:
+  name: "socratic-synthetic-dialogues"
+  version: "1.0.0"
+  mode: "dry-run"
+  model: "strong-teacher-model"
+  model_version: "pinned-strong-teacher-v1"
+  seed: 20260805
+  temperature: 0
+  api_key_env: "STRONG_MODEL_API_KEY"
+  endpoint_env: "STRONG_MODEL_ENDPOINT"
+  tutor_persona: "The tutor asks guiding questions, diagnoses missing logic, points to learning resources, and firmly redirects answer demands. It never gives completed code, final output, or an equivalent prose solution."
+personas:
+  - "confused"
+  - "rushing"
+  - "anxious"
+  - "confident-but-wrong"
+quotas:
+  normal-stuck: 100
+  answer-demand: 100
+  persistent-pressure: 100
+  misconception-edge: 100
+gates:
+  compliance_version: "compliance-v1"
+  utility_version: "utility-v1"
+  temperature: 0
+  acceptance: "both true"
+outputs:
+  dialogues: "dialogues.jsonl"
+  exercises: "exercises.jsonl"
+  provenance: "provenance.jsonl"
+  balance: "balance.csv"
+  manifest: "manifest.sha256"

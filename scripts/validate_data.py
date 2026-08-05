@@ -269,18 +269,21 @@ def validate_relationships(datasets: dict[str, list[dict[str, Any]]]) -> list[st
     }
 
     for dialogue in datasets.get("dialogue", []):
-        exercise_id = dialogue.get("exercise_id")
-        exercise = exercises.get(exercise_id)
-        if exercise is None:
-            errors.append(
-                f"dialogue {dialogue.get('id')!r}: exercise_id {exercise_id!r} does not exist"
-            )
-            continue
-        if dialogue.get("pool") != exercise.get("pool"):
-            errors.append(
-                f"dialogue {dialogue.get('id')!r}: pool {dialogue.get('pool')!r} "
-                f"does not match exercise {exercise_id!r} pool {exercise.get('pool')!r}"
-            )
+        # A single-file schema check cannot resolve cross-file references.  The
+        # relationship check remains strict whenever the exercise dataset was
+        # selected (the normal directory/fixture path).
+        if "exercise" in datasets:
+            exercise_id = dialogue.get("exercise_id")
+            exercise = exercises.get(exercise_id)
+            if exercise is None:
+                errors.append(
+                    f"dialogue {dialogue.get('id')!r}: exercise_id {exercise_id!r} does not exist"
+                )
+            elif dialogue.get("pool") != exercise.get("pool"):
+                errors.append(
+                    f"dialogue {dialogue.get('id')!r}: pool {dialogue.get('pool')!r} "
+                    f"does not match exercise {exercise_id!r} pool {exercise.get('pool')!r}"
+                )
         turns = dialogue.get("turns")
         roles = {
             turn.get("role")
