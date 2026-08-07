@@ -11,7 +11,7 @@ This directory defines the versioned data contract shared by the benchmark, synt
 | `exercise.schema.json` | `exercises.jsonl` | An exercise assigned to one pool. |
 | `eval_result.schema.json` | `eval_results.jsonl` | Run metadata, per-case binary scores, and aggregate rates. |
 
-Every record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool.
+Every record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool. Gallery records may additionally provide `title`, `difficulty_rank`, and `diagnosis_hooks`; `content/exercises.json` stores the six gallery records as a JSON array using this extended exercise shape.
 
 The four benchmark families are:
 

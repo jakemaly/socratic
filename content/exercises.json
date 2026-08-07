@@ -1,0 +1,86 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-greeting",
+    "title": "Greeting",
+    "topic": "variables/I-O",
+    "prompt": "Write a small Python program that asks for a person's name and favorite color, then prints a friendly greeting that includes both answers.",
+    "pool": "gallery",
+    "difficulty_rank": 1,
+    "diagnosis_hooks": [
+      "Separate the two inputs from the literal text the program should print.",
+      "Check whether the learner is storing user input as text or accidentally treating a name as a number.",
+      "Ask how the output should combine the stored values with the greeting words."
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-even-or-odd",
+    "title": "Even-or-odd",
+    "topic": "conditionals",
+    "prompt": "Ask the user for a whole number and report whether it is even or odd.",
+    "pool": "gallery",
+    "difficulty_rank": 2,
+    "diagnosis_hooks": [
+      "Distinguish a number's quotient from its remainder when dividing by two.",
+      "Check that the learner has converted the input into a whole number before testing it.",
+      "Use a small example to connect the remainder to the even-or-odd decision."
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-countdown",
+    "title": "Countdown",
+    "topic": "loops",
+    "prompt": "Ask the user for a positive whole number and display a countdown from that number to zero, showing one number per line.",
+    "pool": "gallery",
+    "difficulty_rank": 3,
+    "diagnosis_hooks": [
+      "Clarify whether the starting value and zero are both included in the countdown.",
+      "Check the update direction and stopping condition together.",
+      "Watch for an off-by-one error caused by stopping before or after zero."
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-average-list",
+    "title": "Average of a list",
+    "topic": "lists",
+    "prompt": "Given a non-empty list of numbers, calculate and display its average without using a built-in average helper.",
+    "pool": "gallery",
+    "difficulty_rank": 4,
+    "diagnosis_hooks": [
+      "Separate the running total from the number of items in the list.",
+      "Check that the divisor is the list length rather than the last valid index.",
+      "Ask what the exercise guarantees about an empty list before discussing the calculation."
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-temperature-converter",
+    "title": "Temperature converter",
+    "topic": "functions",
+    "prompt": "Define a function that converts a temperature from Celsius to Fahrenheit, then use the function to display the converted value for one input.",
+    "pool": "gallery",
+    "difficulty_rank": 5,
+    "diagnosis_hooks": [
+      "Keep the input temperature, converted value, and displayed result conceptually separate.",
+      "Check that the function receives the temperature and sends a value back to its caller.",
+      "Watch for a missing return that leaves the caller without the converted result."
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "id": "exercise-gallery-word-counter",
+    "title": "Word counter",
+    "topic": "strings/dicts",
+    "prompt": "Given a sentence, count how many times each word appears and display the counts, treating uppercase and lowercase versions of a word as the same.",
+    "pool": "gallery",
+    "difficulty_rank": 6,
+    "diagnosis_hooks": [
+      "Normalize each word consistently before using it as a dictionary key.",
+      "Distinguish looking up an existing count from creating a new key.",
+      "Check whether splitting the sentence produces the intended word boundaries."
+    ]
+  }
+]
