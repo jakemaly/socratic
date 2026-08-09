@@ -1,8 +1,10 @@
 # Guided Qwen2.5-7B LoRA run
 
 `qwen_lora_guided.ipynb` is the reproducible, human-run training path for the
-400-dialogue pilot. It is deliberately a lesson and a runbook: each section has a
-checkpoint that either proves a premise or stops before an expensive step.
+400-dialogue pilot. It is deliberately a slow, line-by-line lesson and runbook:
+it uses many small cells, ELI5 explanations, visible intermediate values, and
+checkpoints that either prove a premise or stop before an expensive step. Run it
+one cell at a time; do not begin with “Run All.”
 
 ## Fixed experiment
 
@@ -49,12 +51,13 @@ is not required.
 ## Notebook order
 
 1. Select the `socratic-train` kernel and run from the repository root.
-2. Leave `RUN_MODE = "smoke"` for the first pass. This runs the data audit, a
-   download-free CPU PEFT self-check, tokenizer/mask checks, a three-case base
-   preflight, and one real GPU optimizer step.
+2. Read the markdown before every small code cell. Leave `RUN_MODE = "smoke"` for
+   the first pass. This runs the data audit, download-free CPU PEFT self-check,
+   tokenizer/mask checks, three-case base preflight, and one real GPU optimizer
+   step.
 3. Read every assertion and inspect the printed loss, trainable-parameter list,
-   token mask, and base-model replies. A failed gate is a stop, not a reason to
-   change hyperparameters.
+   rendered conversation, assistant mask, and base-model replies. A failed gate
+   is a stop, not a reason to change hyperparameters.
 4. To run the fixed job, restart the kernel to release the preflight model, then
    set `RUN_MODE = "full"` and `CONFIRM_FULL_RUN = True` in the setup cell. Run
    top-to-bottom again. The full path refuses to reuse a non-empty output folder.
