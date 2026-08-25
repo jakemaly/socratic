@@ -1,36 +1,30 @@
-# Guided Qwen2.5-7B LoRA run
+# Gemma 4 31B QLoRA run
 
-`qwen_lora_guided.ipynb` is the reproducible, human-run training path for the
-400-dialogue pilot. It is deliberately a slow, line-by-line lesson and runbook:
-it uses many small cells, ELI5 explanations, visible intermediate values, and
-checkpoints that either prove a premise or stop before an expensive step. Run it
-one cell at a time; do not begin with “Run All.”
+`gemma4_qlora_guided.ipynb` is the canonical training recipe. It follows
+[Unsloth's Gemma 4 guide](https://unsloth.ai/docs/models/gemma-4/train) because
+the generic Transformers/PEFT path is not the supported path for this model.
 
 ## Fixed experiment
 
-- Base: `Qwen/Qwen2.5-7B-Instruct`, Hub revision
-  `a09a35458c702b33eeacc393d103063234e8bc28`.
-- Data: `data/train/dialogues.jsonl`, exactly 400 gated records; the notebook
-  checks `data/train/manifest.sha256` and runs `scripts/validate_train.py`.
-- Adapter: PEFT LoRA, `r=32`, `lora_alpha=64`, `target_modules="all-linear"`,
-  dropout `0`, bias `none`.
-- Training: BF16, 3 epochs, learning rate `2e-4`, cosine schedule, batch `1`,
-  gradient accumulation `1`, max length `1024`, no packing, one seed, final
-  adapter only.
-- Loss: assistant responses only. Qwen 2.5's Hub template does not expose TRL's
-  assistant-token markers, so the notebook installs a deterministic equivalent
-  template and proves its mask before constructing the trainer.
-- Benchmark scoring is separate. `baseline.yaml` records the prompted-base arm:
-  the same base revision, tutor prompt, and greedy decoding (`temperature: 0`).
+- **Model:** `unsloth/gemma-4-31B-it`, revision
+  `51c9f6265ea38755c708a6e356dfc1af4a436e35`
+- **Loader:** Unsloth `FastModel`, 4-bit QLoRA, no CPU offload
+- **GPU target:** one RTX 3090 with 24 GiB VRAM
+- **Memory settings:** max sequence length 1024, micro-batch 1, gradient
+  accumulation 4, Unsloth gradient checkpointing
+- **Adapter:** language + attention + MLP modules, rank 16, alpha 32, dropout 0
+- **Training:** three epochs, learning rate `2e-4`, cosine schedule, `adamw_8bit`,
+  assistant responses only, one seed, final adapter only
 
-The initial Microsoft [`microsoft/LoRA`](https://github.com/microsoft/LORA)
-repository was considered, but the agreed implementation uses the current Hugging
-Face PEFT/TRL stack. Microsoft's low-level `loralib` is not installed or vendored;
-the link is background, not a second training implementation.
+Unsloth documents approximately 22 GB VRAM for 31B QLoRA. This machine has 24
+GB VRAM and 31.5 GB system RAM, so the recipe intentionally avoids CPU offload
+and starts with the 1,024-token smoke test. The machine currently has an 8 GB
+swapfile; swap is not a training memory strategy and should not be relied on.
 
 ## Environment
 
-Use a clean environment, not an application environment:
+Use a clean Python 3.12 environment. Do not retrofit the old Qwen environment:
+Gemma 4 requires the pinned newer Transformers/TRL versions and Unsloth.
 
 ```bash
 nvidia-smi
@@ -39,44 +33,26 @@ source .venv-train/bin/activate
 uv pip install -r train/requirements.txt \
   --index-url https://download.pytorch.org/whl/cu128 \
   --extra-index-url https://pypi.org/simple
-python -m ipykernel install --user --name socratic-train --display-name "Python 3 (socratic training)"
+python -m ipykernel install --user --name socratic-train \
+  --display-name "Python 3 (socratic training)"
 jupyter lab
 ```
 
-The PyTorch wheel must match the machine's driver. If the official selector gives
-a different CUDA wheel, record that exact change in the run's environment report;
-do not silently call it the same run. The model is public, so a Hugging Face token
-is not required.
+Select the `socratic-train` kernel and open the notebook from the repository
+root. Gemma model access may require accepting Google's terms on Hugging Face.
+The notebook prints the actual GPU, RAM, package versions, and peak VRAM.
 
-## Notebook order
+## Run order
 
-1. Select the `socratic-train` kernel and run from the repository root.
-2. Read the markdown before every small code cell. Leave `RUN_MODE = "smoke"` for
-   the first pass. This runs the data audit, download-free CPU PEFT self-check,
-   tokenizer/mask checks, three-case base preflight, and one real GPU optimizer
-   step.
-3. Read every assertion and inspect the printed loss, trainable-parameter list,
-   rendered conversation, assistant mask, and base-model replies. A failed gate
-   is a stop, not a reason to change hyperparameters.
-4. To run the fixed job, restart the kernel to release the preflight model, then
-   set `RUN_MODE = "full"` and `CONFIRM_FULL_RUN = True` in the setup cell. Run
-   top-to-bottom again. The full path refuses to reuse a non-empty output folder.
-5. The full path saves `train/adapter/`, `train/adapter.sha256`,
-   `train/config.yaml`, `train/seed`, and `train/logs/`.
+1. Leave `RUN_MODE = "smoke"` and run cells top-to-bottom.
+2. Stop if the hardware, dependency, formatting, response-mask, loss, or memory
+   gate fails. Read the printed base replies and peak memory.
+3. Only after smoke succeeds, restart the kernel, set `RUN_MODE = "full"` and
+   `CONFIRM_FULL_RUN = True`, then run top-to-bottom again.
+4. The full run writes `train/adapter/`, `train/config.yaml`, `train/seed`,
+   `train/logs/`, and `train/adapter.sha256`.
+5. Evaluate the saved adapter separately with the fixed 48-case benchmark and
+   compare leakage and actionable diagnosis against the same Gemma base.
 
-The smoke path writes its adapter to a temporary directory and deletes it. It does
-not create a fake final result. This repository change adds the gates but does not
-claim that the GPU smoke or full job has passed; execute them on the training
-machine before reporting a run.
-
-## Reproducibility boundary
-
-The seed, data seed, model revision, dataset hash, chat-template hash, package
-versions, GPU/CUDA report, effective training arguments, and log history are
-written with a full run. CUDA kernels and fused operations can still prevent
-bit-for-bit identical loss values across machines; the artifact records the
-conditions needed to explain any small drift. There is no hyperparameter search,
-multiple-seed claim, checkpoint selection, or QLoRA fallback in this recipe.
-
-After training, run the separate benchmark using `baseline.yaml` and the same
-revision, tutor prompt, cases, decoding, and judge for both arms.
+The old `qwen_lora_guided.ipynb` remains untouched because it contained
+uncommitted work; it is no longer the canonical recipe.

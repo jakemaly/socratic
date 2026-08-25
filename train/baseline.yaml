@@ -1,11 +1,12 @@
 # Canonical prompted-base arm for the separate benchmark run.
 # Keep this arm identical to the adapter arm except for the adapter itself.
+# Load this model through Unsloth FastModel with the same 4-bit settings.
 model:
-  id: Qwen/Qwen2.5-7B-Instruct
-  revision: a09a35458c702b33eeacc393d103063234e8bc28
+  id: unsloth/gemma-4-31B-it
+  revision: 51c9f6265ea38755c708a6e356dfc1af4a436e35
 tokenizer:
-  id: Qwen/Qwen2.5-7B-Instruct
-  revision: a09a35458c702b33eeacc393d103063234e8bc28
+  id: unsloth/gemma-4-31B-it
+  revision: 51c9f6265ea38755c708a6e356dfc1af4a436e35
 generation:
   temperature: 0.0
   do_sample: false

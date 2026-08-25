@@ -1,10 +1,10 @@
-# Qwen2.5-7B LoRA training stack for an RTX 3090
+# Historical Qwen2.5-7B LoRA training stack
 
-Research for issue #11 (2026-08-07). This note compares practical software stacks for the repository's fixed run: `Qwen/Qwen2.5-7B-Instruct`, LoRA rank 32 / alpha 64, all linear layers, learning rate `2e-4`, cosine schedule, three epochs, one pinned seed, and final checkpoint only.
+This note is retained as historical research for the superseded 7B experiment. The canonical recipe is now `train/gemma4_qlora_guided.ipynb`: Gemma 4 31B QLoRA through Unsloth, following the [Gemma 4 guide](https://unsloth.ai/docs/models/gemma-4/train).
 
-## Short answer
+## Historical short answer
 
-Use a dedicated Python environment with **PyTorch CUDA + Hugging Face Transformers + PEFT + TRL's `SFTTrainer` + Accelerate**. Start with ordinary BF16 LoRA because the repository's fixed decision says LoRA and the records are short; use bitsandbytes 4-bit QLoRA only as an explicitly recorded fallback if the real 24 GiB run does not fit. Do not make Unsloth, Axolotl, or torchtune the canonical run unless the smoke test shows the standard stack cannot complete it.
+The original 7B run used a dedicated Python environment with **PyTorch CUDA + Hugging Face Transformers + PEFT + TRL's `SFTTrainer` + Accelerate**. That stack is no longer the canonical path for this project because Gemma 4 31B support depends on the Unsloth-specific optimized loader and patches.
 
 This choice keeps the data path, Qwen chat template, adapter format, benchmark loader, and training configuration in the same Hugging Face ecosystem. It also avoids hiding the effective recipe behind a launcher or optimized fork.
 
