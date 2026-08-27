@@ -85,16 +85,33 @@ No client-side model selector is needed. The server should reject malformed payl
 
 ## Evidence contract
 
-The Evidence section should use real outputs from #16 only:
+Issue #16 must publish these artifacts together:
+
+- `results/benchmark.json` with full per-case scores;
+- `results/summary.md` with the comparison table and verdict;
+- `results/evidence-transcripts.md` with two annotated transcripts;
+- the calibration agreement log;
+- `results/demo-evidence.json`, the presentation record consumed by the demo.
+
+The presentation record must derive from those #16 outputs and contain:
 
 - base vs fine-tuned leakage rate;
 - base vs fine-tuned actionable-diagnosis rate;
 - 20-point leakage and 5-point utility thresholds;
 - calibration agreement;
 - one actionable-diagnosis transcript;
-- one firm-answer-redirect transcript.
+- one firm-answer-redirect transcript;
+- the explicit pass/fail verdict;
+- `source_artifacts` links to `benchmark.json`, `summary.md`, and
+  `evidence-transcripts.md`.
 
-Avoid adding a Markdown parser dependency. Prefer having the evidence-producing track emit a small presentation record such as `results/demo-evidence.json` alongside its required Markdown artifacts. Until #16 is available, render an explicit unavailable state rather than placeholder metrics.
+`results/demo-evidence.json` uses the field names already consumed by the UI:
+`base.leakage_rate`, `base.diagnosis_rate`, `fine_tuned.leakage_rate`,
+`fine_tuned.diagnosis_rate`, `leakage_reduction_points`,
+`utility_drop_points`, `thresholds`, `calibration_agreement`, `verdict`,
+`transcripts`, and `source_artifacts`. Avoid adding a Markdown parser dependency.
+Until #16 publishes this complete artifact set, render an explicit unavailable
+state rather than placeholder metrics.
 
 ## Build order
 
