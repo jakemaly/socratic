@@ -129,14 +129,15 @@ def _validate_chat_payload(payload: Any, exercises: dict[str, Any]) -> tuple[str
         clean_messages.append({"role": role, "content": content})
 
     temperature = payload.get("temperature", 0)
-    if (
-        isinstance(temperature, bool)
-        or not isinstance(temperature, (int, float))
-        or not math.isfinite(temperature)
-        or temperature < 0
-    ):
+    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)):
         raise ValueError("temperature must be a non-negative number")
-    return exercise_id, clean_messages, float(temperature)
+    try:
+        clean_temperature = float(temperature)
+    except OverflowError as exc:
+        raise ValueError("temperature must be a non-negative number") from exc
+    if not math.isfinite(clean_temperature) or clean_temperature < 0:
+        raise ValueError("temperature must be a non-negative number")
+    return exercise_id, clean_messages, clean_temperature
 
 
 class DemoRequestHandler(BaseHTTPRequestHandler):

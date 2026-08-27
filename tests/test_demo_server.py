@@ -206,8 +206,8 @@ class DemoServerTests(unittest.TestCase):
         self.assertIn("Tutor responses use local fixtures.", page)
         self.assertNotIn("Gemma 4 adapter is live.", page)
 
-    def test_chat_rejects_nonfinite_temperatures(self) -> None:
-        for temperature in (float("nan"), float("inf"), float("-inf")):
+    def test_chat_rejects_invalid_temperatures(self) -> None:
+        for temperature in (float("nan"), float("inf"), float("-inf"), 10**4000):
             with self.subTest(temperature=temperature):
                 status, body = self.request_json(
                     "POST",

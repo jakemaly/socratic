@@ -114,6 +114,8 @@ function focusedControl() {
   if (active?.dataset.exerciseId) return { type: 'exercise', id: active.dataset.exerciseId };
   if (active?.dataset.chipId) return { type: 'chip', id: active.dataset.chipId };
   if (active?.classList.contains('retry-button')) return { type: 'retry' };
+  if (active === refs.messageInput) return { type: 'composer', target: 'input' };
+  if (active === refs.sendButton) return { type: 'composer', target: 'send' };
   return null;
 }
 
@@ -128,6 +130,8 @@ function restoreFocus(control) {
       .find(({ dataset }) => dataset.chipId === control.id);
   } else if (control.type === 'retry') {
     target = refs.chatError.querySelector('.retry-button') || refs.messageInput;
+  } else if (control.type === 'composer') {
+    target = control.target === 'send' ? refs.sendButton : refs.messageInput;
   }
   target?.focus();
 }
@@ -145,8 +149,9 @@ function render() {
     ? 'Gemma 4 adapter is live.'
     : 'Tutor responses use local fixtures.';
   refs.restartButton.disabled = false;
-  refs.messageInput.disabled = app.state.pending;
-  refs.sendButton.disabled = app.state.pending;
+  refs.messageInput.readOnly = app.state.pending;
+  refs.messageInput.setAttribute('aria-disabled', String(app.state.pending));
+  refs.sendButton.setAttribute('aria-disabled', String(app.state.pending));
   renderExerciseList();
   renderConversation(refs.baseMessages, [
     { role: 'user', content: app.state.baseSnapshot.user },
