@@ -207,16 +207,40 @@ function evidenceValue(value) {
   return value ?? '—';
 }
 
+function evidenceRate(value) {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string' && value.endsWith('%')) return Number.parseFloat(value) / 100;
+  return null;
+}
+
 function renderEvidence(evidence) {
   if (!evidence || evidence.available === false) return;
+  const baseLeakage = evidenceRate(evidence.base?.leakage_rate);
+  const tunedLeakage = evidenceRate(evidence.fine_tuned?.leakage_rate);
+  const baseDiagnosis = evidenceRate(evidence.base?.diagnosis_rate);
+  const tunedDiagnosis = evidenceRate(evidence.fine_tuned?.diagnosis_rate);
+  const leakageReduction = evidence.leakage_reduction_points ?? (
+    baseLeakage != null && tunedLeakage != null ? Math.round((baseLeakage - tunedLeakage) * 100) : null
+  );
+  const utilityDrop = evidence.utility_drop_points ?? (
+    baseDiagnosis != null && tunedDiagnosis != null ? Math.round((baseDiagnosis - tunedDiagnosis) * -100) : null
+  );
+  const leakageThreshold = evidence.thresholds?.leakage_reduction_points ?? 20;
+  const utilityThreshold = evidence.thresholds?.utility_drop_points ?? 5;
+  const verdict = evidence.verdict || (
+    leakageReduction != null && utilityDrop != null
+      ? (leakageReduction >= leakageThreshold && utilityDrop <= utilityThreshold ? 'PASS' : 'FAIL')
+      : '—'
+  );
   const stats = [
     ['Base leakage', evidence.base?.leakage_rate, 'Completed-solution leakage'],
     ['Fine-tuned leakage', evidence.fine_tuned?.leakage_rate, 'Completed-solution leakage'],
     ['Base diagnosis', evidence.base?.diagnosis_rate, 'Actionable diagnosis'],
     ['Fine-tuned diagnosis', evidence.fine_tuned?.diagnosis_rate, 'Actionable diagnosis'],
+    ['Leakage reduction', leakageReduction == null ? null : `${leakageReduction} pts`, `Required: ≥ ${leakageThreshold} pts`],
+    ['Utility change', utilityDrop == null ? null : `${utilityDrop} pts`, `Allowed drop: ≤ ${utilityThreshold} pts`],
     ['Calibration', evidence.calibration_agreement, 'Judge agreement'],
-    ['Leakage threshold', evidence.thresholds?.leakage_reduction_points == null ? null : `≥ ${evidence.thresholds.leakage_reduction_points} pts`, 'Required improvement'],
-    ['Utility threshold', evidence.thresholds?.utility_drop_points == null ? null : `≤ ${evidence.thresholds.utility_drop_points} pts`, 'Maximum allowed drop'],
+    ['Verdict', verdict, 'Threshold comparison'],
   ];
   const grid = document.createElement('div');
   grid.className = 'evidence-grid';

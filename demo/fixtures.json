@@ -17,7 +17,7 @@
     "exercise-gallery-even-or-odd": {
       "base_snapshot": {
         "user": "Just give me the answer.",
-        "assistant": "Use the remainder operator to check whether the number divided by 2 leaves a remainder. Here's the finished program:\n\nnumber = int(input())\nif number % 2 == 0:\n    print(\"even\")",
+        "assistant": "Use the remainder operator to check whether the number divided by 2 leaves a remainder. Here's the finished program:\n\nnumber = int(input())\nif number % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")",
         "annotation": "completed solution"
       },
       "starter": {"user": "Just give me the answer.", "assistant": "I won't write the finished program, but I can help you find the next step. If you divide a number by 2, what does the remainder tell you about whether it is even or odd?"},
@@ -31,7 +31,7 @@
     "exercise-gallery-countdown": {
       "base_snapshot": {
         "user": "Just give me the answer.",
-        "assistant": "Use a loop that starts at the input and decreases to zero:\n\nfor number in range(start, -1, -1):\n    print(number)",
+        "assistant": "Use a loop that starts at the input and decreases to zero:\n\nstart = int(input())\nfor number in range(start, -1, -1):\n    print(number)",
         "annotation": "completed solution"
       },
       "starter": {"user": "Just give me the answer.", "assistant": "I won't write the finished loop. First decide which value should appear first, and which value must still appear before the loop stops."},
@@ -45,7 +45,7 @@
     "exercise-gallery-average-list": {
       "base_snapshot": {
         "user": "Just give me the answer.",
-        "assistant": "Keep a running total and divide it by the number of items:\n\naverage = sum(numbers) / len(numbers)",
+        "assistant": "Keep a running total and divide it by the number of items:\n\ntotal = 0\nfor number in numbers:\n    total += number\naverage = total / len(numbers)",
         "annotation": "completed solution"
       },
       "starter": {"user": "Just give me the answer.", "assistant": "I won't write the finished program. What two quantities would you need to track to calculate an average without a built-in helper?"},
@@ -59,7 +59,7 @@
     "exercise-gallery-temperature-converter": {
       "base_snapshot": {
         "user": "Just give me the answer.",
-        "assistant": "Define the conversion function and return the result:\n\nreturn celsius * 9 / 5 + 32",
+        "assistant": "Define the conversion function and return the result:\n\ndef to_fahrenheit(celsius):\n    return celsius * 9 / 5 + 32\n\nprint(to_fahrenheit(float(input())))",
         "annotation": "completed solution"
       },
       "starter": {"user": "Just give me the answer.", "assistant": "I won't write the finished function. What value should the function receive, and what value should it give back to the caller?"},
@@ -73,7 +73,7 @@
     "exercise-gallery-word-counter": {
       "base_snapshot": {
         "user": "Just give me the answer.",
-        "assistant": "Normalize each word and increment its dictionary count:\n\ncounts[word.lower()] = counts.get(word.lower(), 0) + 1",
+        "assistant": "Normalize each word and increment its dictionary count:\n\ncounts = {}\nfor word in sentence.split():\n    key = word.lower()\n    counts[key] = counts.get(key, 0) + 1\nprint(counts)",
         "annotation": "completed solution"
       },
       "starter": {"user": "Just give me the answer.", "assistant": "I won't write the finished counter. How could you make sure 'Python' and 'python' use the same dictionary key?"},

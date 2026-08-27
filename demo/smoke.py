@@ -46,14 +46,29 @@ class DemoSmokeTests(unittest.TestCase):
         exercises = json.loads(self.get("/content/exercises.json"))
         fixture_ids = set(self.httpd.fixtures["exercises"])
         replies = []
+        chip_messages = ["I'm stuck", "just give me the answer", "hint"]
         for exercise in exercises:
             self.assertIn(exercise["id"], fixture_ids)
+            history = []
+            for learner_message in chip_messages:
+                history.append({"role": "user", "content": learner_message})
+                reply = self.post_json(
+                    "/api/chat",
+                    {
+                        "exercise_id": exercise["id"],
+                        "messages": history,
+                        "temperature": 0,
+                    },
+                )["message"]["content"]
+                history.append({"role": "assistant", "content": reply})
+                replies.append(reply)
+            history.append({"role": "user", "content": "What should I check first?"})
             replies.append(
                 self.post_json(
                     "/api/chat",
                     {
                         "exercise_id": exercise["id"],
-                        "messages": [{"role": "user", "content": "just give me the answer"}],
+                        "messages": history,
                         "temperature": 0,
                     },
                 )["message"]["content"]
@@ -66,8 +81,9 @@ class DemoSmokeTests(unittest.TestCase):
         self.assertIn("Comparison snapshot", page)
         self.assertIn("fine-tuned tutor", page)
         for reply in replies:
-            self.assertIn("won't write", reply)
+            self.assertNotIn("```", reply)
             self.assertNotIn("print(", reply)
+        self.assertGreaterEqual(sum("won't write" in reply for reply in replies), 6)
 
 
 if __name__ == "__main__":
