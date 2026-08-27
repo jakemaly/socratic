@@ -40,6 +40,15 @@ function fixtureFor(exerciseId) {
   return app.data.fixtures.exercises[exerciseId];
 }
 
+function stateExercise(exerciseId) {
+  const fixture = fixtureFor(exerciseId);
+  return {
+    id: exerciseId,
+    baseSnapshot: fixture.base_snapshot,
+    starter: fixture.starter,
+  };
+}
+
 function messageElement(message, note = '') {
   const wrapper = document.createElement('div');
   wrapper.className = `message ${message.role === 'user' ? 'message-user' : 'message-assistant'}`;
@@ -100,7 +109,6 @@ function renderChips() {
 function render() {
   if (!app.data || !app.state) return;
   const exercise = selectedExercise();
-  const fixture = fixtureFor(exercise.id);
   refs.exerciseTopic.textContent = `${exercise.topic} · exercise ${String(exercise.difficulty_rank).padStart(2, '0')}`;
   refs.exerciseTitle.textContent = exercise.title;
   refs.exercisePrompt.textContent = exercise.prompt;
@@ -111,9 +119,9 @@ function render() {
   refs.sendButton.disabled = app.state.pending;
   renderExerciseList();
   renderConversation(refs.baseMessages, [
-    { role: 'user', content: fixture.base_snapshot.user },
-    { role: 'assistant', content: fixture.base_snapshot.assistant },
-  ], `⚠ ${fixture.base_snapshot.annotation}`);
+    { role: 'user', content: app.state.baseSnapshot.user },
+    { role: 'assistant', content: app.state.baseSnapshot.assistant },
+  ], `⚠ ${app.state.baseSnapshot.annotation}`);
   renderConversation(refs.liveMessages, app.state.fineTunedMessages, app.state.fineTunedMessages.at(-1)?.role === 'assistant' ? '✓ Socratic redirect + diagnosis' : '');
   if (app.state.pending) {
     const loading = document.createElement('div');
@@ -189,11 +197,11 @@ function retryMessage() {
 }
 
 function selectExercise(exercise) {
-  updateState({ type: 'select-exercise', exercise: { ...fixtureFor(exercise.id), id: exercise.id } });
+  updateState({ type: 'select-exercise', exercise: stateExercise(exercise.id) });
 }
 
 function restart() {
-  updateState({ type: 'restart', exercise: { ...fixtureFor(app.state.selectedExerciseId), id: app.state.selectedExerciseId } });
+  updateState({ type: 'restart', exercise: stateExercise(app.state.selectedExerciseId) });
   refs.messageInput.focus();
 }
 
@@ -276,6 +284,21 @@ function renderEvidence(evidence) {
     });
     fragments.push(transcripts);
   }
+  if (Array.isArray(evidence.source_artifacts) && evidence.source_artifacts.length) {
+    const sources = document.createElement('p');
+    sources.className = 'evidence-sources';
+    sources.append('Sources: ');
+    evidence.source_artifacts.forEach((source, index) => {
+      if (index) sources.append(' · ');
+      const link = document.createElement('a');
+      link.href = source.path;
+      link.textContent = source.label || source.path;
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      sources.append(link);
+    });
+    fragments.push(sources);
+  }
   refs.evidenceContent.replaceChildren(...fragments);
 }
 
@@ -299,11 +322,7 @@ async function initialize() {
     app.mode = document.documentElement.dataset.demoMode || 'fixture';
     refs.modeBadge.textContent = app.mode === 'live' ? 'Live adapter' : 'Fixture mode';
     if (intro.trim()) refs.introCopy.textContent = intro.trim();
-    app.state = createDemoState({
-      id: exercises[0].id,
-      baseSnapshot: fixtures.exercises[exercises[0].id].base_snapshot,
-      starter: fixtures.exercises[exercises[0].id].starter,
-    });
+    app.state = createDemoState(stateExercise(exercises[0].id));
     render();
     refs.messageInput.disabled = false;
     refs.sendButton.disabled = false;
