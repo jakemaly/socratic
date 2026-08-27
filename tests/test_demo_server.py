@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 import threading
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -118,6 +122,60 @@ class DemoServerTests(unittest.TestCase):
             httpd.server_close()
             thread.join(timeout=2)
 
+    def test_live_model_requires_explicit_socratic_endpoint(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "SOCRATIC_ADAPTER_MODEL": "gemma-4-adapter",
+                "OPENAI_BASE_URL": "https://unrelated.example/v1",
+                "OPENAI_API_KEY": "wrong-service-key",
+            },
+            clear=True,
+        ):
+            with self.assertRaisesRegex(RuntimeError, "SOCRATIC_API_BASE, SOCRATIC_API_KEY"):
+                server._live_model()
+
+    def test_live_model_passes_only_explicit_socratic_endpoint(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "SOCRATIC_ADAPTER_MODEL": "gemma-4-adapter",
+                "SOCRATIC_API_BASE": "https://socratic.example/v1",
+                "SOCRATIC_API_KEY": "socratic-key",
+                "OPENAI_BASE_URL": "https://unrelated.example/v1",
+                "OPENAI_API_KEY": "wrong-service-key",
+            },
+            clear=True,
+        ):
+            model = server._live_model()
+
+        self.assertEqual(model.model_id, "gemma-4-adapter")
+        self.assertEqual(model.base_url, "https://socratic.example/v1")
+        self.assertEqual(model.api_key, "socratic-key")
+
+    def test_documented_live_command_uses_explicit_endpoint(self) -> None:
+        environment = os.environ.copy()
+        environment.update(
+            {
+                "SOCRATIC_ADAPTER_MODEL": "gemma-4-adapter",
+                "SOCRATIC_API_BASE": "http://127.0.0.1:9/v1",
+                "SOCRATIC_API_KEY": "local-test-key",
+            }
+        )
+        process = subprocess.Popen(
+            [sys.executable, "-u", "demo/server.py", "--mode", "live", "--port", "0"],
+            env=environment,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        try:
+            self.assertIn("(live mode)", process.stdout.readline())
+        finally:
+            process.terminate()
+            _, stderr = process.communicate(timeout=2)
+        self.assertNotIn("No module named 'eval'", stderr)
+
     def test_chat_rejects_unknown_exercises(self) -> None:
         status, body = self.request_json(
             "POST",
@@ -140,6 +198,29 @@ class DemoServerTests(unittest.TestCase):
 
         self.assertEqual(status, 400)
         self.assertEqual(body["error"], "messages must be a non-empty list")
+
+    def test_fixture_page_does_not_claim_the_adapter_is_live(self) -> None:
+        with urlopen(f"{self.base_url}/", timeout=2) as response:
+            page = response.read().decode()
+
+        self.assertIn("Tutor responses use local fixtures.", page)
+        self.assertNotIn("Gemma 4 adapter is live.", page)
+
+    def test_chat_rejects_nonfinite_temperatures(self) -> None:
+        for temperature in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(temperature=temperature):
+                status, body = self.request_json(
+                    "POST",
+                    "/api/chat",
+                    {
+                        "exercise_id": "exercise-gallery-even-or-odd",
+                        "messages": [{"role": "user", "content": "hint"}],
+                        "temperature": temperature,
+                    },
+                )
+
+                self.assertEqual(status, 400)
+                self.assertEqual(body["error"], "temperature must be a non-negative number")
 
 
 if __name__ == "__main__":

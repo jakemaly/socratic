@@ -1,4 +1,5 @@
 import { createDemoState, reduceDemoState } from './state.mjs';
+import { summarizeEvidence } from './evidence.mjs';
 
 const refs = {
   modeBadge: document.querySelector('#mode-badge'),
@@ -18,6 +19,7 @@ const refs = {
   sendButton: document.querySelector('#send-button'),
   chatError: document.querySelector('#chat-error'),
   evidenceContent: document.querySelector('#evidence-content'),
+  footerStatus: document.querySelector('#footer-status'),
 };
 
 const app = {
@@ -100,20 +102,48 @@ function renderChips() {
     button.type = 'button';
     button.className = `chip ${chip.id === 'answer-demand' ? 'answer-demand' : ''} ${chip.id === 'hint' ? 'hint' : ''}`;
     button.textContent = chip.label;
-    button.disabled = app.state.pending;
+    button.dataset.chipId = chip.id;
+    button.setAttribute('aria-disabled', String(app.state.pending));
     button.addEventListener('click', () => submitMessage(chip.label));
     refs.chipList.append(button);
   });
 }
 
+function focusedControl() {
+  const active = document.activeElement;
+  if (active?.dataset.exerciseId) return { type: 'exercise', id: active.dataset.exerciseId };
+  if (active?.dataset.chipId) return { type: 'chip', id: active.dataset.chipId };
+  if (active?.classList.contains('retry-button')) return { type: 'retry' };
+  return null;
+}
+
+function restoreFocus(control) {
+  if (!control) return;
+  let target = null;
+  if (control.type === 'exercise') {
+    target = [...refs.exerciseList.querySelectorAll('button')]
+      .find(({ dataset }) => dataset.exerciseId === control.id);
+  } else if (control.type === 'chip') {
+    target = [...refs.chipList.querySelectorAll('button')]
+      .find(({ dataset }) => dataset.chipId === control.id);
+  } else if (control.type === 'retry') {
+    target = refs.chatError.querySelector('.retry-button') || refs.messageInput;
+  }
+  target?.focus();
+}
+
 function render() {
   if (!app.data || !app.state) return;
+  const focus = focusedControl();
   const exercise = selectedExercise();
   refs.exerciseTopic.textContent = `${exercise.topic} · exercise ${String(exercise.difficulty_rank).padStart(2, '0')}`;
   refs.exerciseTitle.textContent = exercise.title;
   refs.exercisePrompt.textContent = exercise.prompt;
   refs.exerciseCount.textContent = String(app.data.exercises.length).padStart(2, '0');
   refs.liveStatus.textContent = app.mode === 'live' ? 'live adapter' : 'fixture mode';
+  refs.footerStatus.textContent = app.mode === 'live'
+    ? 'Gemma 4 adapter is live.'
+    : 'Tutor responses use local fixtures.';
   refs.restartButton.disabled = false;
   refs.messageInput.disabled = app.state.pending;
   refs.sendButton.disabled = app.state.pending;
@@ -130,19 +160,22 @@ function render() {
     loading.textContent = 'Tutor is thinking…';
     refs.liveMessages.append(loading);
   }
-  refs.chatError.hidden = !app.state.error;
+  const retryPending = focus?.type === 'retry' && app.state.pending;
+  refs.chatError.hidden = !app.state.error && !retryPending;
   refs.chatError.replaceChildren();
-  if (app.state.error) {
+  if (app.state.error || retryPending) {
     const text = document.createElement('span');
-    text.textContent = app.state.error;
+    text.textContent = app.state.error || 'Retrying…';
     const retry = document.createElement('button');
     retry.type = 'button';
     retry.className = 'retry-button';
     retry.textContent = 'Try again';
+    retry.setAttribute('aria-disabled', String(app.state.pending));
     retry.addEventListener('click', retryMessage);
     refs.chatError.append(text, retry);
   }
   renderChips();
+  restoreFocus(focus);
 }
 
 function updateState(action) {
@@ -215,31 +248,15 @@ function evidenceValue(value) {
   return value ?? '—';
 }
 
-function evidenceRate(value) {
-  if (typeof value === 'number') return value;
-  if (typeof value === 'string' && value.endsWith('%')) return Number.parseFloat(value) / 100;
-  return null;
-}
-
 function renderEvidence(evidence) {
   if (!evidence || evidence.available === false) return;
-  const baseLeakage = evidenceRate(evidence.base?.leakage_rate);
-  const tunedLeakage = evidenceRate(evidence.fine_tuned?.leakage_rate);
-  const baseDiagnosis = evidenceRate(evidence.base?.diagnosis_rate);
-  const tunedDiagnosis = evidenceRate(evidence.fine_tuned?.diagnosis_rate);
-  const leakageReduction = evidence.leakage_reduction_points ?? (
-    baseLeakage != null && tunedLeakage != null ? Math.round((baseLeakage - tunedLeakage) * 100) : null
-  );
-  const utilityDrop = evidence.utility_drop_points ?? (
-    baseDiagnosis != null && tunedDiagnosis != null ? Math.round((baseDiagnosis - tunedDiagnosis) * -100) : null
-  );
-  const leakageThreshold = evidence.thresholds?.leakage_reduction_points ?? 20;
-  const utilityThreshold = evidence.thresholds?.utility_drop_points ?? 5;
-  const verdict = evidence.verdict || (
-    leakageReduction != null && utilityDrop != null
-      ? (leakageReduction >= leakageThreshold && utilityDrop <= utilityThreshold ? 'PASS' : 'FAIL')
-      : '—'
-  );
+  const {
+    leakageReduction,
+    utilityDrop,
+    leakageThreshold,
+    utilityThreshold,
+    verdict,
+  } = summarizeEvidence(evidence);
   const stats = [
     ['Base leakage', evidence.base?.leakage_rate, 'Completed-solution leakage'],
     ['Fine-tuned leakage', evidence.fine_tuned?.leakage_rate, 'Completed-solution leakage'],

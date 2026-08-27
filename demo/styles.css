@@ -23,7 +23,7 @@ body { margin: 0; color: var(--ink); background: #f8f6f1; }
 button, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
-button:disabled, textarea:disabled { cursor: not-allowed; }
+button:disabled, button[aria-disabled="true"], textarea:disabled { cursor: not-allowed; }
 button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 3px solid rgba(183, 107, 53, .4); outline-offset: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
@@ -97,7 +97,8 @@ h1 em { color: var(--warm); font-style: normal; }
 .chat-form { margin-top: auto; }
 .chip-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .65rem; }
 .chip { padding: .42rem .58rem; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); background: var(--surface); font-size: .66rem; font-weight: 750; }
-.chip:hover:not(:disabled) { color: var(--ink); border-color: #c7c1b6; }
+.chip:hover:not([aria-disabled="true"]) { color: var(--ink); border-color: #c7c1b6; }
+.chip[aria-disabled="true"], .retry-button[aria-disabled="true"] { opacity: .65; }
 .chip.answer-demand { color: var(--danger); border-color: #e8b998; background: var(--danger-soft); }
 .chip.hint { color: var(--teal); border-color: #b9ded6; background: var(--teal-soft); }
 .composer-row { display: flex; align-items: end; gap: .5rem; padding: .45rem; border: 1px solid #d8e8e3; border-radius: .78rem; background: var(--surface); }
