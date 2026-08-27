@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare a prompted Gemma 4 base response with a fine-tuned Socratic Python tutor.">
+  <title>Socratic Tutor · Gemma 4 demo</title>
+  <link rel="stylesheet" href="/demo/styles.css">
+  <script type="module" src="/demo/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/"><span class="brand-mark">S</span><span>socratic<span class="brand-slash">/</span>lab</span></a>
+    <div class="header-actions">
+      <span id="mode-badge" class="mode-badge" aria-live="polite">Loading demo…</span>
+      <a class="evidence-link" href="#evidence">Evidence <span aria-hidden="true">↓</span></a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro-section" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Gemma 4 fine-tuning demo</p>
+        <h1 id="page-title">See the tutor learn<br><em>where to stop.</em></h1>
+      </div>
+      <p id="intro-copy" class="intro-copy">This gallery gives adult beginners six small Python exercises, moving from variables and input/output through conditionals, loops, lists, functions, and strings/dictionaries. The tutor helps you find the next step, diagnoses what is blocking you, and redirects requests for a finished answer without writing the solution for you. Choose an exercise and try the first step.</p>
+    </section>
+
+    <section class="workspace" aria-label="Tutor workspace">
+      <aside class="exercise-sidebar">
+        <div class="sidebar-heading"><span>Exercises</span><span class="exercise-count" id="exercise-count">—</span></div>
+        <nav id="exercise-list" class="exercise-list" aria-label="Choose an exercise"></nav>
+        <p class="sidebar-note">Ask for a hint, explain where you're stuck, or test the tutor's boundaries.</p>
+      </aside>
+
+      <section class="demo-area" aria-labelledby="exercise-title">
+        <header class="exercise-header">
+          <div>
+            <p id="exercise-topic" class="exercise-topic">Loading exercise</p>
+            <h2 id="exercise-title">Loading…</h2>
+            <p id="exercise-prompt" class="exercise-prompt"></p>
+          </div>
+          <button id="restart-button" class="secondary-button" type="button" disabled><span aria-hidden="true">↻</span> Restart</button>
+        </header>
+
+        <div class="comparison-grid">
+          <article class="chat-card snapshot-card" aria-labelledby="base-title" data-testid="base-pane">
+            <header class="chat-header">
+              <div class="model-heading"><span class="model-dot base-dot" aria-hidden="true"></span><div><h3 id="base-title">Gemma 4 base</h3><p>Prompted · no adapter</p></div></div>
+              <span class="behavior-badge base-badge">Snapshot · leaks</span>
+            </header>
+            <div id="base-messages" class="message-list" aria-label="Base model comparison snapshot"></div>
+            <div class="snapshot-note"><strong>Comparison snapshot</strong><span>Shown for contrast, not served live.</span></div>
+          </article>
+
+          <article class="chat-card live-card" aria-labelledby="live-title" data-testid="live-pane">
+            <header class="chat-header">
+              <div class="model-heading"><span class="model-dot live-dot" aria-hidden="true"></span><div><h3 id="live-title">Gemma 4 + LoRA</h3><p>Fine-tuned tutor · <span id="live-status">fixture mode</span></p></div></div>
+              <span class="behavior-badge live-badge">Live · redirects</span>
+            </header>
+            <div id="live-messages" class="message-list" aria-live="polite" aria-label="Fine-tuned tutor conversation"></div>
+            <div id="chat-error" class="chat-error" role="alert" hidden></div>
+            <form id="chat-form" class="chat-form">
+              <div id="chip-list" class="chip-list" aria-label="Try a tutor behavior"></div>
+              <label class="sr-only" for="message-input">Message the fine-tuned tutor</label>
+              <div class="composer-row"><textarea id="message-input" rows="1" maxlength="12000" placeholder="Ask the fine-tuned tutor a follow-up…" autocomplete="off" disabled></textarea><button id="send-button" class="send-button" type="submit" aria-label="Send message" disabled><span aria-hidden="true">↑</span></button></div>
+              <p class="composer-help"><span>Enter to send</span><span>Shift + Enter for a new line</span></p>
+            </form>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section id="evidence" class="evidence-section" aria-labelledby="evidence-title">
+      <div class="section-heading"><div><p class="eyebrow">Measured, not marketed</p><h2 id="evidence-title">Evidence</h2></div><span class="section-caption">Benchmark results · 48 cases</span></div>
+      <div id="evidence-content" class="evidence-content" aria-live="polite"><div class="evidence-unavailable"><span class="evidence-icon" aria-hidden="true">◌</span><div><strong>Evidence artifact not available yet.</strong><p>The benchmark comparison, calibration result, and annotated transcripts will appear here after the evaluation run.</p></div></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>Built for adult beginners learning Python.</span><span>Base comparison is read-only · Gemma 4 adapter is live.</span></footer>
+</body>
+</html>

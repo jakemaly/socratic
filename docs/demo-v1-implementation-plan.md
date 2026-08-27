@@ -32,7 +32,8 @@ Not included:
 ```text
 demo/
   index.html       static app shell
-  app.js           UI state, rendering, interactions, adapter calls
+  app.js           DOM rendering, interactions, adapter calls
+  state.mjs        pure conversation state reducer
   styles.css       responsive visual treatment
   server.py        static server and same-origin /api/chat proxy
   fixtures.json    six snapshots/starters and offline replies
