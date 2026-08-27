@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="luxury">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Socratic Tutor — Front-end demo plan</title>
+  <meta name="description" content="A visual product plan for the Socratic Tutor Gemma 4 comparison demo.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :where(.grid, .flex, .layout-grid, .layout-flex) > *,
+    :where([style*="display: grid"], [style*="display:grid"], [style*="display: flex"], [style*="display:flex"]) > * { min-width: 0; }
+    :where(p, h1, h2, h3, h4, h5, h6, li, dd, blockquote, figcaption, td, th, .badge, .label) { overflow-wrap: anywhere; }
+    :where(img, svg, video, canvas, iframe) { max-width: 100%; height: auto; }
+    :root { --plan-ink: #e9e3d4; --plan-muted: #a9a393; --plan-line: rgba(233,227,212,.13); --plan-warm: #e6a56a; --plan-cool: #70c7b4; }
+    body { background: #151514; color: var(--plan-ink); }
+    .plan-shell { background: radial-gradient(circle at 12% 0%, rgba(230,165,106,.10), transparent 31rem), radial-gradient(circle at 90% 12%, rgba(112,199,180,.08), transparent 28rem); }
+    .plan-kicker { letter-spacing: .18em; text-transform: uppercase; font-size: .67rem; font-weight: 700; color: var(--plan-warm); }
+    .plan-grid { background-image: linear-gradient(var(--plan-line) 1px, transparent 1px), linear-gradient(90deg, var(--plan-line) 1px, transparent 1px); background-size: 32px 32px; }
+    .plan-panel { border: 1px solid var(--plan-line); background: rgba(28,28,26,.88); box-shadow: 0 24px 70px rgba(0,0,0,.25); }
+    .plan-rule { border-color: var(--plan-line); }
+    .demo-window { border: 1px solid rgba(233,227,212,.18); background: #f3f0e9; color: #292925; box-shadow: 0 30px 90px rgba(0,0,0,.42); }
+    .demo-topbar { background: #fbfaf7; border-bottom: 1px solid #dedbd3; }
+    .demo-side { background: #e9e6df; border-right: 1px solid #d9d5cc; }
+    .demo-pane { background: #f7f5f0; border: 1px solid #dfdcd4; }
+    .demo-message-user { background: #292925; color: #fffdf8; }
+    .demo-message-base { background: #fff9f5; border: 1px solid #edc4a5; }
+    .demo-message-tuned { background: #f2faf8; border: 1px solid #b7ded4; }
+    .demo-code { background: #302d29; color: #f6dfc8; }
+    .demo-composer { background: #fffdf9; border: 1px solid #d8d4ca; }
+    .plan-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .annotation-base { color: #a85429; background: #fff0e8; border-color: #edc4a5; }
+    .annotation-tuned { color: #217568; background: #e8f7f3; border-color: #b7ded4; }
+    .timeline-line { border-left: 1px solid rgba(230,165,106,.35); }
+    @media (max-width: 900px) { .demo-side { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="plan-shell min-h-screen">
+    <header class="mx-auto max-w-7xl px-5 pb-12 pt-10 lg:px-10 lg:pt-16">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-warning text-warning-content font-black">S</span><span class="font-semibold tracking-tight">Socratic Tutor</span></div>
+        <span class="badge badge-outline badge-warning">Front-end plan · Gemma 4</span>
+      </div>
+      <div class="max-w-4xl pt-16">
+        <p class="plan-kicker">Decision to review</p>
+        <h1 class="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">Make the training result visible in one glance.</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-base-content/65">A focused comparison surface for the six-exercise gallery: a prepared base-model snapshot sits beside the live Gemma 4 + LoRA tutor, making the behavioral difference visible without serving two large models at once.</p>
+      </div>
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        <div class="plan-panel rounded-2xl p-5"><p class="plan-kicker">Core promise</p><p class="mt-3 text-xl font-medium">One live tutor. One honest comparison.</p></div>
+        <div class="plan-panel rounded-2xl p-5"><p class="plan-kicker">Demo constraint</p><p class="mt-3 text-xl font-medium">The first state must read in 20 seconds.</p></div>
+        <div class="plan-panel rounded-2xl p-5"><p class="plan-kicker">Scope boundary</p><p class="mt-3 text-xl font-medium">Fixed gallery, not an unrestricted chatbot.</p></div>
+      </div>
+    </header>
+
+    <section class="plan-grid border-y border-base-content/10 py-10 lg:py-16">
+      <div class="mx-auto max-w-7xl px-5 lg:px-10">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><p class="plan-kicker">Proposed first viewport</p><h2 class="mt-2 text-2xl font-semibold">The comparison is the product.</h2></div><span class="text-sm text-base-content/50">Illustrative transcript · Even-or-odd</span></div>
+        <div class="demo-window overflow-hidden rounded-3xl">
+          <div class="demo-topbar flex flex-wrap items-center justify-between gap-3 px-5 py-3 text-sm">
+            <div class="flex items-center gap-3"><span class="font-bold tracking-tight">socratic<span class="text-[#b46b35]">/</span>lab</span><span class="rounded-full bg-[#e9e6df] px-3 py-1 text-xs text-[#68645c]">portfolio demo</span></div>
+            <div class="flex items-center gap-3"><span class="hidden text-xs text-[#77736a] sm:inline">One live tutor · one comparison snapshot</span><button class="rounded-lg border border-[#d8d4ca] px-3 py-1.5 text-xs font-semibold">Evidence ↓</button></div>
+          </div>
+          <div class="grid min-h-[650px] lg:grid-cols-[190px_1fr]">
+            <aside class="demo-side p-4">
+              <p class="mb-3 text-[10px] font-bold uppercase tracking-[.16em] text-[#888379]">Exercises</p>
+              <div class="space-y-1 text-sm">
+                <div class="rounded-xl bg-[#fbfaf7] px-3 py-2.5 font-semibold text-[#292925] shadow-sm">Even-or-odd <span class="mt-1 block text-[11px] font-normal text-[#8a857b]">Conditionals · 02</span></div>
+                <div class="px-3 py-2 text-[#77736a]">Greeting</div><div class="px-3 py-2 text-[#77736a]">Countdown</div><div class="px-3 py-2 text-[#77736a]">Average of a list</div><div class="px-3 py-2 text-[#77736a]">Temperature converter</div><div class="px-3 py-2 text-[#77736a]">Word counter</div>
+              </div>
+              <div class="mt-8 border-t border-[#d7d3ca] pt-5 text-xs leading-5 text-[#77736a]">Ask for a hint, explain where you're stuck, or test the tutor's boundaries.</div>
+            </aside>
+            <section class="p-4 sm:p-6">
+              <div class="mb-5 flex flex-wrap items-start justify-between gap-3"><div><p class="text-xs font-semibold uppercase tracking-[.14em] text-[#b46b35]">Exercise 02</p><h3 class="mt-1 text-2xl font-semibold">Even-or-odd</h3><p class="mt-1 text-sm text-[#77736a]">Ask for a whole number and report whether it is even or odd.</p></div><button class="rounded-lg border border-[#d8d4ca] px-3 py-2 text-xs font-semibold text-[#6f6a61]">↻ Restart conversation</button></div>
+              <div class="grid gap-4 xl:grid-cols-2">
+                <article class="demo-pane rounded-2xl p-4 sm:p-5">
+                  <header class="flex items-center justify-between border-b border-[#e2dfd7] pb-3"><div><h4 class="font-semibold">Gemma 4 base</h4><p class="text-xs text-[#8a857b]">Prompted · no adapter</p></div><span class="rounded-full bg-[#f1dfd2] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#a85429]">snapshot · leaks</span></header>
+                  <div class="space-y-3 py-4 text-sm leading-5">
+                    <div class="ml-auto max-w-[88%] rounded-2xl rounded-br-md demo-message-user px-3.5 py-2.5">Just give me the answer.</div>
+                    <div class="demo-message-base rounded-2xl rounded-bl-md px-3.5 py-3"><p>Use the remainder operator to check whether the number divided by 2 leaves a remainder. Here's the finished program:</p><pre class="demo-code plan-mono mt-3 overflow-x-auto rounded-xl p-3 text-xs">number = int(input())
+if number % 2 == 0:
+    print("even")</pre><span class="annotation-base mt-3 inline-flex rounded-full border px-2.5 py-1 text-[10px] font-bold">⚠ completed solution</span></div>
+                  </div>
+                  <div class="mt-2 rounded-xl border border-dashed border-[#d8d4ca] px-3 py-2.5 text-xs text-[#8a857b]"><span class="font-semibold text-[#6f6a61]">Comparison snapshot</span><span class="ml-1">Base model is shown for contrast, not served live.</span></div>
+                </article>
+                <article class="demo-pane rounded-2xl p-4 sm:p-5">
+                  <header class="flex items-center justify-between border-b border-[#e2dfd7] pb-3"><div><h4 class="font-semibold">Gemma 4 + LoRA</h4><p class="text-xs text-[#8a857b]">Fine-tuned tutor · live</p></div><span class="rounded-full bg-[#d9eee9] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#217568]">redirects</span></header>
+                  <div class="space-y-3 py-4 text-sm leading-5">
+                    <div class="ml-auto max-w-[88%] rounded-2xl rounded-br-md demo-message-user px-3.5 py-2.5">Just give me the answer.</div>
+                    <div class="demo-message-tuned rounded-2xl rounded-bl-md px-3.5 py-3"><p>I won't write the finished program, but I can help you find the next step. If you divide a number by 2, what does the <em>remainder</em> tell you about whether it is even or odd?</p><span class="annotation-tuned mt-3 inline-flex rounded-full border px-2.5 py-1 text-[10px] font-bold">✓ firm redirect + diagnosis</span></div>
+                  </div>
+                  <div class="demo-composer mt-2 flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-[#a09b91]"><span class="flex-1">Ask the fine-tuned tutor a follow-up…</span><span class="grid h-7 w-7 place-items-center rounded-lg bg-[#292925] text-white">↑</span></div>
+                </article>
+              </div>
+              <div class="mt-4 flex flex-wrap items-center gap-2"><span class="text-xs font-semibold text-[#77736a]">Try in live tutor:</span><button class="rounded-full border border-[#d8d4ca] bg-[#fffdf9] px-3 py-1.5 text-xs font-semibold">I'm stuck</button><button class="rounded-full border border-[#e5b796] bg-[#fff5ee] px-3 py-1.5 text-xs font-semibold text-[#a85429]">just give me the answer</button><button class="rounded-full border border-[#b7ded4] bg-[#effaf7] px-3 py-1.5 text-xs font-semibold text-[#217568]">hint</button></div>
+            </section>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-base-content/45">Important: the annotation is UI/evidence metadata, not a claim that the model produced its own label. Live semantic scoring remains the benchmark's job; the demo uses curated starter states and clearly marked behavior callouts.</p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 py-14 lg:px-10 lg:py-20">
+      <div class="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+        <div><p class="plan-kicker">20-second storyboard</p><h2 class="mt-3 text-3xl font-semibold leading-tight">Show the contrast before the viewer has to learn the UI.</h2><p class="mt-5 leading-7 text-base-content/60">Start with a prepared answer-demand exchange so the video demonstrates the trained behavior immediately. The viewer can then type a follow-up to the fine-tuned tutor; the base response remains a clearly labeled comparison snapshot.</p></div>
+        <div class="timeline-line space-y-6 pl-6">
+          <div><span class="badge badge-warning badge-sm">0–3s</span><p class="mt-2 font-semibold">Select <em>Even-or-odd</em>.</p><p class="text-sm text-base-content/55">The gallery and exercise prompt establish the narrow task.</p></div>
+          <div><span class="badge badge-warning badge-sm">3–6s</span><p class="mt-2 font-semibold">Click “just give me the answer”.</p><p class="text-sm text-base-content/55">The chip adds a learner turn to the live fine-tuned conversation; the base response is already visible as the contrast.</p></div>
+          <div><span class="badge badge-warning badge-sm">6–11s</span><p class="mt-2 font-semibold">Responses land side by side.</p><p class="text-sm text-base-content/55">Base is marked as completed-solution leakage; tuned is marked as firm redirect + diagnosis.</p></div>
+          <div><span class="badge badge-warning badge-sm">11–17s</span><p class="mt-2 font-semibold">Type “What should I check first?”</p><p class="text-sm text-base-content/55">The fine-tuned tutor continues in the only live conversation while the comparison snapshot stays fixed.</p></div>
+          <div><span class="badge badge-warning badge-sm">17–20s</span><p class="mt-2 font-semibold">Point to Evidence.</p><p class="text-sm text-base-content/55">A single button leads to benchmark numbers and annotated transcripts below the chat.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-base-content/10 bg-base-200/35 py-14 lg:py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-10">
+        <div class="mb-8"><p class="plan-kicker">Behavior and evidence model</p><h2 class="mt-3 text-3xl font-semibold">Separate live interaction from proof.</h2></div>
+        <div class="grid gap-5 lg:grid-cols-3">
+          <div class="plan-panel rounded-2xl p-6"><span class="badge badge-outline badge-warning">Live tutor</span><h3 class="mt-4 text-xl font-semibold">One served history</h3><p class="mt-3 text-sm leading-6 text-base-content/60">The fine-tuned pane owns the live system prompt, adapter model id, and message history. The base pane is a curated, read-only snapshot loaded with the selected exercise.</p></div>
+          <div class="plan-panel rounded-2xl p-6"><span class="badge badge-outline badge-success">Curated contrast</span><h3 class="mt-4 text-xl font-semibold">Instant first impression</h3><p class="mt-3 text-sm leading-6 text-base-content/60">Load one deterministic base snapshot and fine-tuned starter transcript per exercise so screenshots and the video never wait on a 31B model. “Continue chat” calls only the adapter.</p></div>
+          <div class="plan-panel rounded-2xl p-6"><span class="badge badge-outline badge-info">Evidence section</span><h3 class="mt-4 text-xl font-semibold">Numbers below the fold</h3><p class="mt-3 text-sm leading-6 text-base-content/60">Render the real #16 outputs: base vs adapter leakage and diagnosis, threshold verdict, judge calibration, and the two annotated transcripts.</p></div>
+        </div>
+        <div class="mt-8 overflow-hidden rounded-2xl border border-base-content/10 bg-base-100 p-4 sm:p-6"><div class="mermaid text-center">flowchart LR
+  A["Prepared learner moment"] --> B["Base snapshot"]
+  A --> C["Fine-tuned starter"]
+  D["Learner follow-up"] --> E["Fine-tuned adapter only"]
+  B --> F["Side-by-side render"]
+  C --> F
+  E --> F
+  F --> G["Evidence section<br/>benchmark artifacts"]</div></div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 py-14 lg:px-10 lg:py-20">
+      <div class="grid gap-10 lg:grid-cols-2">
+        <div><p class="plan-kicker">Minimum implementation</p><h2 class="mt-3 text-3xl font-semibold">Few files, explicit contracts.</h2><div class="mt-7 space-y-4 text-sm"><div class="flex gap-4"><code class="plan-mono rounded-lg bg-base-200 px-3 py-2 text-warning">demo/index.html</code><p class="pt-2 text-base-content/60">Static shell and accessible regions: gallery, comparison, evidence.</p></div><div class="flex gap-4"><code class="plan-mono rounded-lg bg-base-200 px-3 py-2 text-warning">demo/app.js</code><p class="pt-2 text-base-content/60">Exercise selection, chip actions, fine-tuned history, loading/error states, restart.</p></div><div class="flex gap-4"><code class="plan-mono rounded-lg bg-base-200 px-3 py-2 text-warning">demo/server.py</code><p class="pt-2 text-base-content/60">Small local static server + `/api/chat` proxy; keeps credentials out of the browser and maps one adapter model id.</p></div><div class="flex gap-4"><code class="plan-mono rounded-lg bg-base-200 px-3 py-2 text-warning">demo/fixtures.json</code><p class="pt-2 text-base-content/60">Deterministic base comparison snapshots and fine-tuned starter transcripts for all six exercises.</p></div><div class="flex gap-4"><code class="plan-mono rounded-lg bg-base-200 px-3 py-2 text-warning">demo/smoke.py</code><p class="pt-2 text-base-content/60">One scripted session: chip click, adapter request, follow-up, restart, and no leaked code in the tuned fixture.</p></div></div></div>
+        <div><p class="plan-kicker">API shape</p><h2 class="mt-3 text-3xl font-semibold">Send intent, not infrastructure.</h2><div class="mt-7 rounded-2xl border border-base-content/10 bg-base-200 p-5 plan-mono text-xs leading-6 text-base-content/75"><div class="text-base-content/45">POST /api/chat</div><div class="mt-3">{</div><div class="pl-4">"exercise_id": "exercise-gallery-even-or-odd",</div><div class="pl-4">"messages": [ ... ],</div><div class="pl-4">"temperature": 0</div><div>}</div><p class="mt-4 text-sm leading-6 text-base-content/60">The browser never receives the API key. The proxy reuses the existing OpenAI-compatible client shape and points only at the saved Gemma 4 adapter service from #11. The base comparison is static content, so the GPU serves one model at a time.</p><div class="alert alert-warning mt-5 text-sm"><span><strong>Failure rule:</strong> an adapter failure must not erase the comparison. Keep the base snapshot visible and show “Fine-tuned tutor unavailable” with a retry action.</span></div></div>
+      </div>
+    </section>
+
+    <section class="border-y border-base-content/10 bg-base-200/20 py-14 lg:py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-10">
+        <div class="mb-8"><p class="plan-kicker">Implementation plan · v1</p><h2 class="mt-3 text-3xl font-semibold">Build the shell before the training artifact.</h2><p class="mt-4 max-w-3xl leading-7 text-base-content/60">The first version is fixture-first, dependency-light, and local. It can be reviewed and recorded before the Gemma 4 adapter is ready, then wired to one endpoint without changing the UI contract.</p></div>
+        <div class="grid gap-4 lg:grid-cols-5">
+          <div class="plan-panel rounded-2xl p-5"><span class="badge badge-warning badge-sm">01</span><h3 class="mt-4 font-semibold">Scaffold</h3><p class="mt-2 text-sm leading-6 text-base-content/60"><code>demo/</code> static app, local server, existing gallery content.</p></div>
+          <div class="plan-panel rounded-2xl p-5"><span class="badge badge-warning badge-sm">02</span><h3 class="mt-4 font-semibold">Fixture flow</h3><p class="mt-2 text-sm leading-6 text-base-content/60">Six base snapshots, tuned starters, chips, restart, smoke check.</p></div>
+          <div class="plan-panel rounded-2xl p-5"><span class="badge badge-warning badge-sm">03</span><h3 class="mt-4 font-semibold">Live adapter</h3><p class="mt-2 text-sm leading-6 text-base-content/60">One <code>/api/chat</code> proxy; no base serving, no streaming yet.</p></div>
+          <div class="plan-panel rounded-2xl p-5"><span class="badge badge-warning badge-sm">04</span><h3 class="mt-4 font-semibold">Evidence</h3><p class="mt-2 text-sm leading-6 text-base-content/60">Wire #16’s real summary and two annotated transcripts.</p></div>
+          <div class="plan-panel rounded-2xl p-5"><span class="badge badge-warning badge-sm">05</span><h3 class="mt-4 font-semibold">Record</h3><p class="mt-2 text-sm leading-6 text-base-content/60">Run the scripted 20-second path and verify accessibility.</p></div>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-2">
+          <div class="rounded-2xl border border-base-content/10 bg-base-100 p-6"><p class="plan-kicker">State contract</p><div class="mt-4 space-y-3 text-sm leading-6"><p><code class="plan-mono text-warning">selectedExerciseId</code> — one of the six existing gallery ids.</p><p><code class="plan-mono text-warning">baseSnapshot</code> — read-only illustrative transcript for the selected exercise.</p><p><code class="plan-mono text-warning">fineTunedMessages</code> — the only mutable chat history.</p><p><code class="plan-mono text-warning">requestId</code> — ignores stale responses after restart or exercise changes.</p></div></div>
+          <div class="rounded-2xl border border-base-content/10 bg-base-100 p-6"><p class="plan-kicker">Blocked wiring</p><div class="mt-4 space-y-3 text-sm leading-6"><p><span class="badge badge-error badge-xs mr-2">#11</span> Saved adapter and serving target are needed for live continuation.</p><p><span class="badge badge-error badge-xs mr-2">#16</span> Benchmark summary and annotated transcripts are needed for real Evidence content.</p><p><span class="badge badge-success badge-xs mr-2">Now</span> UI shell, fixtures, interaction states, and smoke tests are unblocked.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-base-content/10 bg-base-200/35 py-14 lg:py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-10">
+        <div class="grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
+          <div><p class="plan-kicker">Acceptance checklist</p><h2 class="mt-3 text-3xl font-semibold">Portfolio-ready means legible and honest.</h2></div>
+          <ul class="grid gap-3 text-sm leading-6 sm:grid-cols-2"><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ First viewport shows both model names, the same learner moment, and which pane is live.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Chip actions trigger the same behavior in live and fixture modes.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Follow-up messages continue only the fine-tuned history; the base snapshot stays read-only.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Restart clears the fine-tuned conversation and restores both selected-exercise snapshots.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Loading, timeout, and adapter failure states remain understandable without hiding the comparison.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Evidence renders real artifacts from #16; no invented metrics.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Mobile collapses panes without hiding the model labels or composer.</li><li class="rounded-xl border border-base-content/10 bg-base-100 p-4">✓ Keyboard-accessible controls, visible focus, readable contrast, reduced-motion friendly.</li></ul>
+        </div>
+        <div class="mt-12 grid gap-5 lg:grid-cols-2">
+          <div class="plan-panel rounded-2xl p-6"><p class="plan-kicker">Final direction</p><h3 class="mt-3 text-xl font-semibold">Keep the paired visual; serve only the fine-tuned tutor.</h3><p class="mt-3 text-sm leading-6 text-base-content/60">The base-model response remains a clearly labeled, curated comparison snapshot. Only the fine-tuned Gemma 4 adapter accepts new messages. This preserves the portfolio story, avoids double latency, and fits the single-GPU constraint.</p></div>
+          <div class="plan-panel rounded-2xl p-6"><p class="plan-kicker">Keep deferred</p><h3 class="mt-3 text-xl font-semibold">No accounts, hosting, free-form exercise authoring, or semantic auto-scoring.</h3><p class="mt-3 text-sm leading-6 text-base-content/60">The first release stays local and fixed-gallery. If the comparison becomes slow on the 31B hardware, preserve the prepared starter transcript and make live continuation an explicit action rather than adding streaming infrastructure prematurely.</p></div>
+        </div>
+        <div class="mt-12 rounded-2xl border border-warning/30 bg-warning/10 p-6"><p class="plan-kicker">Recommended next step</p><p class="mt-3 text-lg leading-8">Implement the fixture-first first viewport now: a static base snapshot beside a live-capable fine-tuned pane, then wire only the adapter endpoint when training is complete. This gives you a recordable demo path without requiring both models to fit on the GPU.</p></div>
+      </div>
+    </section>
+
+    <footer class="mx-auto max-w-7xl px-5 py-10 text-xs text-base-content/40 lg:px-10"><div class="flex flex-wrap justify-between gap-3"><span>Prepared from the current gallery content, evaluation client, and Gemma 4 training recipe.</span><span>Project: socratic · branch: main · no code changes</span></div></footer>
+  </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.esm.min.mjs";
+    const diagrams = [...document.querySelectorAll('.mermaid')].map((el) => ({ el, src: el.textContent }));
+    let applied;
+    async function renderDiagrams() {
+      const dark = ['luxury', 'night', 'black', 'dracula', 'business', 'dim', 'abyss'].includes(document.documentElement.dataset.theme);
+      const theme = dark ? 'dark' : 'default';
+      if (theme === applied) return;
+      mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'strict' });
+      for (const { el, src } of diagrams) { el.removeAttribute('data-processed'); el.textContent = src; }
+      await mermaid.run({ nodes: diagrams.map(({ el }) => el) });
+      applied = theme;
+    }
+    window.addEventListener('load', renderDiagrams, { once: true });
+    new MutationObserver(renderDiagrams).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
+</body>
+</html>
