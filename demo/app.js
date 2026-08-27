@@ -144,6 +144,8 @@ function updateState(action) {
 }
 
 async function requestReply(messages, token) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30_000);
   try {
     const response = await fetch('/api/chat', {
       method: 'POST',
@@ -153,6 +155,7 @@ async function requestReply(messages, token) {
         messages,
         temperature: 0,
       }),
+      signal: controller.signal,
     });
     const body = await response.json();
     if (!response.ok) throw new Error(body.error || 'The fine-tuned tutor is unavailable.');
@@ -161,7 +164,12 @@ async function requestReply(messages, token) {
     }
     updateState({ type: 'response', token, content: body.message.content });
   } catch (error) {
-    updateState({ type: 'failure', token, message: error.message || 'The fine-tuned tutor is unavailable.' });
+    const message = error.name === 'AbortError'
+      ? 'The fine-tuned tutor timed out. Try again.'
+      : error.message || 'The fine-tuned tutor is unavailable.';
+    updateState({ type: 'failure', token, message });
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -194,49 +202,78 @@ function resizeInput() {
   refs.messageInput.style.height = `${Math.min(refs.messageInput.scrollHeight, 128)}px`;
 }
 
+function evidenceValue(value) {
+  if (typeof value === 'number') return `${Math.round(value * 100)}%`;
+  return value ?? '—';
+}
+
 function renderEvidence(evidence) {
+  if (!evidence || evidence.available === false) return;
   const stats = [
-    ['Base leakage', evidence.base?.leakage_rate],
-    ['Fine-tuned leakage', evidence.fine_tuned?.leakage_rate],
-    ['Calibration', evidence.calibration_agreement],
+    ['Base leakage', evidence.base?.leakage_rate, 'Completed-solution leakage'],
+    ['Fine-tuned leakage', evidence.fine_tuned?.leakage_rate, 'Completed-solution leakage'],
+    ['Base diagnosis', evidence.base?.diagnosis_rate, 'Actionable diagnosis'],
+    ['Fine-tuned diagnosis', evidence.fine_tuned?.diagnosis_rate, 'Actionable diagnosis'],
+    ['Calibration', evidence.calibration_agreement, 'Judge agreement'],
+    ['Leakage threshold', evidence.thresholds?.leakage_reduction_points == null ? null : `≥ ${evidence.thresholds.leakage_reduction_points} pts`, 'Required improvement'],
+    ['Utility threshold', evidence.thresholds?.utility_drop_points == null ? null : `≤ ${evidence.thresholds.utility_drop_points} pts`, 'Maximum allowed drop'],
   ];
   const grid = document.createElement('div');
   grid.className = 'evidence-grid';
-  stats.forEach(([label, value]) => {
+  stats.forEach(([label, value, detailText]) => {
     const card = document.createElement('div');
     card.className = 'evidence-stat';
     const name = document.createElement('small');
     name.textContent = label;
     const number = document.createElement('strong');
-    number.textContent = value ?? '—';
+    number.textContent = evidenceValue(value);
     const detail = document.createElement('p');
-    detail.textContent = 'From the calibrated benchmark run.';
+    detail.textContent = detailText;
     card.append(name, number, detail);
     grid.append(card);
   });
-  refs.evidenceContent.replaceChildren(grid);
+  const fragments = [grid];
+  if (Array.isArray(evidence.transcripts) && evidence.transcripts.length) {
+    const transcripts = document.createElement('div');
+    transcripts.className = 'evidence-transcripts';
+    evidence.transcripts.forEach((transcript) => {
+      const article = document.createElement('article');
+      article.className = 'evidence-transcript';
+      const title = document.createElement('h3');
+      title.textContent = transcript.title || 'Annotated transcript';
+      const annotation = document.createElement('p');
+      annotation.textContent = transcript.annotation || '';
+      const body = document.createElement('pre');
+      body.textContent = (transcript.messages || [])
+        .map((message) => `${message.role || 'message'}: ${message.content || ''}`)
+        .join('\n\n');
+      article.append(title, annotation, body);
+      transcripts.append(article);
+    });
+    fragments.push(transcripts);
+  }
+  refs.evidenceContent.replaceChildren(...fragments);
 }
 
 async function loadEvidence() {
   try {
     renderEvidence(await getJSON('/results/demo-evidence.json'));
   } catch {
-    // Evidence is intentionally unavailable until the benchmark track publishes it.
+    // Evidence remains unavailable until the benchmark track publishes it.
   }
 }
 
 async function initialize() {
   try {
-    const [exercises, chips, fixtures, config, intro] = await Promise.all([
+    const [exercises, chips, fixtures, intro] = await Promise.all([
       getJSON('/content/exercises.json'),
       getJSON('/content/chips.json'),
       getJSON('/demo/fixtures.json'),
-      getJSON('/api/config'),
       fetch('/content/intro.md').then((response) => response.ok ? response.text() : ''),
     ]);
     app.data = { exercises, chips, fixtures };
-    app.mode = config.mode;
-    refs.modeBadge.textContent = config.live_model ? 'Live adapter' : 'Fixture mode';
+    app.mode = document.documentElement.dataset.demoMode || 'fixture';
+    refs.modeBadge.textContent = app.mode === 'live' ? 'Live adapter' : 'Fixture mode';
     if (intro.trim()) refs.introCopy.textContent = intro.trim();
     app.state = createDemoState({
       id: exercises[0].id,
@@ -246,7 +283,7 @@ async function initialize() {
     render();
     refs.messageInput.disabled = false;
     refs.sendButton.disabled = false;
-    if (config.evidence_available) void loadEvidence();
+    void loadEvidence();
   } catch (error) {
     refs.modeBadge.textContent = 'Demo unavailable';
     refs.introCopy.textContent = `Could not load the demo: ${error.message}`;

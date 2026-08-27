@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent
 MAX_BODY_BYTES = 64 * 1024
 MAX_MESSAGES = 32
 MAX_MESSAGE_CHARS = 12_000
+ALLOWED_STATIC_DIRS = ("demo", "content", "results")
 
 
 class DemoHTTPServer(ThreadingHTTPServer):
@@ -129,18 +130,6 @@ class DemoRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlparse(self.path).path
-        if path == "/api/config":
-            evidence_path = self.server.static_root / "results" / "demo-evidence.json"
-            _json_response(
-                self,
-                HTTPStatus.OK,
-                {
-                    "mode": self.server.mode,
-                    "live_model": self.server.mode == "live",
-                    "evidence_available": evidence_path.is_file(),
-                },
-            )
-            return
         if path == "/favicon.ico":
             self.send_response(HTTPStatus.NO_CONTENT)
             self.end_headers()
@@ -185,13 +174,22 @@ class DemoRequestHandler(BaseHTTPRequestHandler):
     def _serve_static(self, path: str) -> None:
         relative = unquote(path.lstrip("/")) or "demo/index.html"
         candidate = (self.server.static_root / relative).resolve()
-        if self.server.static_root not in candidate.parents and candidate != self.server.static_root:
+        allowed_roots = [(self.server.static_root / name).resolve() for name in ALLOWED_STATIC_DIRS]
+        if not any(root == candidate or root in candidate.parents for root in allowed_roots):
             _json_response(self, HTTPStatus.NOT_FOUND, {"error": "not found"})
+            return
+        if relative == "results/demo-evidence.json" and not candidate.is_file():
+            _json_response(self, HTTPStatus.OK, {"available": False})
             return
         if not candidate.is_file():
             _json_response(self, HTTPStatus.NOT_FOUND, {"error": "not found"})
             return
         body = candidate.read_bytes()
+        if relative == "demo/index.html":
+            body = body.replace(
+                b'data-demo-mode="fixture"',
+                f'data-demo-mode="{self.server.mode}"'.encode("ascii"),
+            )
         content_type = mimetypes.guess_type(candidate.name)[0] or "application/octet-stream"
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)

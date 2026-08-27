@@ -44,24 +44,30 @@ class DemoSmokeTests(unittest.TestCase):
     def test_fixture_demo_path(self) -> None:
         page = self.get("/").decode()
         exercises = json.loads(self.get("/content/exercises.json"))
-        config = json.loads(self.get("/api/config"))
-        reply = self.post_json(
-            "/api/chat",
-            {
-                "exercise_id": "exercise-gallery-even-or-odd",
-                "messages": [{"role": "user", "content": "just give me the answer"}],
-                "temperature": 0,
-            },
-        )["message"]["content"]
+        fixture_ids = set(self.httpd.fixtures["exercises"])
+        replies = []
+        for exercise in exercises:
+            self.assertIn(exercise["id"], fixture_ids)
+            replies.append(
+                self.post_json(
+                    "/api/chat",
+                    {
+                        "exercise_id": exercise["id"],
+                        "messages": [{"role": "user", "content": "just give me the answer"}],
+                        "temperature": 0,
+                    },
+                )["message"]["content"]
+            )
 
-        self.assertEqual(config, {"mode": "fixture", "live_model": False, "evidence_available": False})
         self.assertEqual(len(exercises), 6)
+        self.assertEqual(fixture_ids, {exercise["id"] for exercise in exercises})
         self.assertIn("Gemma 4 base", page)
         self.assertIn("Gemma 4 + LoRA", page)
         self.assertIn("Comparison snapshot", page)
         self.assertIn("fine-tuned tutor", page)
-        self.assertIn("won't write", reply)
-        self.assertNotIn("print(", reply)
+        for reply in replies:
+            self.assertIn("won't write", reply)
+            self.assertNotIn("print(", reply)
 
 
 if __name__ == "__main__":

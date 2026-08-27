@@ -52,11 +52,17 @@ class DemoServerTests(unittest.TestCase):
         except HTTPError as error:
             return error.code, json.loads(error.read())
 
-    def test_fixture_status_does_not_expose_a_base_endpoint(self) -> None:
-        status, body = self.request_json("GET", "/api/config")
+    def request_status(self, path: str) -> int:
+        try:
+            with urlopen(f"{self.base_url}{path}", timeout=2) as response:
+                return response.status
+        except HTTPError as error:
+            return error.code
 
-        self.assertEqual(status, 200)
-        self.assertEqual(body, {"mode": "fixture", "live_model": False, "evidence_available": False})
+    def test_static_server_keeps_private_files_private(self) -> None:
+        self.assertEqual(self.request_status("/.env"), 404)
+        self.assertEqual(self.request_status("/.git/config"), 404)
+        self.assertEqual(self.request_status("/train/gemma4_qlora_guided.ipynb"), 404)
 
     def test_fixture_chat_returns_an_assistant_message(self) -> None:
         status, body = self.request_json(
