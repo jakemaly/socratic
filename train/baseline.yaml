@@ -1,12 +1,12 @@
 # Canonical prompted-base arm for the separate benchmark run.
 # Keep this arm identical to the adapter arm except for the adapter itself.
-# Load this model through Unsloth FastModel with the same 4-bit settings.
+# Load this pre-quantized model through Unsloth FastModel.
 model:
-  id: unsloth/gemma-4-31B-it
-  revision: 51c9f6265ea38755c708a6e356dfc1af4a436e35
+  id: unsloth/gemma-4-31B-it-unsloth-bnb-4bit
+  revision: 8e256fc6d63003fc0ca8c91b976e6dcc38433385
 tokenizer:
-  id: unsloth/gemma-4-31B-it
-  revision: 51c9f6265ea38755c708a6e356dfc1af4a436e35
+  id: unsloth/gemma-4-31B-it-unsloth-bnb-4bit
+  revision: 8e256fc6d63003fc0ca8c91b976e6dcc38433385
 generation:
   temperature: 0.0
   do_sample: false

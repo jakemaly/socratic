@@ -6,9 +6,9 @@ the generic Transformers/PEFT path is not the supported path for this model.
 
 ## Fixed experiment
 
-- **Model:** `unsloth/gemma-4-31B-it`, revision
-  `51c9f6265ea38755c708a6e356dfc1af4a436e35`
-- **Loader:** Unsloth `FastModel`, 4-bit QLoRA, no CPU offload
+- **Model:** `unsloth/gemma-4-31B-it-unsloth-bnb-4bit`, revision
+  `8e256fc6d63003fc0ca8c91b976e6dcc38433385`
+- **Loader:** Unsloth `FastModel`, pre-quantized 4-bit QLoRA, no CPU offload
 - **GPU target:** one RTX 3090 with 24 GiB VRAM
 - **Memory settings:** max sequence length 1024, micro-batch 1, gradient
   accumulation 4, Unsloth gradient checkpointing
@@ -16,8 +16,9 @@ the generic Transformers/PEFT path is not the supported path for this model.
 - **Training:** three epochs, learning rate `2e-4`, cosine schedule, `adamw_8bit`,
   assistant responses only, one seed, final adapter only
 
-Unsloth documents approximately 22 GB VRAM for 31B QLoRA. This machine has 24
-GB VRAM and 31.5 GB system RAM, so the recipe intentionally avoids CPU offload
+Unsloth documents approximately 22 GB VRAM for 31B QLoRA. The pre-quantized
+checkpoint is about 19 GB on disk. This machine has 24 GB VRAM and 31.5 GB system
+RAM, so the recipe intentionally avoids CPU offload
 and starts with the 1,024-token smoke test. The machine currently has an 8 GB
 swapfile; swap is not a training memory strategy and should not be relied on.
 
