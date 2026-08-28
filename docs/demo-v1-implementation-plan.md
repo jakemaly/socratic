@@ -105,13 +105,20 @@ The presentation record must derive from those #16 outputs and contain:
 - `source_artifacts` links to `benchmark.json`, `summary.md`, and
   `evidence-transcripts.md`.
 
-`results/demo-evidence.json` uses the field names already consumed by the UI:
-`base.leakage_rate`, `base.diagnosis_rate`, `fine_tuned.leakage_rate`,
-`fine_tuned.diagnosis_rate`, `leakage_reduction_points`,
-`utility_drop_points`, `thresholds`, `calibration_agreement`, `verdict`,
-`transcripts`, and `source_artifacts`. Avoid adding a Markdown parser dependency.
-Until #16 publishes this complete artifact set, render an explicit unavailable
-state rather than placeholder metrics.
+`schemas/demo_evidence.schema.json` is the authoritative shape for
+`results/demo-evidence.json`. Rates and `calibration_agreement` are either
+numbers from 0 through 1 or percent strings; deltas and thresholds are numeric
+percentage points. `thresholds` contains `leakage_reduction_points` and
+`utility_drop_points`. `transcripts` contains exactly two records, each with a
+non-empty `title`, `annotation`, and at least two `{role, content}` messages.
+Every `source_artifacts` entry has a non-empty `label` and `path`, and the list
+links to `benchmark.json`, `summary.md`, and `evidence-transcripts.md`.
+
+Issue #16 must validate the record against that schema before publishing it.
+The browser independently checks required completeness before replacing the
+unavailable state. Avoid adding a Markdown parser dependency. Until #16
+publishes this complete artifact set, render an explicit unavailable state
+rather than placeholder metrics.
 
 ## Build order
 

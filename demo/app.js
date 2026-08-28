@@ -1,5 +1,5 @@
 import { createDemoState, reduceDemoState } from './state.mjs';
-import { summarizeEvidence } from './evidence.mjs';
+import { isCompleteEvidence, summarizeEvidence } from './evidence.mjs';
 
 const refs = {
   modeBadge: document.querySelector('#mode-badge'),
@@ -254,7 +254,7 @@ function evidenceValue(value) {
 }
 
 function renderEvidence(evidence) {
-  if (!evidence || evidence.available === false) return;
+  if (!isCompleteEvidence(evidence)) return;
   const {
     leakageReduction,
     utilityDrop,
