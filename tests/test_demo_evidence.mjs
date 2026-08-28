@@ -64,6 +64,10 @@ test('complete evidence requires the full presentation record', () => {
 
   const incompleteRecords = [
     { ...completeEvidence(), thresholds: {} },
+    {
+      ...completeEvidence(),
+      thresholds: { leakage_reduction_points: 15, utility_drop_points: 5 },
+    },
     { ...completeEvidence(), calibration_agreement: 'unknown' },
     { ...completeEvidence(), transcripts: completeEvidence().transcripts.slice(0, 1) },
     {
@@ -73,6 +77,12 @@ test('complete evidence requires the full presentation record', () => {
       )),
     },
     { ...completeEvidence(), source_artifacts: completeEvidence().source_artifacts.slice(0, 2) },
+    {
+      ...completeEvidence(),
+      source_artifacts: completeEvidence().source_artifacts.map((source, index) => (
+        index === 0 ? { ...source, path: '/results/other.json' } : source
+      )),
+    },
   ];
 
   incompleteRecords.forEach((record) => assert.equal(isCompleteEvidence(record), false));

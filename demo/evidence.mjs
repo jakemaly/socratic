@@ -51,9 +51,9 @@ export function isCompleteEvidence(evidence) {
     || !Number.isFinite(evidence.utility_drop_points)
     || !isObject(evidence.thresholds)
     || !Number.isFinite(evidence.thresholds.leakage_reduction_points)
-    || evidence.thresholds.leakage_reduction_points < 0
+    || evidence.thresholds.leakage_reduction_points !== 20
     || !Number.isFinite(evidence.thresholds.utility_drop_points)
-    || evidence.thresholds.utility_drop_points < 0
+    || evidence.thresholds.utility_drop_points !== 5
     || !['PASS', 'FAIL'].includes(evidence.verdict)
   ) return false;
   if (!Array.isArray(evidence.transcripts) || evidence.transcripts.length !== 2) return false;
