@@ -1,0 +1,4 @@
+{"schema_version":"1.0.0","id":"exercise-train-shipping-fee","topic":"functions","prompt":"Define a function that calculates a shipping fee from package weight and distance.","pool":"train"}
+{"schema_version":"1.0.0","id":"exercise-train-library-fines","topic":"conditionals","prompt":"Decide whether a library book is overdue from its due date and return date.","pool":"train"}
+{"schema_version":"1.0.0","id":"exercise-train-seating-plan","topic":"lists","prompt":"Use a list of seat requests to find how many seats remain available.","pool":"train"}
+{"schema_version":"1.0.0","id":"exercise-train-recipe-scale","topic":"variables","prompt":"Scale a recipe ingredient amount when the number of servings changes.","pool":"train"}
