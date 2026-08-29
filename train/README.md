@@ -57,3 +57,12 @@ The notebook prints the actual GPU, RAM, package versions, and peak VRAM.
 
 The old `qwen_lora_guided.ipynb` remains untouched because it contained
 uncommitted work; it is no longer the canonical recipe.
+
+## V2 run
+
+`gemma4_qlora_v2.ipynb` uses the separate `data/train-v2/` pool and writes to
+`train/adapter-v2/`, `train/config-v2.yaml`, `train/logs-v2/`, and
+`train/adapter-v2.sha256`; it never overwrites the V1 adapter. The notebook
+defaults to smoke mode. For a confirmed full run, execute it with
+`SOCRATIC_RUN_MODE=full SOCRATIC_CONFIRM_FULL_RUN=true` after the smoke gate
+passes, then benchmark the saved adapter using the fixed 48-case evaluation.
