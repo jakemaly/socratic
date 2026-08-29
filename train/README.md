@@ -66,3 +66,10 @@ uncommitted work; it is no longer the canonical recipe.
 defaults to smoke mode. For a confirmed full run, execute it with
 `SOCRATIC_RUN_MODE=full SOCRATIC_CONFIRM_FULL_RUN=true` after the smoke gate
 passes, then benchmark the saved adapter using the fixed 48-case evaluation.
+
+## V3 alignment run
+
+`gemma4_qlora_v3.ipynb` uses `data/train-v3/` and writes the SFT adapter to
+`train/adapter-v3-sft/`, with config at `train/config-v3-sft.yaml`, logs at
+`train/logs-v3-sft/`, and an adapter hash at `train/adapter-v3-sft.sha256`.
+It defaults to smoke mode and never overwrites V1 or V2 artifacts.
