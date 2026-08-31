@@ -158,6 +158,18 @@ def validate_schema_value(
         if "maximum" in schema and value > schema["maximum"]:
             errors.append(f"{path}: must be at most {schema['maximum']}")
 
+    if "allOf" in schema:
+        for candidate in schema["allOf"]:
+            errors.extend(validate_schema_value(value, candidate, path, root))
+
+    if "contains" in schema and isinstance(value, list):
+        matches = any(
+            not validate_schema_value(item, schema["contains"], path, root)
+            for item in value
+        )
+        if not matches:
+            errors.append(f"{path}: must contain an item matching the schema")
+
     if "anyOf" in schema:
         alternatives = [
             validate_schema_value(value, candidate, path, root)

@@ -249,28 +249,33 @@ function resizeInput() {
 }
 
 function evidenceValue(value) {
-  if (typeof value === 'number') return `${Math.round(value * 100)}%`;
+  if (typeof value === 'number') {
+    return `${(value * 100).toFixed(2).replace(/\.00$/, '')}%`;
+  }
   return value ?? '—';
+}
+
+function pointsValue(value) {
+  return value == null ? null : `${value.toFixed(2).replace(/\.00$/, '')} pts`;
+}
+
+function aggregateValue(aggregate, countKey, rateKey) {
+  const rate = evidenceValue(aggregate[rateKey]);
+  return `${aggregate[countKey]}/${aggregate.case_count} (${rate})`;
 }
 
 function renderEvidence(evidence) {
   if (!isCompleteEvidence(evidence)) return;
-  const {
-    leakageReduction,
-    utilityDrop,
-    leakageThreshold,
-    utilityThreshold,
-    verdict,
-  } = summarizeEvidence(evidence);
+  const { leakageReduction, diagnosisChange } = summarizeEvidence(evidence);
   const stats = [
-    ['Base leakage', evidence.base?.leakage_rate, 'Completed-solution leakage'],
-    ['Fine-tuned leakage', evidence.fine_tuned?.leakage_rate, 'Completed-solution leakage'],
-    ['Base diagnosis', evidence.base?.diagnosis_rate, 'Actionable diagnosis'],
-    ['Fine-tuned diagnosis', evidence.fine_tuned?.diagnosis_rate, 'Actionable diagnosis'],
-    ['Leakage reduction', leakageReduction == null ? null : `${leakageReduction} pts`, `Required: ≥ ${leakageThreshold} pts`],
-    ['Utility change', utilityDrop == null ? null : `${utilityDrop} pts`, `Allowed drop: ≤ ${utilityThreshold} pts`],
-    ['Calibration', evidence.calibration_agreement, 'Judge agreement'],
-    ['Verdict', verdict, 'Threshold comparison'],
+    ['Base leakage', aggregateValue(evidence.base, 'leakage_count', 'leakage_rate'), 'Completed-solution leakage'],
+    ['Fine-tuned leakage', aggregateValue(evidence.fine_tuned, 'leakage_count', 'leakage_rate'), 'Completed-solution leakage'],
+    ['Base diagnosis', aggregateValue(evidence.base, 'diagnosis_count', 'diagnosis_rate'), 'Actionable diagnosis'],
+    ['Fine-tuned diagnosis', aggregateValue(evidence.fine_tuned, 'diagnosis_count', 'diagnosis_rate'), 'Actionable diagnosis'],
+    ['Leakage reduction', pointsValue(leakageReduction), 'Base minus selected checkpoint'],
+    ['Diagnosis change', pointsValue(diagnosisChange), 'Selected checkpoint minus base'],
+    ['Calibration', evidence.calibration.status === 'completed' ? evidence.calibration.agreement : 'Not performed', 'Human calibration'],
+    ['Selected checkpoint', evidence.selected_model.label, evidence.selected_model.checkpoint],
   ];
   const grid = document.createElement('div');
   grid.className = 'evidence-grid';
@@ -286,7 +291,10 @@ function renderEvidence(evidence) {
     card.append(name, number, detail);
     grid.append(card);
   });
-  const fragments = [grid];
+  const scope = document.createElement('p');
+  scope.className = 'evidence-meta';
+  scope.textContent = `${evidence.benchmark.name} · ${evidence.benchmark.judge_version} · ${evidence.limitations.join(' ')}`;
+  const fragments = [grid, scope];
   if (Array.isArray(evidence.transcripts) && evidence.transcripts.length) {
     const transcripts = document.createElement('div');
     transcripts.className = 'evidence-transcripts';

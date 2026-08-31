@@ -2,17 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/jakemaly/socratic/schemas/demo_evidence.schema.json",
   "title": "DemoEvidence",
-  "description": "Complete benchmark presentation record rendered by the Socratic Tutor demo.",
+  "description": "Complete fixed-benchmark presentation record rendered by the Socratic Tutor demo.",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "available",
+    "benchmark",
+    "selected_model",
     "base",
     "fine_tuned",
     "leakage_reduction_points",
-    "utility_drop_points",
-    "thresholds",
-    "calibration_agreement",
-    "verdict",
+    "diagnosis_change_points",
+    "calibration",
+    "limitations",
     "transcripts",
     "source_artifacts"
   ],
@@ -20,6 +22,12 @@
     "available": {
       "type": "boolean",
       "const": true
+    },
+    "benchmark": {
+      "$ref": "#/$defs/benchmark"
+    },
+    "selected_model": {
+      "$ref": "#/$defs/selected_model"
     },
     "base": {
       "$ref": "#/$defs/model_aggregate"
@@ -30,36 +38,20 @@
     "leakage_reduction_points": {
       "type": "number"
     },
-    "utility_drop_points": {
+    "diagnosis_change_points": {
       "type": "number"
     },
-    "thresholds": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "leakage_reduction_points",
-        "utility_drop_points"
-      ],
-      "properties": {
-        "leakage_reduction_points": {
-          "type": "number",
-          "const": 20
-        },
-        "utility_drop_points": {
-          "type": "number",
-          "const": 5
-        }
+    "calibration": {
+      "$ref": "#/$defs/calibration"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
       }
-    },
-    "calibration_agreement": {
-      "$ref": "#/$defs/rate"
-    },
-    "verdict": {
-      "type": "string",
-      "enum": [
-        "PASS",
-        "FAIL"
-      ]
     },
     "transcripts": {
       "type": "array",
@@ -78,17 +70,38 @@
       "allOf": [
         {
           "contains": {
-            "$ref": "#/$defs/benchmark_source"
+            "properties": {
+              "path": {
+                "enum": [
+                  "results/benchmark.json",
+                  "/results/benchmark.json"
+                ]
+              }
+            }
           }
         },
         {
           "contains": {
-            "$ref": "#/$defs/summary_source"
+            "properties": {
+              "path": {
+                "enum": [
+                  "results/summary.md",
+                  "/results/summary.md"
+                ]
+              }
+            }
           }
         },
         {
           "contains": {
-            "$ref": "#/$defs/transcript_source"
+            "properties": {
+              "path": {
+                "enum": [
+                  "results/evidence-transcripts.md",
+                  "/results/evidence-transcripts.md"
+                ]
+              }
+            }
           }
         }
       ]
@@ -108,14 +121,186 @@
         }
       ]
     },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "case_count",
+        "judge_version",
+        "temperature",
+        "seed"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "fixed 48-case benchmark"
+        },
+        "case_count": {
+          "type": "integer",
+          "const": 48
+        },
+        "judge_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "judge_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "temperature": {
+          "type": "number",
+          "const": 0
+        },
+        "seed": {
+          "type": "integer",
+          "const": 0
+        },
+        "case_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "system_prompt_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "decoding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "max_new_tokens": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "selected_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "checkpoint",
+        "epoch",
+        "run_id"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "checkpoint": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "epoch-2"
+        },
+        "epoch": {
+          "type": "integer",
+          "const": 2
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "model_aggregate": {
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "model_id",
+        "adapter_id",
+        "case_count",
+        "leakage_count",
+        "diagnosis_count",
+        "leakage_rate",
+        "diagnosis_rate",
+        "by_family"
+      ],
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "case_count": {
+          "type": "integer",
+          "const": 48
+        },
+        "leakage_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 48
+        },
+        "diagnosis_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 48
+        },
+        "leakage_rate": {
+          "$ref": "#/$defs/rate"
+        },
+        "diagnosis_rate": {
+          "$ref": "#/$defs/rate"
+        },
+        "by_family": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "normal-stuck",
+            "answer-demand",
+            "persistent-pressure",
+            "misconception-edge"
+          ],
+          "properties": {
+            "normal-stuck": {
+              "$ref": "#/$defs/family_aggregate"
+            },
+            "answer-demand": {
+              "$ref": "#/$defs/family_aggregate"
+            },
+            "persistent-pressure": {
+              "$ref": "#/$defs/family_aggregate"
+            },
+            "misconception-edge": {
+              "$ref": "#/$defs/family_aggregate"
+            }
+          }
+        }
+      }
+    },
+    "family_aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "leakage_count",
+        "diagnosis_count",
         "leakage_rate",
         "diagnosis_rate"
       ],
       "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "leakage_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "diagnosis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
         "leakage_rate": {
           "$ref": "#/$defs/rate"
         },
@@ -124,15 +309,58 @@
         }
       }
     },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "agreement",
+        "source"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_performed",
+            "unavailable",
+            "completed"
+          ]
+        },
+        "agreement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
     "transcript": {
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "kind",
         "title",
         "annotation",
         "messages"
       ],
       "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "actionable-diagnosis",
+            "firm-answer-redirect"
+          ]
+        },
         "title": {
           "type": "string",
           "minLength": 1,
@@ -187,61 +415,16 @@
         },
         "path": {
           "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
+          "enum": [
+            "results/benchmark.json",
+            "results/summary.md",
+            "results/evidence-transcripts.md",
+            "/results/benchmark.json",
+            "/results/summary.md",
+            "/results/evidence-transcripts.md"
+          ]
         }
       }
-    },
-    "benchmark_source": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/source_artifact"
-        },
-        {
-          "properties": {
-            "path": {
-              "anyOf": [
-                { "const": "results/benchmark.json" },
-                { "const": "/results/benchmark.json" }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "summary_source": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/source_artifact"
-        },
-        {
-          "properties": {
-            "path": {
-              "anyOf": [
-                { "const": "results/summary.md" },
-                { "const": "/results/summary.md" }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "transcript_source": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/source_artifact"
-        },
-        {
-          "properties": {
-            "path": {
-              "anyOf": [
-                { "const": "results/evidence-transcripts.md" },
-                { "const": "/results/evidence-transcripts.md" }
-              ]
-            }
-          }
-        }
-      ]
     }
   }
 }

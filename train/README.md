@@ -1,5 +1,7 @@
 # Gemma 4 31B QLoRA run
 
+For the complete V1 → V2 → V3 → next history, see [`docs/research/fine-tuning-evolution.md`](../docs/research/fine-tuning-evolution.md).
+
 `gemma4_qlora_guided.ipynb` is the canonical training recipe. It follows
 [Unsloth's Gemma 4 guide](https://unsloth.ai/docs/models/gemma-4/train) because
 the generic Transformers/PEFT path is not the supported path for this model.
@@ -57,6 +59,25 @@ The notebook prints the actual GPU, RAM, package versions, and peak VRAM.
 
 The old `qwen_lora_guided.ipynb` remains untouched because it contained
 uncommitted work; it is no longer the canonical recipe.
+
+## Next clean SFT run
+
+`gemma4_qlora_next.ipynb` consumes `data/train-next/` and fixes the training
+contract by using the exact evaluator system prompt. Full mode runs four epochs
+so the callback saves adapter snapshots at `train/adapter-next-sft/epoch-2/`,
+`epoch-3/`, and `epoch-4/`; epoch 3 remains the primary three-epoch comparison.
+The fixed benchmark selected epoch 2 as the earliest checkpoint with zero
+judged leakage; this is a scoped result, not a universal guarantee or a
+20/5 promotion gate. The run also writes `train/config-next-sft.yaml`,
+`train/logs-next-sft/`, and `train/adapter-next-sft.sha256`. Run smoke first,
+then:
+
+```bash
+SOCRATIC_RUN_MODE=full SOCRATIC_CONFIRM_FULL_RUN=true
+```
+
+Evaluate each snapshot with the fixed 48-case benchmark before selecting an
+arm. The notebook never chooses a checkpoint automatically.
 
 ## V2 run
 

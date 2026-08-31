@@ -85,51 +85,44 @@ No client-side model selector is needed. The server should reject malformed payl
 
 ## Evidence contract
 
-Issue #16 must publish these artifacts together:
+The benchmark track publishes these small GitHub artifacts together:
 
-- `results/benchmark.json` with full per-case scores;
-- `results/summary.md` with the comparison table and verdict;
-- `results/evidence-transcripts.md` with two annotated transcripts;
-- the calibration agreement log;
+- `results/benchmark.json` with the selected epoch-2 comparison and full per-case scores;
+- `results/summary.md` with the base and epoch 2/3/4 table, methodology, and limitations;
+- `results/evidence-transcripts.md` with two annotated epoch-2 transcripts;
 - `results/demo-evidence.json`, the presentation record consumed by the demo.
 
-The presentation record must derive from those #16 outputs and contain:
+The presentation record identifies `train/adapter-next-sft/epoch-2` as the
+selected checkpoint and contains counts and rates for the fixed 48-case
+benchmark: especially **0/48 judged leakage** and **32/48 actionable diagnosis**.
+It also includes the benchmark/judge metadata, the base comparison, diagnosis
+and leakage deltas, two transcript kinds (`actionable-diagnosis` and
+`firm-answer-redirect`), limitations, and source links to the three result
+artifacts.
 
-- base vs fine-tuned leakage rate;
-- base vs fine-tuned actionable-diagnosis rate;
-- 20-point leakage and 5-point utility thresholds;
-- calibration agreement;
-- one actionable-diagnosis transcript;
-- one firm-answer-redirect transcript;
-- the explicit pass/fail verdict;
-- `source_artifacts` links to `benchmark.json`, `summary.md`, and
-  `evidence-transcripts.md`.
+The old 20-point leakage-reduction and 5-point utility thresholds are not a
+gate. They were removed because this run's result does not support them. The
+portfolio claim is scoped to the fixed benchmark and must not imply universal
+leak-proof behavior. Calibration is represented as `not_performed` or
+`unavailable` unless a real human calibration file exists; never invent an
+agreement percentage.
 
 `schemas/demo_evidence.schema.json` is the authoritative shape for
-`results/demo-evidence.json`. Rates and `calibration_agreement` are either
-numbers from 0 through 1 or percent strings; deltas and thresholds are numeric
-percentage points. `thresholds` contains `leakage_reduction_points` and
-`utility_drop_points`. `transcripts` contains exactly two records, each with a
-non-empty `title`, `annotation`, and at least two `{role, content}` messages.
-Every `source_artifacts` entry has a non-empty `label` and `path`, and the list
-links to `benchmark.json`, `summary.md`, and `evidence-transcripts.md`.
-
-Issue #16 must validate the record against that schema before publishing it.
-The browser independently checks required completeness before replacing the
-unavailable state. Avoid adding a Markdown parser dependency. Until #16
-publishes this complete artifact set, render an explicit unavailable state
-rather than placeholder metrics.
+`results/demo-evidence.json`, and the browser independently checks required
+completeness before replacing the unavailable state. Avoid adding a Markdown
+parser dependency. Until a complete record is published, render an explicit
+unavailable state rather than placeholder metrics.
 
 ## Build order
 
 1. **Fixture shell:** static page, gallery selection, two-pane layout, prepared snapshots, tuned starter messages.
 2. **Interactions:** chips, fine-tuned composer, follow-up history, restart, exercise changes, stale-request guard.
 3. **Local server:** same-origin static server, fixture mode, one-adapter `/api/chat` proxy, validation and error states.
-4. **Evidence:** wire the real #16 presentation record and link to the source artifacts.
+4. **Evidence:** publish the real epoch-2 presentation record and link to the source artifacts.
 5. **Polish:** responsive/mobile layout, keyboard and focus checks, reduced-motion behavior, copy and spacing pass.
 6. **Demo check:** run the scripted 20-second path and record the final video.
 
-Steps 1–2 are unblocked now. Step 3 needs the adapter serving artifact from #11. Step 4 needs the benchmark evidence from #16.
+Steps 1–2 are unblocked now. Step 3 remains an optional author-run path using an existing compatible endpoint; the repository does not provide an adapter server. Step 4 is satisfied by the published fixed-benchmark result artifacts.
 
 ## Acceptance checks
 
@@ -139,7 +132,9 @@ Steps 1–2 are unblocked now. Step 3 needs the adapter serving artifact from #1
 - Restart and exercise changes cannot be overwritten by an older response.
 - An adapter timeout leaves the base snapshot visible and offers retry.
 - Fixture mode works offline and has no completed code in the fine-tuned tutor replies.
-- Evidence shows real numbers or a clear unavailable state; no invented metrics.
+- Evidence shows real counts/rates for the fixed benchmark or a clear unavailable state; no invented metrics.
+- Evidence identifies epoch 2, shows 0/48 leakage and 32/48 diagnosis, and states the benchmark limitation.
+- Calibration is explicitly not performed/unavailable unless backed by a human calibration file.
 - Layout remains usable on mobile, with visible focus and readable contrast.
 - `python3 demo/smoke.py` passes from the repository root.
 

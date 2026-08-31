@@ -15,7 +15,7 @@ This directory defines the versioned data contract shared by the benchmark, synt
 
 | Schema | JSON record | Purpose |
 | --- | --- | --- |
-| `demo_evidence.schema.json` | `results/demo-evidence.json` | Complete #16 benchmark presentation record consumed by the demo. |
+| `demo_evidence.schema.json` | `results/demo-evidence.json` | Complete fixed-benchmark presentation record consumed by the demo, including the selected epoch-2 checkpoint and explicit calibration status. |
 
 Every dataset record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The dataset schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool. Gallery records may additionally provide `title`, `difficulty_rank`, and `diagnosis_hooks`; `content/exercises.json` stores the six gallery records as a JSON array using this extended exercise shape.
 

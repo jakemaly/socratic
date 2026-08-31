@@ -1,3 +1,21 @@
 .env
 .env.*
 !.env.example
+
+# Local-only model, evaluation, notebook, and browser outputs.
+__pycache__/
+.ipynb_checkpoints/
+.lavish/
+.playwright-cli/
+runs/
+unsloth_compiled_cache/
+train/unsloth_compiled_cache/
+train/adapter/
+train/adapter-v2/
+train/adapter-v3-sft/
+train/adapter-next-sft/
+train/logs/
+train/logs-v2/
+train/logs-v3-sft/
+Untitled.ipynb
+train/Untitled.ipynb

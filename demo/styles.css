@@ -124,6 +124,7 @@ textarea::placeholder { color: var(--soft-muted); }
 .evidence-stat small { display: block; color: var(--soft-muted); font-size: .62rem; font-weight: 800; text-transform: uppercase; }
 .evidence-stat strong { display: block; margin-top: .4rem; font-size: 1.7rem; }
 .evidence-stat p { margin: .25rem 0 0; color: var(--muted); font-size: .7rem; }
+.evidence-meta { margin: .9rem 0 0; color: var(--muted); font-size: .72rem; line-height: 1.55; }
 .evidence-transcripts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; margin-top: .9rem; }
 .evidence-transcript { padding: 1rem; border: 1px solid var(--line); border-radius: .9rem; background: var(--surface); }
 .evidence-transcript h3 { margin-bottom: .35rem; font-size: .9rem; }
