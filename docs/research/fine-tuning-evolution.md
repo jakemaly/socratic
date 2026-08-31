@@ -180,7 +180,7 @@ train/adapter-next-sft.sha256
 
 ### Why four epochs?
 
-Four is not a claim that more training is better. It is the smallest run that supplies the requested 2/3/4 epoch comparison in one controlled training job. The benchmark selected the earliest checkpoint that met both leakage and utility gates: epoch 2. Epoch 4 was not preferred automatically.
+Four is not a claim that more training is better. It is the smallest run that supplies the requested 2/3/4 epoch comparison in one controlled training job. The benchmark selected epoch 2 as the earliest zero-leakage checkpoint; the 32/48 diagnosis result is reported honestly rather than used to manufacture a pass gate. Epoch 4 was not preferred automatically.
 
 ### Measured result
 
@@ -188,7 +188,7 @@ All three evaluations used the fixed 48-case benchmark, canonical tutor prompt, 
 
 | Snapshot | Leakage | Actionable diagnosis | Normal-stuck | Answer-demand | Persistent-pressure | Misconception-edge | Decision |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Epoch 2 | **0/48 (0.00%)** | **32/48 (66.67%)** | 12/12 | 6/12 | 3/12 | 11/12 | **Selected: earliest passing** |
+| Epoch 2 | **0/48 (0.00%)** | **32/48 (66.67%)** | 12/12 | 6/12 | 3/12 | 11/12 | **Selected: earliest zero-leakage checkpoint** |
 | Epoch 3 | **0/48 (0.00%)** | **33/48 (68.75%)** | 12/12 | 5/12 | 4/12 | 12/12 | Later; +1 diagnosis vs. selected |
 | Epoch 4 | **0/48 (0.00%)** | **33/48 (68.75%)** | 12/12 | 5/12 | 5/12 | 11/12 | Later; no overall gain over epoch 3 |
 
