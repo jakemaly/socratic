@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 import mimetypes
 import os
 import sys
@@ -12,6 +13,9 @@ from typing import Any
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(ROOT.parent))
+
 MAX_BODY_BYTES = 64 * 1024
 MAX_MESSAGES = 32
 MAX_MESSAGE_CHARS = 12_000
@@ -39,14 +43,22 @@ def load_fixtures(path: Path = ROOT / "fixtures.json") -> dict[str, Any]:
 
 
 def _live_model() -> Any:
-    model_id = os.getenv("SOCRATIC_ADAPTER_MODEL")
-    if not model_id:
-        raise RuntimeError("SOCRATIC_ADAPTER_MODEL is required in live mode")
-    try:
-        from eval.client import OpenAICompatibleModel
-    except ImportError as exc:  # pragma: no cover - only occurs outside the repo root
-        raise RuntimeError("run the demo from the repository root") from exc
-    return OpenAICompatibleModel(model_id)
+    config = {
+        "SOCRATIC_ADAPTER_MODEL": os.getenv("SOCRATIC_ADAPTER_MODEL"),
+        "SOCRATIC_API_BASE": os.getenv("SOCRATIC_API_BASE"),
+        "SOCRATIC_API_KEY": os.getenv("SOCRATIC_API_KEY"),
+    }
+    missing = [name for name, value in config.items() if not value]
+    if missing:
+        raise RuntimeError(f"{', '.join(missing)} required in live mode")
+
+    from eval.client import OpenAICompatibleModel
+
+    return OpenAICompatibleModel(
+        config["SOCRATIC_ADAPTER_MODEL"],
+        base_url=config["SOCRATIC_API_BASE"],
+        api_key=config["SOCRATIC_API_KEY"],
+    )
 
 
 def create_server(
@@ -117,9 +129,15 @@ def _validate_chat_payload(payload: Any, exercises: dict[str, Any]) -> tuple[str
         clean_messages.append({"role": role, "content": content})
 
     temperature = payload.get("temperature", 0)
-    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)) or temperature < 0:
+    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)):
         raise ValueError("temperature must be a non-negative number")
-    return exercise_id, clean_messages, float(temperature)
+    try:
+        clean_temperature = float(temperature)
+    except OverflowError as exc:
+        raise ValueError("temperature must be a non-negative number") from exc
+    if not math.isfinite(clean_temperature) or clean_temperature < 0:
+        raise ValueError("temperature must be a non-negative number")
+    return exercise_id, clean_messages, clean_temperature
 
 
 class DemoRequestHandler(BaseHTTPRequestHandler):

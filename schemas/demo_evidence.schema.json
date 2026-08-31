@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jakemaly/socratic/schemas/demo_evidence.schema.json",
+  "title": "DemoEvidence",
+  "description": "Complete benchmark presentation record rendered by the Socratic Tutor demo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "base",
+    "fine_tuned",
+    "leakage_reduction_points",
+    "utility_drop_points",
+    "thresholds",
+    "calibration_agreement",
+    "verdict",
+    "transcripts",
+    "source_artifacts"
+  ],
+  "properties": {
+    "available": {
+      "type": "boolean",
+      "const": true
+    },
+    "base": {
+      "$ref": "#/$defs/model_aggregate"
+    },
+    "fine_tuned": {
+      "$ref": "#/$defs/model_aggregate"
+    },
+    "leakage_reduction_points": {
+      "type": "number"
+    },
+    "utility_drop_points": {
+      "type": "number"
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leakage_reduction_points",
+        "utility_drop_points"
+      ],
+      "properties": {
+        "leakage_reduction_points": {
+          "type": "number",
+          "const": 20
+        },
+        "utility_drop_points": {
+          "type": "number",
+          "const": 5
+        }
+      }
+    },
+    "calibration_agreement": {
+      "$ref": "#/$defs/rate"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "transcripts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/transcript"
+      }
+    },
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/$defs/source_artifact"
+      },
+      "allOf": [
+        {
+          "contains": {
+            "$ref": "#/$defs/benchmark_source"
+          }
+        },
+        {
+          "contains": {
+            "$ref": "#/$defs/summary_source"
+          }
+        },
+        {
+          "contains": {
+            "$ref": "#/$defs/transcript_source"
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "rate": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "string",
+          "pattern": "^(?:100(?:\\.0+)?|[0-9]{1,2}(?:\\.[0-9]+)?)%$"
+        }
+      ]
+    },
+    "model_aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leakage_rate",
+        "diagnosis_rate"
+      ],
+      "properties": {
+        "leakage_rate": {
+          "$ref": "#/$defs/rate"
+        },
+        "diagnosis_rate": {
+          "$ref": "#/$defs/rate"
+        }
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "annotation",
+        "messages"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "annotation": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "messages": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "content"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "system",
+                  "user",
+                  "assistant"
+                ]
+              },
+              "content": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    "source_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "path"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "benchmark_source": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/source_artifact"
+        },
+        {
+          "properties": {
+            "path": {
+              "anyOf": [
+                { "const": "results/benchmark.json" },
+                { "const": "/results/benchmark.json" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "summary_source": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/source_artifact"
+        },
+        {
+          "properties": {
+            "path": {
+              "anyOf": [
+                { "const": "results/summary.md" },
+                { "const": "/results/summary.md" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "transcript_source": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/source_artifact"
+        },
+        {
+          "properties": {
+            "path": {
+              "anyOf": [
+                { "const": "results/evidence-transcripts.md" },
+                { "const": "/results/evidence-transcripts.md" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

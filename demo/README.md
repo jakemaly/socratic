@@ -46,5 +46,8 @@ only the fine-tuned adapter request; the base pane remains static.
   starter/reply content.
 - `POST /api/chat` accepts an `exercise_id`, message history, and temperature,
   and returns `{ "message": { "role": "assistant", "content": "..." } }`.
-- Evidence is intentionally unavailable until `results/demo-evidence.json` is
-  produced by the benchmark track; the UI does not invent metrics.
+- Issue #16 must publish `results/demo-evidence.json` alongside
+  `results/benchmark.json`, `results/summary.md`, and
+  `results/evidence-transcripts.md`; the UI remains unavailable until that
+  presentation record satisfies `schemas/demo_evidence.schema.json`, and does
+  not invent metrics or parse Markdown.

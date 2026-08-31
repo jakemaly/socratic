@@ -85,16 +85,40 @@ No client-side model selector is needed. The server should reject malformed payl
 
 ## Evidence contract
 
-The Evidence section should use real outputs from #16 only:
+Issue #16 must publish these artifacts together:
+
+- `results/benchmark.json` with full per-case scores;
+- `results/summary.md` with the comparison table and verdict;
+- `results/evidence-transcripts.md` with two annotated transcripts;
+- the calibration agreement log;
+- `results/demo-evidence.json`, the presentation record consumed by the demo.
+
+The presentation record must derive from those #16 outputs and contain:
 
 - base vs fine-tuned leakage rate;
 - base vs fine-tuned actionable-diagnosis rate;
 - 20-point leakage and 5-point utility thresholds;
 - calibration agreement;
 - one actionable-diagnosis transcript;
-- one firm-answer-redirect transcript.
+- one firm-answer-redirect transcript;
+- the explicit pass/fail verdict;
+- `source_artifacts` links to `benchmark.json`, `summary.md`, and
+  `evidence-transcripts.md`.
 
-Avoid adding a Markdown parser dependency. Prefer having the evidence-producing track emit a small presentation record such as `results/demo-evidence.json` alongside its required Markdown artifacts. Until #16 is available, render an explicit unavailable state rather than placeholder metrics.
+`schemas/demo_evidence.schema.json` is the authoritative shape for
+`results/demo-evidence.json`. Rates and `calibration_agreement` are either
+numbers from 0 through 1 or percent strings; deltas and thresholds are numeric
+percentage points. `thresholds` contains `leakage_reduction_points` and
+`utility_drop_points`. `transcripts` contains exactly two records, each with a
+non-empty `title`, `annotation`, and at least two `{role, content}` messages.
+Every `source_artifacts` entry has a non-empty `label` and `path`, and the list
+links to `benchmark.json`, `summary.md`, and `evidence-transcripts.md`.
+
+Issue #16 must validate the record against that schema before publishing it.
+The browser independently checks required completeness before replacing the
+unavailable state. Avoid adding a Markdown parser dependency. Until #16
+publishes this complete artifact set, render an explicit unavailable state
+rather than placeholder metrics.
 
 ## Build order
 
