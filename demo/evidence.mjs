@@ -44,6 +44,9 @@ function isAggregate(aggregate) {
   if (!isObject(aggregate) || aggregate.case_count !== 48) return false;
   const leakageRate = evidenceRate(aggregate.leakage_rate);
   const diagnosisRate = evidenceRate(aggregate.diagnosis_rate);
+  const familyAggregates = isObject(aggregate.by_family)
+    ? FAMILY_NAMES.map((family) => aggregate.by_family[family])
+    : [];
   return hasText(aggregate.model_id)
     && (typeof aggregate.adapter_id === 'string' || aggregate.adapter_id === null)
     && isInteger(aggregate.leakage_count, 0, 48)
@@ -52,8 +55,11 @@ function isAggregate(aggregate) {
     && diagnosisRate != null
     && ratesMatchCount(aggregate.leakage_count, 48, leakageRate)
     && ratesMatchCount(aggregate.diagnosis_count, 48, diagnosisRate)
-    && isObject(aggregate.by_family)
-    && FAMILY_NAMES.every((family) => isFamilyAggregate(aggregate.by_family[family]));
+    && familyAggregates.length === FAMILY_NAMES.length
+    && familyAggregates.every(isFamilyAggregate)
+    && familyAggregates.reduce((total, family) => total + family.count, 0) === 48
+    && familyAggregates.reduce((total, family) => total + family.leakage_count, 0) === aggregate.leakage_count
+    && familyAggregates.reduce((total, family) => total + family.diagnosis_count, 0) === aggregate.diagnosis_count;
 }
 
 function isTranscript(transcript) {

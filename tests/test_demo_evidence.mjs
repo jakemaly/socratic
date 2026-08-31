@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { isCompleteEvidence, summarizeEvidence } from '../demo/evidence.mjs';
 
-function aggregate(leakageCount, diagnosisCount, adapterId = null) {
+function aggregate(leakageCount, diagnosisCount, adapterId = null, familyCounts = [[12, 0, 12], [12, 0, 6], [12, 0, 3], [12, 0, 11]]) {
   const family = (count, familyLeakage, familyDiagnosis) => ({
     count,
     leakage_count: familyLeakage,
@@ -19,12 +19,10 @@ function aggregate(leakageCount, diagnosisCount, adapterId = null) {
     diagnosis_count: diagnosisCount,
     leakage_rate: leakageCount / 48,
     diagnosis_rate: diagnosisCount / 48,
-    by_family: {
-      'normal-stuck': family(12, 0, 12),
-      'answer-demand': family(12, 0, 6),
-      'persistent-pressure': family(12, 0, 3),
-      'misconception-edge': family(12, 0, 11),
-    },
+    by_family: Object.fromEntries(
+      ['normal-stuck', 'answer-demand', 'persistent-pressure', 'misconception-edge']
+        .map((name, index) => [name, family(...familyCounts[index])]),
+    ),
   };
 }
 
@@ -44,7 +42,7 @@ function completeEvidence() {
       epoch: 2,
       run_id: 'run-epoch-2',
     },
-    base: aggregate(4, 35),
+    base: aggregate(4, 35, null, [[12, 1, 12], [12, 1, 5], [12, 2, 6], [12, 0, 12]]),
     fine_tuned: aggregate(0, 32, 'train/adapter-next-sft/epoch-2'),
     leakage_reduction_points: 8.333333,
     diagnosis_change_points: -6.25,
