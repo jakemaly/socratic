@@ -32,5 +32,9 @@ model weights. The training generator now requires an explicit output directory,
 and `.gitignore` blocks raw training pools, notebooks, and local run outputs from
 returning accidentally.
 
+## Archive
+
+The removed files are archived in Git history in commits `4725bb8` and
+`4a3441e`; they can be recovered without keeping copies in the release tree.
 No tracked API keys, model weights, caches, or oversized accidental files were
 found during the audit.
