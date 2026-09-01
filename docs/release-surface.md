@@ -20,7 +20,7 @@ shipping tree.
   `data/train-next/`, including provenance, manifests, and generated dialogue
   records.
 - Training notebooks and the notebook-specific walkthrough.
-- The training environment lock and generated adapter checksum receipt.
+- The training requirements file and generated adapter checksum receipt.
 - Superseded Qwen-stack and V3 planning notes whose conclusions are preserved
   in the consolidated training-evolution record.
 - Generated planning HTML, internal planning mirrors, tracked training-run
