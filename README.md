@@ -31,5 +31,3 @@ follow-up research.
 Published evidence: [`results/summary.md`](results/summary.md),
 [`results/benchmark.json`](results/benchmark.json), and
 [`results/evidence-transcripts.md`](results/evidence-transcripts.md).
-
-Planning map: [`.wayfinder/map.md`](.wayfinder/map.md)
