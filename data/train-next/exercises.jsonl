@@ -1,4 +1,0 @@
-{"schema_version":"1.0.0","id":"exercise-train-reading-maximum","topic":"lists","prompt":"Find the highest reading in a sensor list without relying on a helper function.","pool":"train"}
-{"schema_version":"1.0.0","id":"exercise-train-calendar-exceptions","topic":"conditionals","prompt":"Classify calendar years using layered divisibility rules.","pool":"train"}
-{"schema_version":"1.0.0","id":"exercise-train-rectangle-measurement","topic":"variables","prompt":"Calculate a rectangular panel's surface measurement from two side lengths.","pool":"train"}
-{"schema_version":"1.0.0","id":"exercise-train-score-bands","topic":"conditionals","prompt":"Map a numeric assessment score to a band while handling boundaries.","pool":"train"}

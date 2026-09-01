@@ -1,3 +1,5 @@
+# Historical receipt for the selected run. The referenced raw pool and adapter
+# are archived and intentionally not shipped with the fixture-first release.
 model:
   id: unsloth/gemma-4-31B-it-unsloth-bnb-4bit
   revision: 8e256fc6d63003fc0ca8c91b976e6dcc38433385

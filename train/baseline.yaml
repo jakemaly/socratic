@@ -1,4 +1,4 @@
-# Canonical prompted-base arm for the separate benchmark run.
+# Historical prompted-base receipt for the separate benchmark run.
 # Keep this arm identical to the adapter arm except for the adapter itself.
 # Load this pre-quantized model through Unsloth FastModel.
 model:

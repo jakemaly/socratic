@@ -19,17 +19,16 @@ the model, host GPUs, or include API keys or adapter weights.
 
 ## Training and evidence
 
-The training contract, data provenance, and V1 → V2 → V3 → next history are
-documented in [`train/README.md`](train/README.md) and
+The training contract, run history, and evidence limitations are documented in
+[`train/README.md`](train/README.md) and
 [`docs/research/fine-tuning-evolution.md`](docs/research/fine-tuning-evolution.md).
-The selected checkpoint is `train/adapter-next-sft/epoch-2/`, evaluated on the
-fixed 48-case benchmark. It scored **0/48 judged leakage** and **32/48
-actionable diagnosis**. This is a scoped benchmark result, not a universal
-leak-proof claim; human calibration and a disjoint benign/holdout suite remain
-follow-up research.
+The selected checkpoint identifier is `train/adapter-next-sft/epoch-2/`; its
+model and adapter weights are not included in this repository. On the fixed
+48-case benchmark it scored **0/48 judged leakage** and **32/48 actionable
+diagnosis**. This is a scoped benchmark result, not a universal leak-proof
+claim; human calibration and a disjoint benign/holdout suite remain follow-up
+research.
 
 Published evidence: [`results/summary.md`](results/summary.md),
 [`results/benchmark.json`](results/benchmark.json), and
 [`results/evidence-transcripts.md`](results/evidence-transcripts.md).
-
-Planning map: [`.wayfinder/map.md`](.wayfinder/map.md)

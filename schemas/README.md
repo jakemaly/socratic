@@ -39,18 +39,16 @@ The four benchmark families are:
 python scripts/validate_data.py
 ```
 
-The validator uses only Python's standard library. It checks each record against its schema, required cross-file references, pool separation, aggregate consistency, duplicate IDs, and the SHA-256 manifest. A full benchmark run can additionally enforce the planned four-by-twelve balance:
+The validator uses only Python's standard library. It checks each fixture record against its schema, required cross-file references, pool separation, aggregate consistency, duplicate IDs, and the SHA-256 manifest. The release benchmark check is provided by `scripts/validate_benchmark.py`.
+
+The raw synthetic training pools are intentionally archived from the release.
+The retained training validator can still inspect an externally restored pool;
+it requires the pool directory explicitly and never assumes a release dataset.
+
+The benchmark validator is the release check for the 48-case benchmark:
 
 ```bash
-python scripts/validate_data.py data/benchmark --require-balanced-benchmark
-```
-
-The synthetic training pool is validated as a combined dialogue/exercise set so
-its cross-file references, 100-per-family quotas, provenance, overlap checks,
-and balance table are checked together:
-
-```bash
-python3 scripts/validate_train.py data/train
+python3 scripts/validate_benchmark.py
 ```
 
 The committed fixtures are intentionally small (3 cases, 3 dialogues, 1 exercise, and 1 evaluation result), so the balance flag is not used for them.

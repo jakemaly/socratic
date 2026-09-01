@@ -6,8 +6,11 @@
 __pycache__/
 .ipynb_checkpoints/
 .lavish/
+.wayfinder/
 .playwright-cli/
 runs/
+data/train*/
+train/*.ipynb
 unsloth_compiled_cache/
 train/unsloth_compiled_cache/
 train/adapter/
@@ -17,5 +20,7 @@ train/adapter-next-sft/
 train/logs/
 train/logs-v2/
 train/logs-v3-sft/
+train/logs-next-sft/
+train/*.sha256
 Untitled.ipynb
 train/Untitled.ipynb

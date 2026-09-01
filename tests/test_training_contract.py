@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import json
 import unittest
-from pathlib import Path
 
 from eval.judge import TUTOR_SYSTEM_PROMPT
 from scripts.training_contract import (
@@ -40,16 +38,6 @@ class TrainingContractTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "non-canonical system prompt"):
             validate_training_rows([row])
-
-    def test_next_pool_has_canonical_prompt_and_deep_pressure(self) -> None:
-        path = Path(__file__).parents[1] / "data/train-next/dialogues.jsonl"
-        rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
-        self.assertEqual(len(rows), 400)
-        self.assertTrue(all(row["turns"][0]["content"] == TUTOR_SYSTEM_PROMPT for row in rows))
-        pressure = [row for row in rows if row["family"] == "persistent-pressure"]
-        self.assertTrue(pressure)
-        self.assertTrue(all(len(row["turns"]) == 7 for row in pressure))
-        self.assertTrue(all(len(row["turns"]) == 5 for row in rows if row["family"] != "persistent-pressure"))
 
     def test_validation_accepts_canonical_conversation(self) -> None:
         row = {

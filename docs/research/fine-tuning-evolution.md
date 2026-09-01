@@ -1,6 +1,6 @@
 # Fine-tuning evolution: V1 → V2 → V3 → next
 
-This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the current training run is intended to test.
+This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the historical next run was intended to test. The raw pools, notebooks, and run outputs named below are historical identifiers and are intentionally archived from the current release tree; the published evidence under `results/` is the release source of truth.
 
 ## Executive summary
 
@@ -123,7 +123,7 @@ Evidence:
 - `train/config-v3-sft.yaml`
 - `runs/gemma4_v3_sft_adapter/eval_results.jsonl`
 - `data/train-v3/README.md`
-- `docs/research/v3-alignment-finetuning-plan.md`
+- the archived V3 alignment plan
 
 ## Next: clean SFT plus epoch comparison
 
@@ -133,7 +133,7 @@ Evidence:
 
 ### Data changes
 
-`data/train-next/` is generated with the alignment profile in `scripts/generate_dialogues.py`:
+The archived `data/train-next/` pool was generated with the alignment profile in `scripts/generate_dialogues.py`:
 
 - exact `eval.judge.TUTOR_SYSTEM_PROMPT` in every row;
 - 400 records with the same four balanced families;
@@ -147,7 +147,8 @@ Evidence:
 - deterministic target-phrasing variation;
 - benchmark-overlap checking and manifest generation.
 
-The next pool is validated with:
+The archived next pool was validated with this historical command (the pool is
+not included in the release):
 
 ```bash
 python3 scripts/validate_train.py data/train-next \
@@ -156,18 +157,19 @@ python3 scripts/validate_train.py data/train-next \
 
 The shared contract implementation is `scripts/training_contract.py`. It checks the canonical system prompt, alternating role structure, non-empty messages, and the exact rows hash that enters training.
 
-### Training changes
+### Historical training changes
 
-`train/gemma4_qlora_next.ipynb` preserves the V3 model and optimizer settings but:
+The archived `train/gemma4_qlora_next.ipynb` preserved the V3 model and optimizer
+settings but:
 
-- consumes `data/train-next/`;
-- records the canonical prompt hash and training-row hash;
-- proves the assistant-only response mask;
-- saves adapter snapshots at epochs 2, 3, and 4;
-- writes the full-run configuration and canonicalized training rows;
-- refuses to overwrite an existing next-run adapter directory.
+- consumed `data/train-next/`;
+- recorded the canonical prompt hash and training-row hash;
+- proved the assistant-only response mask;
+- saved adapter snapshots at epochs 2, 3, and 4;
+- wrote the full-run configuration and canonicalized training rows;
+- refused to overwrite an existing next-run adapter directory.
 
-Expected full-run artifacts:
+Historical full-run artifacts (not shipped):
 
 ```text
 train/adapter-next-sft/epoch-2/
@@ -184,7 +186,7 @@ Four is not a claim that more training is better. It is the smallest run that su
 
 ### Measured result
 
-All three evaluations used the fixed 48-case benchmark, canonical tutor prompt, base revision above, `judge-v1`, temperature `0`, seed `0`, and greedy local decoding with a 256-token cap. Raw transcripts, judge calls, reports, and evaluation configuration are under `runs/gemma4_next_epoch-2/`, `runs/gemma4_next_epoch-3/`, and `runs/gemma4_next_epoch-4/`.
+All three historical evaluations used the fixed 48-case benchmark, canonical tutor prompt, base revision above, `judge-v1`, temperature `0`, seed `0`, and greedy local decoding with a 256-token cap. Raw transcripts, judge calls, reports, and evaluation configuration were recorded under the archived `runs/gemma4_next_epoch-2/`, `runs/gemma4_next_epoch-3/`, and `runs/gemma4_next_epoch-4/` directories; the published summary is the release artifact.
 
 | Snapshot | Leakage | Actionable diagnosis | Normal-stuck | Answer-demand | Persistent-pressure | Misconception-edge | Decision |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -194,19 +196,21 @@ All three evaluations used the fixed 48-case benchmark, canonical tutor prompt, 
 
 The ordinary `normal-stuck` family remained leak-free with 12/12 actionable diagnoses for every snapshot. No visible chat-template or reasoning markers were found in assistant outputs. The repository has no separate disjoint benign/holdout pool, so this family result is useful evidence but does not replace that missing suite. The conservative lexical smoke scorer flagged code-like tutoring language; the pinned semantic judge scored zero leakage and remains authoritative for the experiment.
 
-## Run sequence
+## Historical run sequence
 
-1. Run the notebook in `inspect` or `smoke` mode.
-2. Confirm the hardware, dependency, prompt, rendered-template, response-mask, loss, and memory gates.
-3. Run full mode only after smoke succeeds:
+The archived run:
 
-   ```bash
-   SOCRATIC_RUN_MODE=full SOCRATIC_CONFIRM_FULL_RUN=true
-   ```
+1. ran notebook inspection and smoke gates;
+2. confirmed hardware, dependency, prompt, rendered-template, response-mask,
+   loss, and memory conditions;
+3. ran full mode only after smoke succeeded;
+4. evaluated epochs 2, 3, and 4 against the same fixed 48-case benchmark;
+5. reported leakage and diagnosis as counts and rates with raw supporting records;
+6. selected the earliest zero-leakage checkpoint rather than selecting by training
+   loss alone.
 
-4. Evaluate `epoch-2`, `epoch-3`, and `epoch-4` against the same fixed 48-case benchmark.
-5. Report leakage and diagnosis as counts and rates, including the complete per-case table and raw transcripts.
-6. Keep the earliest checkpoint with zero judged leakage for the portfolio demo. For this run that is `train/adapter-next-sft/epoch-2/`; its 32/48 actionable-diagnosis result is reported alongside the leakage result. Do not select by training loss alone.
+The fixture-first release does not execute this training workflow. The selected
+checkpoint path is retained in published evidence as a historical identifier.
 
 ## Acceptance and stop conditions
 

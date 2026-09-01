@@ -66,7 +66,7 @@ class DemoServerTests(unittest.TestCase):
     def test_static_server_keeps_private_files_private(self) -> None:
         self.assertEqual(self.request_status("/.env"), 404)
         self.assertEqual(self.request_status("/.git/config"), 404)
-        self.assertEqual(self.request_status("/train/gemma4_qlora_guided.ipynb"), 404)
+        self.assertEqual(self.request_status("/train/README.md"), 404)
 
     def test_fixture_chat_returns_an_assistant_message(self) -> None:
         status, body = self.request_json(

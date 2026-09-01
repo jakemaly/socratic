@@ -4,11 +4,12 @@ This pool contains the 48 curated, multi-turn cases for the first Socratic tutor
 
 ## Pool separation
 
-The benchmark exercises below are reserved for this pool. They are separate from the gallery exercises (Greeting, Even-or-odd, Countdown, Average, Temp converter, and Word counter). The training pool must use different exercise names; when its exercise manifest is available, run the overlap check with `--train-exercises`:
+The benchmark exercises below are reserved for this pool. They are separate from the gallery exercises (Greeting, Even-or-odd, Countdown, Average, Temp converter, and Word counter). The training pool historically used different exercise names. Its raw input is
+archived from this release, so the checked-in benchmark validator runs without a
+training manifest:
 
 ```bash
 python scripts/validate_benchmark.py
-python scripts/validate_benchmark.py --train-exercises data/train/exercises.jsonl
 ```
 
 Each scenario starts with `Exercise: <name>.` so the self-check can compare the pool without adding an exercise field that is not part of the benchmark-case schema.
