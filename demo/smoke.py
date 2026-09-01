@@ -76,10 +76,16 @@ class DemoSmokeTests(unittest.TestCase):
 
         self.assertEqual(len(exercises), 6)
         self.assertEqual(fixture_ids, {exercise["id"] for exercise in exercises})
+        self.assertIn('id="exercise-dialog"', page)
+        self.assertIn('aria-haspopup="dialog"', page)
+        self.assertIn('role="tablist"', page)
+        self.assertIn('id="base-tab"', page)
+        self.assertIn('id="fine-tuned-tab"', page)
         self.assertIn("Gemma 4 base", page)
         self.assertIn("Gemma 4 + LoRA", page)
         self.assertIn("Comparison snapshot", page)
         self.assertIn("fine-tuned tutor", page)
+        self.assertIn(b"@layer base", self.get("/node_modules/@webtui/css/dist/base.css"))
         for reply in replies:
             self.assertNotIn("```", reply)
             self.assertNotIn("print(", reply)

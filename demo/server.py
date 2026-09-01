@@ -19,7 +19,7 @@ if __package__ in {None, ""}:
 MAX_BODY_BYTES = 64 * 1024
 MAX_MESSAGES = 32
 MAX_MESSAGE_CHARS = 12_000
-ALLOWED_STATIC_DIRS = ("demo", "content", "results")
+ALLOWED_STATIC_DIRS = ("demo", "content", "results", "node_modules/@webtui/css/dist")
 
 
 class DemoHTTPServer(ThreadingHTTPServer):

@@ -1,0 +1,7 @@
+{
+  "name": "socratic-tutor-demo",
+  "private": true,
+  "dependencies": {
+    "@webtui/css": "0.1.10"
+  }
+}

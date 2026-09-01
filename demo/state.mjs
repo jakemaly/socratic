@@ -3,6 +3,7 @@ export function createDemoState(exercise, requestToken = 0) {
     selectedExerciseId: exercise.id,
     baseSnapshot: { ...exercise.baseSnapshot },
     fineTunedMessages: starterMessages(exercise),
+    activeTab: 'fine-tuned',
     pending: false,
     error: null,
     requestToken,
@@ -22,6 +23,10 @@ export function reduceDemoState(state, action) {
       return createDemoState(action.exercise, state.requestToken + 1);
     case 'restart':
       return createDemoState(action.exercise, state.requestToken + 1);
+    case 'select-tab':
+      return action.tab === 'base' || action.tab === 'fine-tuned'
+        ? { ...state, activeTab: action.tab }
+        : state;
     case 'submit': {
       const requestToken = state.requestToken + 1;
       return {

@@ -5,12 +5,18 @@ const refs = {
   modeBadge: document.querySelector('#mode-badge'),
   liveStatus: document.querySelector('#live-status'),
   introCopy: document.querySelector('#intro-copy'),
+  exerciseButton: document.querySelector('#exercise-button'),
   exerciseCount: document.querySelector('#exercise-count'),
+  exerciseDialog: document.querySelector('#exercise-dialog'),
   exerciseList: document.querySelector('#exercise-list'),
   exerciseTopic: document.querySelector('#exercise-topic'),
   exerciseTitle: document.querySelector('#exercise-title'),
   exercisePrompt: document.querySelector('#exercise-prompt'),
   restartButton: document.querySelector('#restart-button'),
+  baseTab: document.querySelector('#base-tab'),
+  fineTunedTab: document.querySelector('#fine-tuned-tab'),
+  basePanel: document.querySelector('#base-panel'),
+  fineTunedPanel: document.querySelector('#fine-tuned-panel'),
   baseMessages: document.querySelector('#base-messages'),
   liveMessages: document.querySelector('#live-messages'),
   chipList: document.querySelector('#chip-list'),
@@ -85,11 +91,14 @@ function renderExerciseList() {
     button.className = 'exercise-button';
     button.setAttribute('aria-current', String(exercise.id === app.state.selectedExerciseId));
     button.dataset.exerciseId = exercise.id;
+    const number = document.createElement('span');
+    number.className = 'exercise-number';
+    number.textContent = String(index + 1).padStart(2, '0');
     const title = document.createElement('strong');
     title.textContent = exercise.title;
     const topic = document.createElement('small');
-    topic.textContent = `${exercise.topic} · ${String(index + 1).padStart(2, '0')}`;
-    button.append(title, topic);
+    topic.textContent = exercise.topic;
+    button.append(number, title, topic);
     button.addEventListener('click', () => selectExercise(exercise));
     refs.exerciseList.append(button);
   });
@@ -112,6 +121,8 @@ function renderChips() {
 function focusedControl() {
   const active = document.activeElement;
   if (active?.dataset.exerciseId) return { type: 'exercise', id: active.dataset.exerciseId };
+  if (active === refs.baseTab) return { type: 'tab', id: 'base' };
+  if (active === refs.fineTunedTab) return { type: 'tab', id: 'fine-tuned' };
   if (active?.dataset.chipId) return { type: 'chip', id: active.dataset.chipId };
   if (active?.classList.contains('retry-button')) return { type: 'retry' };
   if (active === refs.messageInput) return { type: 'composer', target: 'input' };
@@ -125,6 +136,8 @@ function restoreFocus(control) {
   if (control.type === 'exercise') {
     target = [...refs.exerciseList.querySelectorAll('button')]
       .find(({ dataset }) => dataset.exerciseId === control.id);
+  } else if (control.type === 'tab') {
+    target = control.id === 'base' ? refs.baseTab : refs.fineTunedTab;
   } else if (control.type === 'chip') {
     target = [...refs.chipList.querySelectorAll('button')]
       .find(({ dataset }) => dataset.chipId === control.id);
@@ -144,6 +157,13 @@ function render() {
   refs.exerciseTitle.textContent = exercise.title;
   refs.exercisePrompt.textContent = exercise.prompt;
   refs.exerciseCount.textContent = String(app.data.exercises.length).padStart(2, '0');
+  const baseActive = app.state.activeTab === 'base';
+  refs.baseTab.setAttribute('aria-selected', String(baseActive));
+  refs.baseTab.tabIndex = baseActive ? 0 : -1;
+  refs.fineTunedTab.setAttribute('aria-selected', String(!baseActive));
+  refs.fineTunedTab.tabIndex = baseActive ? -1 : 0;
+  refs.basePanel.hidden = !baseActive;
+  refs.fineTunedPanel.hidden = baseActive;
   refs.liveStatus.textContent = app.mode === 'live' ? 'live adapter' : 'fixture mode';
   refs.footerStatus.textContent = app.mode === 'live'
     ? 'Gemma 4 adapter is live.'
@@ -236,6 +256,27 @@ function retryMessage() {
 
 function selectExercise(exercise) {
   updateState({ type: 'select-exercise', exercise: stateExercise(exercise.id) });
+  refs.exerciseDialog.close();
+  refs.exerciseButton.focus();
+}
+
+function selectTab(tab) {
+  updateState({ type: 'select-tab', tab });
+}
+
+function moveTab(event) {
+  const tabs = ['base', 'fine-tuned'];
+  const current = app.state.activeTab;
+  const index = tabs.indexOf(current);
+  let next = null;
+  if (event.key === 'Home') next = tabs[0];
+  if (event.key === 'End') next = tabs.at(-1);
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = tabs[(index + tabs.length - 1) % tabs.length];
+  if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = tabs[(index + 1) % tabs.length];
+  if (!next) return;
+  event.preventDefault();
+  selectTab(next);
+  (next === 'base' ? refs.baseTab : refs.fineTunedTab).focus();
 }
 
 function restart() {
@@ -375,4 +416,9 @@ refs.messageInput.addEventListener('keydown', (event) => {
   }
 });
 refs.restartButton.addEventListener('click', restart);
+refs.exerciseButton.addEventListener('click', () => refs.exerciseDialog.showModal());
+refs.baseTab.addEventListener('click', () => selectTab('base'));
+refs.fineTunedTab.addEventListener('click', () => selectTab('fine-tuned'));
+refs.baseTab.addEventListener('keydown', moveTab);
+refs.fineTunedTab.addEventListener('keydown', moveTab);
 void initialize();

@@ -28,6 +28,7 @@ test('starting a selected exercise keeps the base snapshot read-only', () => {
     { role: 'user', content: 'give me the answer' },
     { role: 'assistant', content: 'tutor redirect' },
   ]);
+  assert.equal(current.activeTab, 'fine-tuned');
 });
 
 test('submitting a learner message changes only the fine-tuned history', () => {
@@ -51,7 +52,7 @@ test('a stale response cannot change a restarted conversation', () => {
   assert.deepEqual(next, restarted);
 });
 
-test('selecting an exercise resets its live history and snapshot', () => {
+test('selecting an exercise from the dialog resets its live history and snapshot', () => {
   const submitted = reduceDemoState(state(), { type: 'submit', content: 'old question' });
   const next = reduceDemoState(submitted, { type: 'select-exercise', exercise: otherExercise });
   const stale = reduceDemoState(next, {
@@ -67,4 +68,15 @@ test('selecting an exercise resets its live history and snapshot', () => {
     { role: 'user', content: 'help' },
     { role: 'assistant', content: 'other tutor' },
   ]);
+  assert.equal(next.activeTab, 'fine-tuned');
+});
+
+test('switching comparison tabs preserves the selected conversation', () => {
+  const current = reduceDemoState(state(), { type: 'select-tab', tab: 'base' });
+  const next = reduceDemoState(current, { type: 'select-tab', tab: 'fine-tuned' });
+
+  assert.equal(current.activeTab, 'base');
+  assert.equal(next.activeTab, 'fine-tuned');
+  assert.deepEqual(next.fineTunedMessages, current.fineTunedMessages);
+  assert.deepEqual(reduceDemoState(next, { type: 'select-tab', tab: 'unknown' }), next);
 });
