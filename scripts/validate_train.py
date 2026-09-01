@@ -15,10 +15,12 @@ from typing import Any
 try:
     from .generate_dialogues import check_pool_overlap
     from .gates import REASON_CODES, score_dialogue
+    from .training_contract import validate_training_rows
     from .validate_data import BY_KIND, load_jsonl, validate_dataset, validate_relationships
 except ImportError:  # pragma: no cover - exercised by the documented CLI.
     from generate_dialogues import check_pool_overlap  # type: ignore[no-redef]
     from gates import REASON_CODES, score_dialogue  # type: ignore[no-redef]
+    from training_contract import validate_training_rows  # type: ignore[no-redef]
     from validate_data import BY_KIND, load_jsonl, validate_dataset, validate_relationships  # type: ignore[no-redef]
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -133,7 +135,12 @@ def _check_balance(path: Path, dialogues: list[dict[str, Any]], exercises: list[
     return errors
 
 
-def validate(directory: Path, benchmark: Path | None, gallery: Path | None) -> list[str]:
+def validate(
+    directory: Path,
+    benchmark: Path | None,
+    gallery: Path | None,
+    require_canonical_system_prompt: bool = False,
+) -> list[str]:
     errors: list[str] = []
     datasets: dict[str, list[dict[str, Any]]] = {}
     for kind in ("dialogue", "exercise"):
@@ -145,6 +152,11 @@ def validate(directory: Path, benchmark: Path | None, gallery: Path | None) -> l
 
     dialogues = datasets["dialogue"]
     exercises = datasets["exercise"]
+    if require_canonical_system_prompt:
+        try:
+            validate_training_rows(dialogues)
+        except ValueError as exc:
+            errors.append(f"training contract: {exc}")
     if len(dialogues) != 400:
         errors.append(f"dialogues: expected exactly 400 records, got {len(dialogues)}")
     family_counts = Counter(record.get("family") for record in dialogues)
@@ -214,13 +226,23 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("directory", nargs="?", type=Path, default=ROOT / "data" / "train")
     parser.add_argument("--benchmark", type=Path, help="benchmark JSONL/directory to check for overlap")
     parser.add_argument("--gallery", type=Path, help="gallery JSONL/directory to check for overlap")
+    parser.add_argument(
+        "--require-canonical-system-prompt",
+        action="store_true",
+        help="require the exact evaluation system prompt in every training dialogue",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
-        errors = validate(args.directory, args.benchmark, args.gallery)
+        errors = validate(
+            args.directory,
+            args.benchmark,
+            args.gallery,
+            args.require_canonical_system_prompt,
+        )
     except OSError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

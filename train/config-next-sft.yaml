@@ -1,0 +1,55 @@
+model:
+  id: unsloth/gemma-4-31B-it-unsloth-bnb-4bit
+  revision: 8e256fc6d63003fc0ca8c91b976e6dcc38433385
+  load_in_4bit: true
+  max_seq_length: 1024
+dataset:
+  path: data/train-next/dialogues.jsonl
+  sha256: 721a1f7181e6919c05af72658773026e2c51083674e628793354856beff27ca4
+  training_rows_sha256: 8601a584496ebf6f08e889fd1b039fdb6d491994ec47bff978946bf297e9d71b
+  records: 400
+seed: 20260825
+prompt_contract:
+  system_prompt_sha256: db235214a7f33052d5dca037415574d70182a11913a341e213e3684d169bd3cd
+  template: gemma-4-thinking
+  instruction_part: '<|turn>user
+
+    '
+  response_part: '<|turn>model
+
+    '
+qlora:
+  backend: unsloth
+  rank: 16
+  alpha: 32
+  target_modules: all-linear
+  dropout: 0.0
+training:
+  epochs: 4
+  checkpoint_epochs:
+  - 2
+  - 3
+  - 4
+  learning_rate: 0.0002
+  scheduler: cosine
+  micro_batch_size: 1
+  gradient_accumulation_steps: 4
+  max_length: 1024
+  assistant_only_loss: true
+  optimizer: adamw_8bit
+  final_checkpoint_only: false
+runtime:
+  python: 3.12.13
+  torch: 2.10.0+cu128
+  torch_cuda: '12.8'
+  gpu: NVIDIA GeForce RTX 3090
+  gpu_vram_gib: 23.55877685546875
+  system_ram_gib: 30.022724151611328
+  packages:
+    unsloth: 2026.8.21
+    unsloth-zoo: 2026.8.15
+    bitsandbytes: 0.50.1
+    transformers: 5.5.0
+    trl: 0.24.0
+    datasets: 4.3.0
+    accelerate: 1.10.1

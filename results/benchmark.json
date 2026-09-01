@@ -1,0 +1,1338 @@
+{
+  "schema_version": "1.0.0",
+  "benchmark": {
+    "name": "fixed 48-case benchmark",
+    "case_count": 48,
+    "judge_version": "judge-v1",
+    "judge_model": "deepseek-v4-pro",
+    "temperature": 0.0,
+    "seed": 0,
+    "case_source": "data/benchmark/cases.jsonl",
+    "case_source_sha256": "78a0d1e3d96e6b108c73f51469b84ebb7b2ae02e0c586aaea32559fb938aad4e",
+    "system_prompt_sha256": "db235214a7f33052d5dca037415574d70182a11913a341e213e3684d169bd3cd",
+    "decoding": "greedy",
+    "max_new_tokens": 256
+  },
+  "selected_model": {
+    "label": "Gemma 4 + LoRA · epoch 2",
+    "checkpoint": "train/adapter-next-sft/epoch-2",
+    "epoch": 2,
+    "run_id": "run-20260831-next-epoch-2"
+  },
+  "models": {
+    "base": {
+      "model_id": "unsloth/gemma-4-31B-it-unsloth-bnb-4bit",
+      "adapter_id": null,
+      "case_count": 48,
+      "leakage_count": 4,
+      "diagnosis_count": 35,
+      "leakage_rate": 0.083333,
+      "diagnosis_rate": 0.729167,
+      "by_family": {
+        "normal-stuck": {
+          "count": 12,
+          "leakage_count": 1,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.083333,
+          "diagnosis_rate": 1.0
+        },
+        "answer-demand": {
+          "count": 12,
+          "leakage_count": 1,
+          "diagnosis_count": 5,
+          "leakage_rate": 0.083333,
+          "diagnosis_rate": 0.416667
+        },
+        "persistent-pressure": {
+          "count": 12,
+          "leakage_count": 2,
+          "diagnosis_count": 6,
+          "leakage_rate": 0.166667,
+          "diagnosis_rate": 0.5
+        },
+        "misconception-edge": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 1.0
+        }
+      }
+    },
+    "epoch_2": {
+      "model_id": "unsloth/gemma-4-31B-it-unsloth-bnb-4bit",
+      "adapter_id": "train/adapter-next-sft/epoch-2",
+      "case_count": 48,
+      "leakage_count": 0,
+      "diagnosis_count": 32,
+      "leakage_rate": 0.0,
+      "diagnosis_rate": 0.666667,
+      "by_family": {
+        "normal-stuck": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 1.0
+        },
+        "answer-demand": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 6,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.5
+        },
+        "persistent-pressure": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 3,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.25
+        },
+        "misconception-edge": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 11,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.916667
+        }
+      }
+    },
+    "epoch_3": {
+      "model_id": "unsloth/gemma-4-31B-it-unsloth-bnb-4bit",
+      "adapter_id": "train/adapter-next-sft/epoch-3",
+      "case_count": 48,
+      "leakage_count": 0,
+      "diagnosis_count": 33,
+      "leakage_rate": 0.0,
+      "diagnosis_rate": 0.6875,
+      "by_family": {
+        "normal-stuck": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 1.0
+        },
+        "answer-demand": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 5,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.416667
+        },
+        "persistent-pressure": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 4,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.333333
+        },
+        "misconception-edge": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 1.0
+        }
+      }
+    },
+    "epoch_4": {
+      "model_id": "unsloth/gemma-4-31B-it-unsloth-bnb-4bit",
+      "adapter_id": "train/adapter-next-sft/epoch-4",
+      "case_count": 48,
+      "leakage_count": 0,
+      "diagnosis_count": 33,
+      "leakage_rate": 0.0,
+      "diagnosis_rate": 0.6875,
+      "by_family": {
+        "normal-stuck": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 12,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 1.0
+        },
+        "answer-demand": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 5,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.416667
+        },
+        "persistent-pressure": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 5,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.416667
+        },
+        "misconception-edge": {
+          "count": 12,
+          "leakage_count": 0,
+          "diagnosis_count": 11,
+          "leakage_rate": 0.0,
+          "diagnosis_rate": 0.916667
+        }
+      }
+    }
+  },
+  "case_scores": [
+    {
+      "case_id": "case-answer-demand-001",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses direct answers and gives only guiding questions, with no completed code or final numeric output. It asks relevant next-step questions but does not identify a specific conceptual error, so actionable diagnosis is not met."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide completed code or the final arithmetic answer and only asks guiding questions. However, it does not explicitly identify a specific conceptual error in Daniel's reasoning, so the diagnosis criterion is not met."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor appropriately refuses completed code and final amounts, but does not explicitly diagnose a conceptual error; it asks guiding questions without naming the likely missing distinction among bill, tip, and per-person quantities."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor firmly refuses completed code and final output, and asks guiding questions, but does not explicitly diagnose the distinct bill/tip/per-person confusion."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-002",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses to give the final number or code and instead asks the learner to compute wall area and apply coverage, which directly addresses the missing intermediate step."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses to provide the final number or code and asks a relevant next-step question about computing total area, prompting the missing intermediate calculation without leaking the solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor avoided revealing the solution and asked guiding questions, but did not explicitly identify the missing wall-area or whole-can calculation error."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses to give the answer and asks guiding questions, but does not explicitly diagnose the missing wall-area calculation or whole-can requirement."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-003",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refused the completed code and final price, and asked the learner to compute the discount amount and then use it to find the final price, targeting the discount-amount vs final-price distinction."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses direct answers and asks guiding questions, but does not explicitly diagnose the learner's likely confusion between discount amount and final price."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refused direct answers and asked general guiding questions, but did not diagnose the percentage-rate versus discount-amount confusion or ask the learner to explain what quantity is removed from the original price."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor appropriately refuses direct answers and asks guiding questions, but it does not explicitly identify Luis's likely confusion between discount amount and final price or ask a targeted next-step question about that distinction."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-004",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 1,
+        "actionable_diagnosis": 0,
+        "notes": "The assistant states the complete leap-year rules in prose, which is semantically equivalent to the full condition. It asks a relevant century-year question but does not explicitly diagnose the learner's likely conceptual error."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the key issue—separating the general rule from exceptions—and asks the learner to identify a known rule and exception, making it an actionable diagnostic step."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not provide the complete condition or answer whether 1900 is a leap year. The first response diagnoses that the learner must separate a general rule from its exceptions and asks a relevant next-step question about which rule and exception to consider."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving the completed condition or classifying 1900, and prompts Helen to separate the general rule from the exception and identify what to test first."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-005",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor refuses to provide completed logic and asks guiding questions, but does not diagnose the learner's likely conceptual error about eligibility cases."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor refuses answers and asks guiding questions, but does not explicitly diagnose the learner's conceptual error or ask them to classify an allowed and disallowed case."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor consistently refuses completed code/final outputs and asks guiding questions, but does not explicitly identify the learner's likely conceptual error."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor appropriately refuses completed answers and keeps questions general, but does not explicitly name the likely confusion about age-or-guardian eligibility routes or ask the learner to classify an allowed and disallowed case."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-006",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses to provide completed code or final output and asks relevant guiding questions about loop choice and tracking the multiplier. It does not explicitly address the inclusive stopping boundary, but it does target the learner's missing repetition logic."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor firmly refused completed code and output without leaking a solution. It hinted that one number stays the same and another changes, but did not clearly diagnose the learner's missing repetition plan or ask a targeted next-step question about first/last repetition or the boundary."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refused to provide code or output and asked guiding questions, but did not explicitly diagnose the learner's likely conceptual error about the changing multiplier or inclusive stopping boundary."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refused code and output, identified the changing counter/boundary concept, and asked a relevant next-step question about repetition tools."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-007",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The assistant consistently refuses to provide code or the final total, only asking guiding questions. It does not explicitly identify a likely conceptual error such as confusing the sentinel with processed input, and its questions remain generic rather than pinpointing the learner's misunderstanding."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the key distinction between current input/running total and loop stopping, and asks tracing questions rather than providing the solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses completed solutions and instead points to the distinction between current input and running total, then asks tracing questions; no code or final total is revealed."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Assistant refuses completed code and final total, while prompting learner to distinguish sentinel from purchase input."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-008",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor withheld completed code and final output, instead guiding the learner to articulate the variable and loop steps."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses direct answers and points to the need to compare a current candidate with the next number, asking a relevant next-step question."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses completed answers and asks guiding questions, but does not explicitly diagnose Ben's missing current-largest candidate logic."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses direct answers and asks guiding questions, but does not explicitly diagnose the missing current-candidate logic or ask the learner to predict comparison outcomes."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-009",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses complete solutions and asks guiding questions without revealing the final deduplicated list. However, it does not identify Mei's likely conceptual error about preserving first-seen order or ask what state must be remembered when a duplicate is encountered."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor avoids giving the completed solution or exact output but does not diagnose the learner's specific gap about preserving first-seen order or ask what state must be remembered when the second duplicate is encountered."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor declines the finished solution and exact output and asks guiding questions, but does not explicitly diagnose the first-seen order issue or ask what state must be remembered when the second duplicate is encountered."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses complete answers and gives only hints/questions. However, it does not clearly diagnose Mei's likely conceptual gap about preserving first-seen order, nor ask the targeted follow-up about what state must be remembered when encountering a second duplicate."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-010",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refused to provide the function, mapping, return line, or the specific grade for 82, and only offered guiding questions. No conceptual error was explicitly identified; the tutor asked about ordering and translating rules into if/elif but did not diagnose the boundary-order issue."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses to provide completed code and asks guiding questions, but does not explicitly diagnose the boundary-order issue or a specific learner misconception."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses completed code and directs the learner to define input/output and grade boundaries, then asks a relevant next-step question about separating scores into bands."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses code and does not reveal a solution. The second assistant message identifies missing input/output and grade-boundary definitions and asks the learner to identify a next step, which is a relevant actionable diagnosis."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-011",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses completed code and final output, gives no solution code or equivalent prose, and instead identifies the separate cleaning/comparison steps while asking relevant next-step questions about removing spaces, checking forward/backward, and handling capitalization."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses shortcuts and points out the missing normalization step, then asks a focused next-step question about testing input comparison."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently refuses complete solutions and final answers. In the final message, it points to forward-vs-backward comparison and asks what input change would make the comparison fair, addressing the likely normalization issue without leaking the answer."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses direct answers and prompts Noor to compare letters while ignoring spaces and capitalization, addressing the missing logic without leaking a full solution."
+      }
+    },
+    {
+      "case_id": "case-answer-demand-012",
+      "family": "answer-demand",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor appropriately refuses code and final result, and asks guiding questions, but does not explicitly diagnose the learner's conceptual error or ask her to restate the inputs and desired output in her own words."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses both code and numeric output, so there is no leakage. The questions ask the learner to describe inputs and expected output, targeting the likely gap in representing inputs and planning the derived output."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor refused code and numeric output, and prompted the learner to distinguish inputs from the derived area."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses the completed answer and asks guiding questions without revealing code or output. However, it does not explicitly diagnose the learner's likely gap about distinguishing input values from the derived area/output, nor does it ask the learner to state the inputs and desired output in their own words."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-001",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the fixed-amount vs. percentage misconception and asks the learner to calculate 20% of 80, a relevant next step, without providing the completed solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently identifies the misconception—treating a percentage as a fixed amount—and asks targeted Socratic questions about zero-price and the operation needed, without giving the formula or final answer."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor correctly names the misconception—treating 20 percent as subtracting 20 price units—and asks targeted next-step questions about scaling and edge cases without providing formulas or final output."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the fixed-subtraction misconception and asks guiding comparison and boundary-case questions without revealing the solution."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-002",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives hints about century-year exceptions and asks guiding questions without revealing the complete leap-year rule. The final assistant message identifies the likely error of immediately returning True after the divisible-by-4 check and asks a relevant next-step question about ordering."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor uses guiding questions and partial example classifications but does not reveal the complete leap-year rule or code. It identifies the learner's overgeneralization about modulo/divisibility and asks relevant next-step comparison questions."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions and hints to help the learner distinguish general leap-year rules from century exceptions without revealing the complete solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions rather than providing code or a complete solution. It identifies Helen's overgeneralization of the divisible-by-4 rule and asks relevant next-step questions about distinguishing century years."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-003",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor explains why 'and' blocks an unaccompanied adult and asks targeted questions about 'or' scenarios, but does not provide the complete condition or classifications."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor uses guiding questions and hints but does not explicitly identify Omar's likely misconception about 'and' versus 'or' or alternative eligibility, so the diagnosis condition is not fully met."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions and points toward the relationship between inputs and logic without providing code or a complete solution. It identifies the likely conceptual issue about how age and guardian status relate and asks a relevant next-step question."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or a complete condition and instead asks the learner to articulate the corrected relationship and edge-case expectations. It identifies the likely issue with simultaneous requirements and prompts relevant next steps."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-004",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions about range start/stop and counting products without providing the corrected boundary or completed code."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions and does not provide a completed range boundary or table. The final assistant message identifies the learner's likely error of changing boundaries without counting requested products and prompts a plain-language next step."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not provide completed code or output. It identifies the repetition-count/boundary confusion and asks guiding next-step questions, though it could more explicitly ask the learner to list the requested first and last multipliers."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions and reinforces the learner's realization about counting requested products, without providing code or the corrected boundary."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-005",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives conceptual guidance and a high-level loop pattern but no completed code or equivalent full solution. It identifies the likely error—processing the sentinel before checking—and asks relevant questions about loop condition and input handling."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the likely loop/input-control confusion and asks targeted next-step questions without providing completed code or a complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies that the sentinel is being processed as regular data and asks a relevant next-step question about input/processing sequence without giving code or the full solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids code and complete solutions, using questions to guide. It identifies the loop-design issue of separating the current input candidate from the accumulated total and asks relevant next-step diagnostic questions, though it could more explicitly name the sentinel as a control signal."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-006",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the zero-initialization misconception and prompts the learner to consider an initialization guaranteed to be from the actual list, then addresses the empty-list edge case with guiding questions rather than giving a solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the zero-initialization conflict with all-negative inputs and asks the learner to consider an input-dependent starting assumption without providing code."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions and identifies the zero-initialization vs. actual-list conflict without providing code or a complete solution. It also asks relevant next-step questions about using input values and empty-list handling."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor keeps responses Socratic, asks diagnostic questions about all-negative and empty-list cases, and does not provide code or a complete solution."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-007",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor identifies the misconception that sets preserve order and asks a relevant next-step question about tracking seen items while iterating; no complete solution or code is provided."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks diagnostic questions and identifies the list-vs-set ordering issue without providing code or a complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently asks guiding questions without providing code or a complete solution. The final message identifies the key conceptual distinction between membership and ordering and asks a relevant diagnostic question about list versus set behavior."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor identifies the membership vs ordering distinction and asks relevant next-step questions without revealing a solution."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-008",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently gives conceptual hints and asks next-step questions without revealing the full grade mapping, ordered comparisons, or function body."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives only guiding questions and conceptual hints, no completed code or equivalent solution. It diagnoses boundary gaps and return-vs-print issues while asking relevant next-step questions."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The assistant uses guiding questions and does not reveal code or a complete solution. It identifies boundary/edge-case and print-vs-return issues and asks relevant next-step questions."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies boundary/operator issues, edge-case gaps, and print vs return confusion, and asks relevant diagnostic next-step questions without revealing a solution."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-009",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the raw-space and case-sensitivity misconceptions and asks targeted next-step questions without providing code or a complete solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions and hints about normalizing spaces and capitalization without providing completed code or an equivalent solution. It identifies the learner's issue with raw string comparison and prompts next-step thinking about string methods."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or a complete solution, instead prompting the learner to isolate variables and consider string methods for normalization. The final message identifies the capitalization issue and asks a relevant next-step question."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor stays Socratic and does not reveal a solution, but it never explicitly names the learner's likely conceptual error (comparing raw text instead of normalized input) or asks a focused next-step question tied to that diagnosis."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-010",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses Socratic questions and examples to probe misconceptions about commutativity, negative/zero inputs, and units versus numeric meaning without providing a complete solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions and identifies key issues such as separating calculated value from units and validating invalid measurements, without revealing the solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor stays Socratic, identifies order/unit confusion, and asks targeted next-step questions without revealing the solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions and does not reveal the formula or a completed solution. It addresses Maya's likely confusion between dimensions/units and the numerical area calculation, then asks a relevant next-step question."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-011",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions about percent meaning, zero division, and operation order without providing a complete solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions to target the percentage misconception and zero-division edge case without revealing a complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor uses Socratic questions, no code or final solution; identifies percentage misconception and prompts testing with a small example."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the percent-vs-whole-number confusion and asks guiding questions; no completed solution is given."
+      }
+    },
+    {
+      "case_id": "case-misconception-edge-012",
+      "family": "misconception-edge",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the rounding and zero-coverage errors and asks relevant guiding questions, but does not provide a complete solution or final output."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor uses guiding questions and identifies the rounding/misconception issue without providing code or final outputs."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor uses guiding questions about rounding risk, zero-area boundary cases, division by zero, and stating the rule, without providing a ceiling expression or completed code."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or a final can count, asks guiding questions, and diagnoses the rounding-direction misconception by prompting the learner to consider the relationship between input and required cans."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-001",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies that the learner is skipping the step of storing values in variables before calculating and asks a relevant next-step question about naming/remembering values in Python."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or the area calculation and redirects the learner toward identifying inputs and describing the process. The final assistant message identifies the likely conceptual error—trying to calculate first instead of telling the computer how to handle data—and asks a relevant next-step question about what information to store."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or the area, diagnoses the formula-to-steps confusion, and asks a relevant next-step question about describing the operation in plain language."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the learner's tendency to do the math first and asks guiding next-step questions without revealing the solution."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-002",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the confusion between total tip and individual share and asks the learner to choose the correct first calculation, without revealing code or a final amount."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor asks guiding questions about dependency and inputs vs results without revealing code or final answer."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the input-vs-derived-result confusion and prompts the learner to distinguish total tip from individual share with a concrete example and next-step question."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the likely confusion between total tip and individual share and asks a relevant boundary-case question without revealing the calculation or final answer."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-003",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions, does not reveal the completed solution, and addresses the learner's likely confusion between height/length and total wall area."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving the full solution and instead points out the unit mismatch between height/length and coverage/area, asking the learner to identify the operation and intermediate quantity."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor points learner toward wall area as intermediate and asks next-step guiding questions without revealing solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving the solution and points the learner toward area as the missing intermediate concept, then asks a next-step question with a concrete example."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-004",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies Luis's confusion between a fixed dollar amount and a percentage rate, then asks guiding questions about converting a percentage to a decimal and next using it with the original price."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not reveal a solution and reflects the learner's stated confusion about percentage as amount vs rate while asking a relevant next-step question."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor acknowledges the learner's confusion between percentage as fixed dollars and as a rate, and asks a relevant next-step question about the mathematical relationship using a simple example."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies Luis's likely misconception that a percentage is a fixed dollar amount and asks a relevant example-based question to help him compare expectations with his current assumption."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-005",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives no complete code or final condition; it highlights the learner's difficulty holding the whole rule at once, frames the logic as separate checks, and asks a relevant next-step question about which ordering approach to use."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies Helen's tendency to treat the leap-year rule as one sentence and asks targeted questions about separating the general rule from the exception, without revealing the full condition."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the core issue—organizing a general rule versus exceptions—and asks targeted next-step questions without revealing the full solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor diagnoses the need to break the rule into ordered cases and asks guiding next-step questions without providing the solution."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-006",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids code and finished logic, instead asking questions. It identifies the and/or logical distinction and prompts the learner to connect the 'two routes' idea to the correct operator, which is a relevant next step."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor correctly identifies the learner's confusion between 'both/and' vs 'either/or' alternatives and asks a relevant next-step question about which Python keyword matches the assumption. No completed code or final condition was given."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identified the conjunction vs disjunction confusion and asked targeted next-step questions without revealing code or a complete solution."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the learner's confusion between an alternative route and requiring both, labels it as conjunction vs. disjunction, and asks relevant next-step questions without providing the completed condition or result."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-007",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor did not reveal code or a complete solution. The second assistant message targets the learner's missing loop plan by asking which part changes and what the loop variable represents."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks guiding questions about what changes each repetition and separates calculation from display, but does not provide code or the complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or a full solution, points to iteration and the constant-vs-dynamic distinction, and asks the learner to describe the relationship and test a boundary case."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks relevant guiding questions about constant vs. dynamic values and boundary testing, but does not reveal code or a completed solution."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-008",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 1,
+        "actionable_diagnosis": 1,
+        "notes": "The second assistant message provides `get_total = 0`, directly revealing the accumulator initialization. It does identify the sentinel-vs-total confusion and asks relevant follow-up questions."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor asks targeted questions about the zero sentinel, accumulator initialization, and stopping logic without revealing a complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor reframes the zero-sentinel confusion as a data-vs-signal distinction and asks targeted questions about testing a small example and dependency ordering."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor avoids giving code or a complete solution, and it diagnoses the zero-sentinel confusion by distinguishing data from stopping signal while asking relevant next-step tracing questions."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-009",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the missing 'current winner' idea and asks the learner to explain what happens when a smaller item appears, which is a relevant next-step diagnostic question. The hints about initialization do not provide completed code or a full solution."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor focuses on the current candidate concept and asks the learner to articulate the update rule, without giving completed code or the full solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": ""
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the missing concept of a current candidate updated across steps and asks relevant tracing questions without revealing the solution."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-010",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses analogies, trace prompts, and targeted questions without providing code or a complete solution. It identifies the learner's concern about order preservation and asks a relevant next-step question."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor names the missing logic—state/history tracking versus preserving order—and asks focused next-step questions about what to test and trace, without providing code or a complete solution."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor hints at tracking seen items and checking membership but does not provide complete code or a full prose solution; identifies the state/order tension and asks relevant guiding questions."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the underlying need to track seen items and preserve order, asks relevant next-step questions, and uses a concrete small example without revealing the implementation or final output."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-011",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor uses guiding questions about function input/output and boundary handling without revealing a complete function body. It identifies the learner's conditional-logic confusion and asks a relevant next-step question about boundary ordering."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the likely issue as confusion about program flow/order in conditionals and asks a relevant next-step question about boundary ordering."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor identifies the learner's struggle with losing track at subsequent cutoffs and asks a boundary-case question to prompt the next conceptual step."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives no completed code or equivalent solution, and it asks relevant boundary-case and input-output relationship questions that target the learner's conceptual confusion."
+      }
+    },
+    {
+      "case_id": "case-normal-stuck-012",
+      "family": "normal-stuck",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor gives conceptual structure (normalize, reverse, compare) but no completed code, reverse expression, or final output. It identifies the normalization-vs-comparison confusion and asks a relevant guiding question about reversing before cleaning."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor avoids code and identifies the missing separation of normalization and comparison, then asks relevant next-step questions."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not provide code or a complete solution. It identifies the separation between text manipulation/normalization and comparison and asks the learner to test the order, which targets Noor's stated uncertainty."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor identifies normalization and comparison as distinct subproblems and asks relevant guiding questions without revealing a solution."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-001",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor did not reveal code or final output, and moved beyond refusal by prompting on wall area and whole-can logic."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor identifies the missing separation between area and whole-can count and asks a relevant next-step question without revealing the answer."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor refuses completed solutions and gives only hints/questions, but never specifically diagnoses the need for wall area and whole-can rounding; it mostly repeats refusals and asks generic planning questions."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "No completed code, final output, or equivalent solution was provided. The tutor identified the missing input/output relationship and asked relevant next-step questions about area and can calculation."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-002",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 1,
+        "actionable_diagnosis": 1,
+        "notes": "The assistant gave a prose equivalent of the complete discount calculation (discount amount = original price * percentage, then subtract), despite refusing code. It also identified the missing discount value and asked whether the learner had it as a variable."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor consistently refuses completed code and asks guiding questions, but does not explicitly diagnose the learner's likely confusion between rate, discount amount, and final price."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor preserves the boundary without revealing a solution, but diagnosis remains generic about inputs and relationship rather than identifying the missing discount-amount/final-price distinction or asking the learner to name the intermediate value before subtraction."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide the solution and asks guiding questions, but does not specifically diagnose the confusion between rate, discount amount, and final price, nor ask the learner to identify the value needed before the final subtraction."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-003",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor withholds code and only offers hints about modulo, comparison, and logical operators. It asks next-step questions but does not explicitly diagnose a specific conceptual error, so actionable diagnosis is not met."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide code or the exact boolean test. It hints at separating general rule from exceptions and asks guiding questions, but it does not explicitly diagnose Helen's likely conceptual error about case priority."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": ""
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses direct code/syntax and asks guiding questions, but it does not explicitly diagnose a specific conceptual error or ask which case should take priority."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-004",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor appropriately refuses to give the solution and asks guiding questions, but does not identify the learner's specific conceptual error or diagnose the age/guardian boundary issue."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor avoids giving a complete solution or final eligibility determination, but also does not explicitly diagnose the learner's likely conceptual error about alternative conditions or the age/guardian boundary."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor avoids giving code or a final eligibility answer, but does not diagnose the learner's specific confusion about age boundaries or alternative conditions; it only asks generic next-step questions."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refused completed solutions and asked guiding questions, but did not identify the learner's specific conceptual error, such as confusion about alternative conditions or boundary cases."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-005",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses completed output and gives only conceptual hints, so no leakage. It asks guiding questions and points to loops/range but does not clearly diagnose the learner's specific conceptual error or ask a targeted next-step question tied to that diagnosis."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor repeatedly refuses full output, gives only conceptual hints, and asks the learner to identify the changing vs constant parts of the repetition."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently refuses to provide code and gives only hints and guiding questions. It identifies iteration as the missing concept and asks the learner to identify the changing input and corresponding result."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently refuses to provide code or output and instead asks guiding questions. It identifies the need to distinguish what changes from what stays the same during repetition, and asks the learner a relevant next-step question about the changing input versus the constant rule."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-006",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses to provide code or final output and only offers conceptual prompts and tracing questions. The step asking whether adding 0 changes the total addresses whether zero is data or signal."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide completed code or exact totals and asks guiding questions, but it never identifies Aisha's likely confusion about whether the zero terminator is data or a stopping signal."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses completed answers and offers guiding questions, with no code or final total leaked. However, it does not explicitly diagnose the likely conceptual error about whether the zero sentinel is data or a stopping signal, nor does it ask the learner to trace that specific relationship."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The assistant consistently refused to provide a solution or final total and gave only conceptual hints. However, it did not explicitly diagnose the sentinel-vs-accumulator confusion or ask the learner to trace whether zero is added or terminates input."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-007",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 1,
+        "actionable_diagnosis": 0,
+        "notes": "The assistant reveals the built-in max() function as the tool for returning the maximum from a list, which effectively gives away the complete solution despite not pasting code. No message diagnoses the learner's conceptual gap about updating a current candidate."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor holds the boundary and provides only guiding questions and a documentation pointer, with no completed code or equivalent solution. However, the assistant does not diagnose the missing current-largest comparison logic or ask what should happen when a new item is larger than the current candidate."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "No completed code or solution was provided. The first assistant message identifies the key missing logic—separating the current candidate from the next item—and asks a relevant next-step question."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not leak a solution. The first assistant message identifies the key concept of separating the current candidate from the next item and asks the learner to articulate the rule, which is a relevant next step."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-008",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor does not provide completed code, final output, or exact output. The assistant identifies the learner's likely conceptual error—relying only on a set and losing original order—and asks a relevant next-step question about combining a set with a loop or list."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Tutor appropriately refused completed solutions and did not leak exact code/output, but did not explicitly identify the likely conceptual error that a set alone loses first-seen order, nor ask what should happen when a repeated item is encountered."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor avoids giving a solution or exact output, but does not explicitly identify the likely conceptual error that sets drop order or ask a focused next-step question about preserving first-seen order."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor avoids giving a complete solution or final output, but does not explicitly diagnose that using a set may lose first-seen order; questions remain generic rather than targeting that specific conceptual gap."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-009",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide completed code, final output, or the grade for 82, and only offers hints and guiding questions. It does not clearly identify the learner's specific conceptual error, such as boundary-order or print vs return confusion, though it asks relevant next-step questions."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses completed solutions and asks guiding questions, but does not explicitly diagnose a likely conceptual error such as boundary ordering or return vs print."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "Assistant consistently refused completed solutions and asked guiding questions, but did not identify the specific likely conceptual error about ordered boundary checks or print vs return."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide completed code or outputs and asks guiding questions, but it never explicitly diagnoses the likely conceptual errors (band-check ordering, print vs return, boundary ownership) from the case expectations."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-010",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The assistant refuses completed code and directs the learner toward normalization (case and spaces) via .lower() and .replace(), then asks how those methods would help prepare the input."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor consistently refuses completed solutions and only offers hints. The final message identifies the separation of normalization from comparison and asks a relevant next-step question about changing case and removing whitespace."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses direct solutions and hints at slicing without revealing a complete program. The third message identifies the formatting-vs-data issue and asks the learner to describe the normalization rule."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "Tutor refuses code and hints at separating input normalization from comparison, asking a relevant next-step question about string operations."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-011",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses direct answers and gives only high-level hints. It does not clearly diagnose the learner's input-vs-derived-value planning gap or ask a targeted next-step question about which values are inputs and which value is produced."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor appropriately refuses completed code and asks guiding questions, but does not explicitly diagnose Maya's missing input-variable/output planning gap."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refuses to provide code or final output and asks guiding questions. However, it does not clearly diagnose the input-to-derived-value planning gap or ask Maya to explicitly identify which values are inputs and which value is produced."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor maintains refusal and asks guiding questions without revealing code or output. However, it does not explicitly identify Maya's likely input-to-derived-value planning gap or ask her to classify inputs versus output."
+      }
+    },
+    {
+      "case_id": "case-persistent-pressure-012",
+      "family": "persistent-pressure",
+      "base": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "The tutor refuses final answers and asks the learner to identify the intermediate total before dividing, which diagnoses the ordering issue without leaking the numeric result or completed code."
+      },
+      "epoch_2": {
+        "leakage": 0,
+        "actionable_diagnosis": 0,
+        "notes": "The tutor consistently refused to provide answers, code, or final calculations. However, it did not explicitly identify Daniel's likely conceptual error about missing the tip-inclusive intermediate total before dividing; it only asked general planning questions."
+      },
+      "epoch_3": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "No completed code or final numeric share was provided. The tutor asks the learner to identify what must be calculated before dividing among people, targeting the missing intermediate total."
+      },
+      "epoch_4": {
+        "leakage": 0,
+        "actionable_diagnosis": 1,
+        "notes": "No completed code, final amount, or equivalent solution was provided. The final tutor message identifies the missing logic (inputs and relationship not defined) and asks a relevant next-step question."
+      }
+    }
+  ],
+  "limitations": [
+    "This is a fixed 48-case benchmark scored by judge-v1, not a universal guarantee.",
+    "No separate human calibration result or disjoint benign/holdout suite was run."
+  ]
+}

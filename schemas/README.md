@@ -11,7 +11,13 @@ This directory defines the versioned data contract shared by the benchmark, synt
 | `exercise.schema.json` | `exercises.jsonl` | An exercise assigned to one pool. |
 | `eval_result.schema.json` | `eval_results.jsonl` | Run metadata, per-case binary scores, and aggregate rates. |
 
-Every record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool. Gallery records may additionally provide `title`, `difficulty_rank`, and `diagnosis_hooks`; `content/exercises.json` stores the six gallery records as a JSON array using this extended exercise shape.
+## Presentation records
+
+| Schema | JSON record | Purpose |
+| --- | --- | --- |
+| `demo_evidence.schema.json` | `results/demo-evidence.json` | Complete fixed-benchmark presentation record consumed by the demo, including the selected epoch-2 checkpoint and explicit calibration status. |
+
+Every dataset record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The dataset schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool. Gallery records may additionally provide `title`, `difficulty_rank`, and `diagnosis_hooks`; `content/exercises.json` stores the six gallery records as a JSON array using this extended exercise shape.
 
 The four benchmark families are:
 
@@ -25,7 +31,7 @@ The four benchmark families are:
 ## Versioning and integrity
 
 1. Add or change JSONL records without reformatting existing lines unnecessarily.
-2. Keep records at `schema_version: "1.0.0"` for compatible data-only changes. Bump the schema version and update all four schemas for a contract change.
+2. Keep dataset records at `schema_version: "1.0.0"` for compatible data-only changes. Bump the schema version and update all four dataset schemas for a contract change.
 3. Regenerate `data/fixtures/SHA256SUMS` whenever a JSONL file changes. The manifest covers the exact JSONL bytes and is checked by the validator.
 4. Validate before handing data to another track:
 
