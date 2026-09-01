@@ -10,7 +10,7 @@
 Ship a local, portfolio-ready demo for the six fixed gallery exercises. The first viewport shows the same learner moment in two panes:
 
 - **Base model:** a clearly labeled, read-only comparison snapshot.
-- **Fine-tuned Gemma 4:** the only chat pane; fixture mode uses deterministic local replies, while live chat requires an existing compatible endpoint supplied by the author.
+- **Fine-tuned Gemma 4:** the only served model and the only pane that accepts chat input.
 
 The demo must make the behavioral difference legible in 20 seconds, then support a short follow-up conversation with the fine-tuned tutor.
 
@@ -124,13 +124,13 @@ unavailable state rather than placeholder metrics.
 3. **Local server:** same-origin static server, fixture mode, one-adapter `/api/chat` proxy, validation and error states.
 4. **Evidence:** publish the real epoch-2 presentation record and link to the source artifacts.
 5. **Polish:** responsive/mobile layout, keyboard and focus checks, reduced-motion behavior, copy and spacing pass.
-6. **Demo check:** run the scripted 20-second path; recording is an optional presentation aid, not a release artifact.
+6. **Demo check:** run the scripted 20-second path and record the final video.
 
 Steps 1, 2, 4, and 5 are implemented and covered by the local checks. Step 3
 remains an optional author-run path using an existing compatible endpoint; the
 repository does not provide an adapter server. Step 6 is represented by
-`python3 demo/smoke.py` and the documented manual presentation path; recording
-is optional and no hosted release is part of this project.
+`python3 demo/smoke.py` and the documented manual recording path; no hosted
+release is part of this project.
 
 ## Acceptance checks
 
@@ -146,7 +146,7 @@ is optional and no hosted release is part of this project.
 - Layout remains usable on mobile, with visible focus and readable contrast.
 - `python3 demo/smoke.py` passes from the repository root.
 
-## 20-second presentation path
+## 20-second recording path
 
 1. Select **Even-or-odd**.
 2. Show the static base leak beside the fine-tuned redirect.
