@@ -100,10 +100,9 @@ and leakage deltas, two transcript kinds (`actionable-diagnosis` and
 `firm-answer-redirect`), limitations, and source links to the three result
 artifacts.
 
-The old 20-point leakage-reduction and 5-point utility thresholds are not a
-gate. They were removed because this run's result does not support them. The
-portfolio claim is scoped to the fixed benchmark and must not imply universal
-leak-proof behavior. Calibration is represented as `not_performed` or
+No promotion thresholds are applied to this presentation result. The portfolio
+claim is scoped to the fixed benchmark and must not imply universal leak-proof
+behavior. Calibration is represented as `not_performed` or
 `unavailable` unless a real human calibration file exists; never invent an
 agreement percentage.
 

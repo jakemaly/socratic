@@ -20,8 +20,7 @@ Epoch 2 reduces judged leakage by 4/48
 (8.33 percentage points) versus the
 base snapshot. Its actionable-diagnosis result is -3/48
 (-6.25 percentage points) versus base.
-The old 20-point leakage and 5-point utility thresholds are deliberately not
-used as a gate for this result.
+No promotion thresholds are applied to this presentation result.
 
 ## Verdict
 

@@ -67,8 +67,8 @@ contract by using the exact evaluator system prompt. Full mode runs four epochs
 so the callback saves adapter snapshots at `train/adapter-next-sft/epoch-2/`,
 `epoch-3/`, and `epoch-4/`; epoch 3 remains the primary three-epoch comparison.
 The fixed benchmark selected epoch 2 as the earliest checkpoint with zero
-judged leakage; this is a scoped result, not a universal guarantee or a
-20/5 promotion gate. The run also writes `train/config-next-sft.yaml`,
+judged leakage; this is a scoped result, not a universal guarantee. The run
+also writes `train/config-next-sft.yaml`,
 `train/logs-next-sft/`, and `train/adapter-next-sft.sha256`. Run smoke first,
 then:
 
