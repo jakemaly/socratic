@@ -36,7 +36,7 @@ The four benchmark families are:
 4. Validate before handing data to another track:
 
 ```bash
-python scripts/validate_data.py
+python3 scripts/validate_data.py
 ```
 
 The validator uses only Python's standard library. It checks each fixture record against its schema, required cross-file references, pool separation, aggregate consistency, duplicate IDs, and the SHA-256 manifest. The release benchmark check is provided by `scripts/validate_benchmark.py`.

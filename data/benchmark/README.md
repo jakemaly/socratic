@@ -9,7 +9,7 @@ archived from this release, so the checked-in benchmark validator runs without a
 training manifest:
 
 ```bash
-python scripts/validate_benchmark.py
+python3 scripts/validate_benchmark.py
 ```
 
 Each scenario starts with `Exercise: <name>.` so the self-check can compare the pool without adding an exercise field that is not part of the benchmark-case schema.
