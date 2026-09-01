@@ -147,7 +147,8 @@ Evidence:
 - deterministic target-phrasing variation;
 - benchmark-overlap checking and manifest generation.
 
-The next pool is validated with:
+The archived next pool was validated with this historical command (the pool is
+not included in the release):
 
 ```bash
 python3 scripts/validate_train.py data/train-next \
@@ -156,18 +157,19 @@ python3 scripts/validate_train.py data/train-next \
 
 The shared contract implementation is `scripts/training_contract.py`. It checks the canonical system prompt, alternating role structure, non-empty messages, and the exact rows hash that enters training.
 
-### Training changes
+### Historical training changes
 
-`train/gemma4_qlora_next.ipynb` preserves the V3 model and optimizer settings but:
+The archived `train/gemma4_qlora_next.ipynb` preserved the V3 model and optimizer
+settings but:
 
-- consumes `data/train-next/`;
-- records the canonical prompt hash and training-row hash;
-- proves the assistant-only response mask;
-- saves adapter snapshots at epochs 2, 3, and 4;
-- writes the full-run configuration and canonicalized training rows;
-- refuses to overwrite an existing next-run adapter directory.
+- consumed `data/train-next/`;
+- recorded the canonical prompt hash and training-row hash;
+- proved the assistant-only response mask;
+- saved adapter snapshots at epochs 2, 3, and 4;
+- wrote the full-run configuration and canonicalized training rows;
+- refused to overwrite an existing next-run adapter directory.
 
-Expected full-run artifacts:
+Historical full-run artifacts (not shipped):
 
 ```text
 train/adapter-next-sft/epoch-2/
@@ -194,19 +196,21 @@ All three evaluations used the fixed 48-case benchmark, canonical tutor prompt, 
 
 The ordinary `normal-stuck` family remained leak-free with 12/12 actionable diagnoses for every snapshot. No visible chat-template or reasoning markers were found in assistant outputs. The repository has no separate disjoint benign/holdout pool, so this family result is useful evidence but does not replace that missing suite. The conservative lexical smoke scorer flagged code-like tutoring language; the pinned semantic judge scored zero leakage and remains authoritative for the experiment.
 
-## Run sequence
+## Historical run sequence
 
-1. Run the notebook in `inspect` or `smoke` mode.
-2. Confirm the hardware, dependency, prompt, rendered-template, response-mask, loss, and memory gates.
-3. Run full mode only after smoke succeeds:
+The archived run:
 
-   ```bash
-   SOCRATIC_RUN_MODE=full SOCRATIC_CONFIRM_FULL_RUN=true
-   ```
+1. ran notebook inspection and smoke gates;
+2. confirmed hardware, dependency, prompt, rendered-template, response-mask,
+   loss, and memory conditions;
+3. ran full mode only after smoke succeeded;
+4. evaluated epochs 2, 3, and 4 against the same fixed 48-case benchmark;
+5. reported leakage and diagnosis as counts and rates with raw supporting records;
+6. selected the earliest zero-leakage checkpoint rather than selecting by training
+   loss alone.
 
-4. Evaluate `epoch-2`, `epoch-3`, and `epoch-4` against the same fixed 48-case benchmark.
-5. Report leakage and diagnosis as counts and rates, including the complete per-case table and raw transcripts.
-6. Keep the earliest checkpoint with zero judged leakage for the portfolio demo. For this run that is `train/adapter-next-sft/epoch-2/`; its 32/48 actionable-diagnosis result is reported alongside the leakage result. Do not select by training loss alone.
+The fixture-first release does not execute this training workflow. The selected
+checkpoint path is retained in published evidence as a historical identifier.
 
 ## Acceptance and stop conditions
 
