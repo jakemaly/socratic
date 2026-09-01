@@ -34,7 +34,10 @@ returning accidentally.
 
 ## Archive
 
-The removed files are archived in Git history in commits `4725bb8` and
-`4a3441e`; they can be recovered without keeping copies in the release tree.
+The removed files are archived in Git history in commits `4725bb8`,
+`4a3441e`, and `4397e32`; they can be recovered without keeping copies in the
+release tree.
+
+The corresponding ignore rules prevent these local-only paths from returning.
 No tracked API keys, model weights, caches, or oversized accidental files were
 found during the audit.
