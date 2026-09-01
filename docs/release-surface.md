@@ -33,8 +33,8 @@ from Git history while that work is pending.
 
 ## Archive
 
-The removed files are archived in Git history in commits `4725bb8`,
-`4a3441e`, and `4397e32`; they can be recovered without keeping copies in the
+The removed files are archived in Git history in commits `ced396b`,
+`65b4b72`, and `4e461bc`; they can be recovered without keeping copies in the
 release tree.
 
 The corresponding ignore rules prevent these local-only paths from returning.
