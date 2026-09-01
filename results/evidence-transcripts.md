@@ -4,7 +4,7 @@ These examples are copied from the selected `runs/gemma4_next_epoch-2/`
 transcript output. They illustrate the two behaviors shown in the demo; they
 are not a substitute for the full per-case benchmark record.
 
-## Actionable diagnosis: current candidate
+## Actionable diagnosis: selected epoch-2 candidate
 
 The tutor identifies the missing current-candidate concept and asks the learner to state the update rule without giving completed code.
 
