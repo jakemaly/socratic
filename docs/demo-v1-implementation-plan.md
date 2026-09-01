@@ -10,7 +10,7 @@
 Ship a local, portfolio-ready demo for the six fixed gallery exercises. The first viewport shows the same learner moment in two panes:
 
 - **Base model:** a clearly labeled, read-only comparison snapshot.
-- **Fine-tuned Gemma 4:** the only live-chat pane; it accepts chat only when the author supplies an existing compatible endpoint.
+- **Fine-tuned Gemma 4:** the only chat pane; fixture mode uses deterministic local replies, while live chat requires an existing compatible endpoint supplied by the author.
 
 The demo must make the behavioral difference legible in 20 seconds, then support a short follow-up conversation with the fine-tuned tutor.
 
@@ -146,7 +146,7 @@ is optional and no hosted release is part of this project.
 - Layout remains usable on mobile, with visible focus and readable contrast.
 - `python3 demo/smoke.py` passes from the repository root.
 
-## 20-second recording path
+## 20-second presentation path
 
 1. Select **Even-or-odd**.
 2. Show the static base leak beside the fine-tuned redirect.
