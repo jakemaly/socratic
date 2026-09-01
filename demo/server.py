@@ -102,6 +102,13 @@ def _fixture_reply(exercise: dict[str, Any], messages: list[dict[str, str]]) -> 
     return replies.get(latest_user, replies["default"])
 
 
+def _live_messages(messages: list[dict[str, str]], system_prompt: str) -> list[dict[str, str]]:
+    return [
+        {"role": "system", "content": system_prompt},
+        *(message for message in messages if message["role"] != "system"),
+    ]
+
+
 def _validate_chat_payload(payload: Any, exercises: dict[str, Any]) -> tuple[str, list[dict[str, str]], float]:
     if not isinstance(payload, dict):
         raise ValueError("request body must be an object")
@@ -178,9 +185,7 @@ class DemoRequestHandler(BaseHTTPRequestHandler):
                     raise RuntimeError("live adapter is not configured")
                 from eval.judge import TUTOR_SYSTEM_PROMPT
 
-                model_messages = messages
-                if not messages or messages[0]["role"] != "system":
-                    model_messages = [{"role": "system", "content": TUTOR_SYSTEM_PROMPT}, *messages]
+                model_messages = _live_messages(messages, TUTOR_SYSTEM_PROMPT)
                 content = self.server.model.complete(model_messages, temperature=temperature, seed=0)
             _json_response(self, HTTPStatus.OK, {"message": {"role": "assistant", "content": content}})
         except ValueError as exc:
