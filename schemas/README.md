@@ -45,12 +45,8 @@ The validator uses only Python's standard library. It checks each record against
 python scripts/validate_data.py data/benchmark --require-balanced-benchmark
 ```
 
-The synthetic training pool is validated as a combined dialogue/exercise set so
-its cross-file references, 100-per-family quotas, provenance, overlap checks,
-and balance table are checked together:
-
-```bash
-python3 scripts/validate_train.py data/train
-```
+The raw synthetic training pools are intentionally archived from the release.
+The retained training validator can still inspect an externally restored pool;
+it requires the pool directory explicitly and never assumes a release dataset.
 
 The committed fixtures are intentionally small (3 cases, 3 dialogues, 1 exercise, and 1 evaluation result), so the balance flag is not used for them.

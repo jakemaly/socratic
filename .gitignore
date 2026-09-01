@@ -9,6 +9,8 @@ __pycache__/
 .wayfinder/
 .playwright-cli/
 runs/
+data/train*/
+train/*.ipynb
 unsloth_compiled_cache/
 train/unsloth_compiled_cache/
 train/adapter/
@@ -19,5 +21,6 @@ train/logs/
 train/logs-v2/
 train/logs-v3-sft/
 train/logs-next-sft/
+train/*.sha256
 Untitled.ipynb
 train/Untitled.ipynb

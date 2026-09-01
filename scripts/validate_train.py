@@ -223,7 +223,11 @@ def validate(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("directory", nargs="?", type=Path, default=ROOT / "data" / "train")
+    parser.add_argument(
+        "directory",
+        type=Path,
+        help="training-pool directory to validate (required; raw pools are not shipped)",
+    )
     parser.add_argument("--benchmark", type=Path, help="benchmark JSONL/directory to check for overlap")
     parser.add_argument("--gallery", type=Path, help="gallery JSONL/directory to check for overlap")
     parser.add_argument(

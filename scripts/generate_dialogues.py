@@ -807,7 +807,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--out",
         dest="out_dir",
         type=Path,
-        default=ROOT / "data" / "train",
+        required=True,
+        help="directory for generated artifacts (required; use a disposable or external path)",
     )
     parser.add_argument("--config", type=Path, help="existing config to read scalar model settings from")
     parser.add_argument("--mode", choices=("dry-run", "live"), default="dry-run")

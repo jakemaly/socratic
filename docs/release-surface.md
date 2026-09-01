@@ -1,8 +1,9 @@
 # Release surface audit
 
-This inventory describes the tracked tree for the local portfolio release. Git
-history preserves removed files, so no separate copy of generated material is
-needed.
+This inventory describes the tracked tree for the local portfolio release. The
+release is a fixture-first demo with published benchmark evidence; training
+inputs and interactive training materials are intentionally kept out of the
+shipping tree.
 
 ## Retain
 
@@ -10,33 +11,26 @@ needed.
   tests, benchmark cases, and published evidence.
 - Research and user-facing documentation needed to explain the project and its
   scoped benchmark claim.
-- The canonical Gemma 4 training contract, current training configuration,
-  checksum metadata, and source recipes until the training-surface cleanup is
-  complete.
+- Small training receipts and validation code that explain the selected run
+  without shipping its raw inputs, notebooks, environment, or weights.
 
-## Remove before the final release
+## Archived from the release tree
 
-- Retired raw training pools and their provenance files.
-- Training notebooks, including the older Qwen recipe and superseded Gemma
-  experiment notebooks.
-- Any remaining training output or generated metadata that is not needed to
-  explain the selected result.
+- Raw pools under `data/train/`, `data/train-v2/`, `data/train-v3/`, and
+  `data/train-next/`, including provenance, manifests, and generated dialogue
+  records.
+- Training notebooks and the notebook-specific walkthrough.
+- The training environment lock and generated adapter checksum receipt.
+- Superseded Qwen-stack and V3 planning notes whose conclusions are preserved
+  in the consolidated training-evolution record.
+- Generated planning HTML, internal planning mirrors, tracked training-run
+  logs, and notebook-run output.
 
-This is the next training-surface cleanup ticket; those files remain recoverable
-from Git history while that work is pending.
+These files remain recoverable from Git history. They are not copied into the
+release tree because the local demo does not execute training and does not ship
+model weights. The training generator now requires an explicit output directory,
+and `.gitignore` blocks raw training pools, notebooks, and local run outputs from
+returning accidentally.
 
-## Removed in the repository-surface audit
-
-- Generated planning HTML.
-- Internal planning and ticket mirrors.
-- Tracked training-run logs and notebook-run output.
-
-## Archive
-
-The removed files are archived in Git history in commits `ced396b`,
-`65b4b72`, and `4e461bc`; they can be recovered without keeping copies in the
-release tree.
-
-The corresponding ignore rules prevent these local-only paths from returning.
 No tracked API keys, model weights, caches, or oversized accidental files were
 found during the audit.

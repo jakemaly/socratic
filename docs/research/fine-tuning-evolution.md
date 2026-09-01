@@ -1,6 +1,6 @@
 # Fine-tuning evolution: V1 → V2 → V3 → next
 
-This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the current training run is intended to test.
+This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the current training run is intended to test. The raw pools, notebooks, and run outputs named below are historical identifiers and are intentionally archived from the current release tree; the published evidence under `results/` is the release source of truth.
 
 ## Executive summary
 
@@ -123,7 +123,7 @@ Evidence:
 - `train/config-v3-sft.yaml`
 - `runs/gemma4_v3_sft_adapter/eval_results.jsonl`
 - `data/train-v3/README.md`
-- `docs/research/v3-alignment-finetuning-plan.md`
+- the archived V3 alignment plan
 
 ## Next: clean SFT plus epoch comparison
 
