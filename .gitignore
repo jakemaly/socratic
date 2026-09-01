@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.example
+node_modules/
 
 # Local-only model, evaluation, notebook, and browser outputs.
 __pycache__/
