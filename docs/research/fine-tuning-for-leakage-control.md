@@ -1,10 +1,16 @@
 # Fine-tuning for leakage control
 
+> **Historical research note.** The raw training inputs and notebook workflow
+> discussed here are archived from the current release. Published benchmark
+> evidence in [`results/summary.md`](../../results/summary.md) is the release
+> source of truth; recommendations below are research context, not runnable
+> release instructions.
+
 **Scope.** This report treats leakage as the assistant emitting a completed code solution, exact requested output, formula, built-in/API name, or confirmation of an algorithm. The target is not a keyword filter: it is a useful Socratic response that refuses the artifact while giving a diagnostic next step.
 
-## What the current result says
+## What the historical result says
 
-The repository has 400 SFT conversations, assistant-only loss, and a 31B Gemma 4 QLoRA recipe. V2 scores **89.58%** on the fixed 48-case judge benchmark, but leakage is **6.25% (3/48)** versus V1 **4.17% (2/48)**. That is one case, or 2.08 percentage points—not evidence that V2 is reliably worse. Keep the benchmark fixed and report counts beside percentages; treat the leakage change as a signal for targeted ablations, not a reason to chase training loss.
+The archived run used 400 SFT conversations, assistant-only loss, and a 31B Gemma 4 QLoRA recipe. V2 scores **89.58%** on the fixed 48-case judge benchmark, but leakage is **6.25% (3/48)** versus V1 **4.17% (2/48)**. That is one case, or 2.08 percentage points—not evidence that V2 is reliably worse. Keep the benchmark fixed and report counts beside percentages; treat the leakage change as a signal for targeted ablations, not a reason to chase training loss.
 
 The likely control lever is target behavior in the assistant completions. Gemma’s official tuning guide recommends a diverse task-specific dataset, conversational `messages`, and QLoRA: 4-bit frozen base weights plus trainable LoRA adapters ([Google Gemma QLoRA guide](https://ai.google.dev/gemma/docs/core/huggingface_text_finetune_qlora)). TRL likewise supports conversational data, assistant-only loss, completion-only loss, and packing ([TRL SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer)).
 
@@ -36,7 +42,7 @@ Unsloth’s first-party Gemma 4 guide explicitly reports approximately **22 GB**
 
 ## Evaluation protocol
 
-For every candidate, run the same 48 prompts, system prompt, model revision, adapter, decoding settings, and judge. Save raw outputs and classify leakage by artifact type, plus actionable diagnosis and utility. Report `leaks / 48`, `useful / 48`, and the full per-case table; one case moves the rate by 2.08 points. Add a small adversarial holdout with paraphrases and multi-turn pressure, but do not replace the fixed benchmark. Compare V1, V2, and each single-variable ablation; retain the candidate only when leakage falls without a material utility regression. The immediate next run should be balanced hard-negative SFT with assistant-only loss and packing disabled; preference optimization is the second-stage experiment if that does not lower the three V2 leakage cases.
+For every candidate, run the same 48 prompts, system prompt, model revision, adapter, decoding settings, and judge. Save raw outputs and classify leakage by artifact type, plus actionable diagnosis and utility. Report `leaks / 48`, `useful / 48`, and the full per-case table; one case moves the rate by 2.08 points. Add a small adversarial holdout with paraphrases and multi-turn pressure, but do not replace the fixed benchmark. Compare V1, V2, and each single-variable ablation; retain the candidate only when leakage falls without a material utility regression. The historical recommendation was balanced hard-negative SFT with assistant-only loss and packing disabled; preference optimization was the proposed second-stage experiment if that did not lower the three V2 leakage cases.
 
 ## Sources
 

@@ -1,6 +1,6 @@
 # Fine-tuning evolution: V1 → V2 → V3 → next
 
-This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the current training run is intended to test. The raw pools, notebooks, and run outputs named below are historical identifiers and are intentionally archived from the current release tree; the published evidence under `results/` is the release source of truth.
+This document records how the Socratic tutor fine-tuning experiments changed over time, what each experiment established, and what the historical next run was intended to test. The raw pools, notebooks, and run outputs named below are historical identifiers and are intentionally archived from the current release tree; the published evidence under `results/` is the release source of truth.
 
 ## Executive summary
 
@@ -133,7 +133,7 @@ Evidence:
 
 ### Data changes
 
-`data/train-next/` is generated with the alignment profile in `scripts/generate_dialogues.py`:
+The archived `data/train-next/` pool was generated with the alignment profile in `scripts/generate_dialogues.py`:
 
 - exact `eval.judge.TUTOR_SYSTEM_PROMPT` in every row;
 - 400 records with the same four balanced families;
@@ -186,7 +186,7 @@ Four is not a claim that more training is better. It is the smallest run that su
 
 ### Measured result
 
-All three evaluations used the fixed 48-case benchmark, canonical tutor prompt, base revision above, `judge-v1`, temperature `0`, seed `0`, and greedy local decoding with a 256-token cap. Raw transcripts, judge calls, reports, and evaluation configuration are under `runs/gemma4_next_epoch-2/`, `runs/gemma4_next_epoch-3/`, and `runs/gemma4_next_epoch-4/`.
+All three historical evaluations used the fixed 48-case benchmark, canonical tutor prompt, base revision above, `judge-v1`, temperature `0`, seed `0`, and greedy local decoding with a 256-token cap. Raw transcripts, judge calls, reports, and evaluation configuration were recorded under the archived `runs/gemma4_next_epoch-2/`, `runs/gemma4_next_epoch-3/`, and `runs/gemma4_next_epoch-4/` directories; the published summary is the release artifact.
 
 | Snapshot | Leakage | Actionable diagnosis | Normal-stuck | Answer-demand | Persistent-pressure | Misconception-edge | Decision |
 |---|---:|---:|---:|---:|---:|---:|---|
