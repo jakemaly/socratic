@@ -18,5 +18,6 @@ train/adapter-next-sft/
 train/logs/
 train/logs-v2/
 train/logs-v3-sft/
+train/logs-next-sft/
 Untitled.ipynb
 train/Untitled.ipynb
