@@ -24,7 +24,7 @@ No promotion thresholds are applied to this presentation result.
 
 ## Verdict
 
-The evidence supports using epoch 2 for the portfolio demo because it removes
+The evidence supports using epoch 2 for the portfolio project because it removes
 all judged leakage on this fixed benchmark. It does **not** support a universal
 leak-proof claim: diagnosis is 32/48, calibration was not performed, and no
 disjoint benign/holdout suite was run.

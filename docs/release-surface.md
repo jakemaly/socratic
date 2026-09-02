@@ -1,14 +1,13 @@
 # Release surface audit
 
-This inventory describes the tracked tree for the local portfolio release. The
-release is a fixture-first demo with published benchmark evidence; training
-inputs and interactive training materials are intentionally kept out of the
-shipping tree.
+This inventory describes the tracked tree for the research and evaluation
+release. Model weights, raw training inputs, and interactive frontend materials
+are intentionally kept out of the shipping tree.
 
 ## Retain
 
-- The six-exercise demo, fixture data, evaluation harness, schemas, scripts,
-  tests, benchmark cases, and published evidence.
+- The evaluation harness, schemas, scripts, tests, benchmark cases, and
+  published evidence.
 - Research and user-facing documentation needed to explain the project and its
   scoped benchmark claim.
 - Small training receipts and validation code that explain the selected run
@@ -27,9 +26,9 @@ shipping tree.
   logs, and notebook-run output.
 
 These files remain recoverable from Git history. They are not copied into the
-release tree because the local demo does not execute training and does not ship
-model weights. The training generator now requires an explicit output directory,
-and `.gitignore` blocks raw training pools, notebooks, and local run outputs from
+release tree because this repository does not execute training or ship model
+weights. The training generator now requires an explicit output directory, and
+`.gitignore` blocks raw training pools, notebooks, and local run outputs from
 returning accidentally.
 
 ## Archive

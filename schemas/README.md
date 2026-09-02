@@ -1,6 +1,6 @@
 # Dataset schemas
 
-This directory defines the versioned data contract shared by the benchmark, synthetic-dialogue, gallery, and evaluation tracks.
+This directory defines the versioned data contract shared by the benchmark, synthetic-dialogue, and evaluation tracks.
 
 ## Records
 
@@ -11,13 +11,7 @@ This directory defines the versioned data contract shared by the benchmark, synt
 | `exercise.schema.json` | `exercises.jsonl` | An exercise assigned to one pool. |
 | `eval_result.schema.json` | `eval_results.jsonl` | Run metadata, per-case binary scores, and aggregate rates. |
 
-## Presentation records
-
-| Schema | JSON record | Purpose |
-| --- | --- | --- |
-| `demo_evidence.schema.json` | `results/demo-evidence.json` | Complete fixed-benchmark presentation record consumed by the demo, including the selected epoch-2 checkpoint and explicit calibration status. |
-
-Every dataset record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The dataset schemas deliberately keep benchmark, training, and gallery content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool. Gallery records may additionally provide `title`, `difficulty_rank`, and `diagnosis_hooks`; `content/exercises.json` stores the six gallery records as a JSON array using this extended exercise shape.
+Every dataset record has `schema_version: "1.0.0"`. JSONL means one JSON object per line; blank lines are ignored. The dataset schemas deliberately keep benchmark and training content distinguishable with the shared `pool` enum (`benchmark`, `train`, `gallery`). A dialogue's `exercise_id` must refer to an exercise in the same pool.
 
 The four benchmark families are:
 
