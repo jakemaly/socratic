@@ -31,7 +31,7 @@ This is where we look towards **Low-Rank Adaptation,** or **LoRA,** to help. LoR
 
 ![A diagram of the training and evaluation process.](training-evaluation-pipeline.png)
 
-We implemented **supervised fine-tuning (SFT)** an open-weights model, Gemma 4 31B, on 400 synthetic socratic tutor dialogues teaching Python. I used the AdamW 8-bit algorithm and 3 epochs. 
+We implemented **supervised fine-tuning (SFT)** on an open-weights model, Gemma 4 31B, on 400 synthetic socratic tutor dialogues teaching Python. I used the AdamW 8-bit algorithm and 3 epochs. 
 
 Pre-quantized model and training notebook inspiration from [the GOAT of local AI, Unsloth.](https://unsloth.ai/docs/models/gemma-4/train)
 
@@ -39,7 +39,7 @@ The adapter model was benchmarked against 48 cases (4 categories, 12 per), where
 
 ## Results
 
-We achieved 0% leakage on the testing set with training attempt 3, epoch 2. Full training results can be found at [results/summary.md](https://github.com/jakemaly/socratic/blob/main/results/summary.md).
+We achieved 0% leakage (base=8.33%) on the testing set with training attempt 3, epoch 2. This demonstrates that LoRA can significantly influence model behaviour, even on consumer grade compute. Full training results can be found at [results/summary.md](https://github.com/jakemaly/socratic/blob/main/results/summary.md).
 
 
 
