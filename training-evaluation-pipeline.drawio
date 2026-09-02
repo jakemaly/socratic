@@ -1,106 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="drawio" version="26.0">
-  <diagram name="Training and Evaluation">
-    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1160" math="0" shadow="0" background="#ffffff">
+  <diagram name="Training and Evaluation Flow">
+    <mxGraphModel dx="1400" dy="1250" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1270" math="0" shadow="0" background="#ffffff">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
 
-        <mxCell id="title" value="Socratic Tutor — training and evaluation" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=26;fontStyle=1;fontColor=#263238;" vertex="1" parent="1">
-          <mxGeometry x="50" y="30" width="1400" height="45" as="geometry" />
+        <mxCell id="start" value="400 training dialogues&#xa;4 balanced families" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#263238;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="30" width="500" height="75" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="Historical pipeline: train a tutor adapter, compare checkpoints, and select the earliest checkpoint with zero judged leakage." style="text;html=1;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=14;fontColor=#607d8b;" vertex="1" parent="1">
-          <mxGeometry x="50" y="80" width="1400" height="30" as="geometry" />
+        <mxCell id="validate" value="Validate the training contract&#xa;&#xa;Canonical prompt · alternating roles · non-empty messages&#xa;Benchmark overlap check · training-row hash" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#263238;fontFamily=Helvetica;fontSize=14;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="350" y="160" width="700" height="95" as="geometry" />
         </mxCell>
-
-        <mxCell id="trainingPanel" value="TRAINING  ·  archived experiment receipt" style="swimlane;html=1;startSize=40;rounded=1;container=1;pointerEvents=0;fillColor=#f7fbff;strokeColor=#6c8ebf;fontColor=#274c77;fontFamily=Helvetica;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="140" width="620" height="680" as="geometry" />
+        <mxCell id="finetune" value="Fine-tune with SFT + QLoRA&#xa;&#xa;unsloth/gemma-4-31B-it-unsloth-bnb-4bit · pre-quantized 4-bit&#xa;all-linear LoRA · rank 16 · alpha 32 · dropout 0&#xa;4 epochs · learning rate 2e-4 · cosine · AdamW 8-bit&#xa;max length 1,024 · micro-batch 1 × accumulation 4 · assistant-only loss" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#263238;fontFamily=Helvetica;fontSize=14;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="250" y="310" width="900" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="evalPanel" value="EVALUATION  ·  fixed benchmark" style="swimlane;html=1;startSize=40;rounded=1;container=1;pointerEvents=0;fillColor=#fbf8fc;strokeColor=#9673a6;fontColor=#5b3d70;fontFamily=Helvetica;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="720" y="140" width="730" height="680" as="geometry" />
-        </mxCell>
-
-        <mxCell id="trainData" value="&lt;b&gt;1 · Build training pool&lt;/b&gt;&lt;br&gt;&lt;br&gt;400 dialogues, balanced across 4 families&lt;br&gt;Canonical tutor prompt in every row&lt;br&gt;Disjoint concepts: maximums, calendar rules, rectangles, score boundaries&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#607d8b&quot;&gt;scripts/generate_dialogues.py · archived data/train-next/&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=top;spacingTop=12;spacingLeft=16;spacingRight=16;" vertex="1" parent="trainingPanel">
-          <mxGeometry x="40" y="65" width="540" height="125" as="geometry" />
-        </mxCell>
-        <mxCell id="validate" value="&lt;b&gt;2 · Validate the contract&lt;/b&gt;&lt;br&gt;&lt;br&gt;Check the exact system prompt, alternating roles, non-empty messages, benchmark overlap, and training-row hash." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="trainingPanel">
-          <mxGeometry x="40" y="215" width="540" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="fineTune" value="&lt;b&gt;3 · Fine-tune with SFT + QLoRA&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Model:&lt;/b&gt; unsloth/gemma-4-31B-it-unsloth-bnb-4bit&lt;br&gt;&lt;b&gt;Revision:&lt;/b&gt; 8e256fc6d63003fc0ca8c91b976e6dcc38433385&lt;br&gt;&lt;b&gt;Adapters:&lt;/b&gt; all-linear · rank 16 · alpha 32 · dropout 0&lt;br&gt;&lt;b&gt;Run:&lt;/b&gt; 4 epochs · learning rate 2e-4 · cosine · AdamW 8-bit&lt;br&gt;&lt;b&gt;Memory/ loss:&lt;/b&gt; 4-bit · max length 1,024 · micro-batch 1 × accumulation 4 · assistant-only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#263238;fontFamily=Helvetica;fontSize=12;align=left;verticalAlign=top;spacingTop=12;spacingLeft=16;spacingRight=16;" vertex="1" parent="trainingPanel">
-          <mxGeometry x="40" y="320" width="540" height="155" as="geometry" />
-        </mxCell>
-        <mxCell id="checkpoints" value="&lt;b&gt;4 · Save adapter snapshots&lt;/b&gt;&lt;br&gt;&lt;br&gt;Keep checkpoints at epochs 2, 3, and 4 for a controlled comparison.&lt;br&gt;Training seed: 20260825" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="trainingPanel">
-          <mxGeometry x="40" y="500" width="540" height="85" as="geometry" />
-        </mxCell>
-        <mxCell id="trainingNote" value="&lt;font color=&quot;#607d8b&quot;&gt;The release keeps receipts and evaluation artifacts; raw training pools, notebooks, environments, and weights are intentionally archived.&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;fontSize=11;fontColor=#607d8b;" vertex="1" parent="trainingPanel">
-          <mxGeometry x="40" y="615" width="540" height="55" as="geometry" />
+        <mxCell id="snapshots" value="Save adapter snapshots&#xa;Epochs 2, 3, and 4 · training seed 20260825" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="350" y="515" width="700" height="80" as="geometry" />
         </mxCell>
 
-        <mxCell id="benchmark" value="&lt;b&gt;A · Fixed benchmark&lt;/b&gt;&lt;br&gt;&lt;br&gt;data/benchmark/cases.jsonl&lt;br&gt;48 cases: 4 families × 12&lt;br&gt;Same benchmark for base and every adapter snapshot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="evalPanel">
-          <mxGeometry x="40" y="65" width="650" height="95" as="geometry" />
+        <mxCell id="benchmark" value="48 fixed benchmark cases&#xa;4 families × 12" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="665" width="380" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="runCases" value="&lt;b&gt;B · Run each case&lt;/b&gt;&lt;br&gt;&lt;br&gt;Test prompted Gemma 4 base and adapter epochs 2 / 3 / 4 with the canonical tutor prompt.&lt;br&gt;Greedy decoding · temperature 0 · seed 0 · maximum 256 new tokens&lt;br&gt;Record every chat message in transcripts.jsonl" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="evalPanel">
-          <mxGeometry x="40" y="185" width="650" height="105" as="geometry" />
+        <mxCell id="run" value="Run base + adapter snapshots&#xa;&#xa;Canonical tutor prompt · greedy decoding&#xa;temperature 0 · seed 0 · maximum 256 new tokens" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="500" y="665" width="700" height="115" as="geometry" />
         </mxCell>
-        <mxCell id="judge" value="&lt;b&gt;C · Semantic judge&lt;/b&gt;&lt;br&gt;&lt;br&gt;Pinned judge model: deepseek-v4-pro&lt;br&gt;Rubric version: judge-v1 · temperature 0&lt;br&gt;Judge reads the full transcript and records raw request, response, and parsed result." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="evalPanel">
-          <mxGeometry x="40" y="315" width="650" height="105" as="geometry" />
+        <mxCell id="judge" value="Semantic judge&#xa;&#xa;deepseek-v4-pro · judge-v1 · temperature 0&#xa;Read the full transcript and return binary scores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="500" y="850" width="700" height="105" as="geometry" />
         </mxCell>
-        <mxCell id="metrics" value="&lt;b&gt;D · Score two outcomes&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Leakage:&lt;/b&gt; did the tutor reveal completed code, a final output, or equivalent prose?&lt;br&gt;&lt;b&gt;Actionable diagnosis:&lt;/b&gt; did it identify the conceptual error and ask a relevant next-step question?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#263238;fontFamily=Helvetica;fontSize=13;align=left;verticalAlign=middle;spacingLeft=16;spacingRight=16;" vertex="1" parent="evalPanel">
-          <mxGeometry x="40" y="445" width="650" height="100" as="geometry" />
+        <mxCell id="score" value="Score leakage and actionable diagnosis&#xa;&#xa;Completed solution revealed?&#xa;Conceptual error identified with a relevant next-step question?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1025" width="700" height="105" as="geometry" />
         </mxCell>
-        <mxCell id="evalArtifacts" value="&lt;font color=&quot;#607d8b&quot;&gt;Outputs: transcripts.jsonl · judge_calls.jsonl · eval_results.jsonl&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontFamily=Helvetica;fontSize=11;fontColor=#607d8b;" vertex="1" parent="evalPanel">
-          <mxGeometry x="40" y="570" width="650" height="30" as="geometry" />
-        </mxCell>
-
-        <mxCell id="trainDataToValidate" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="trainData" target="validate">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="validateToFineTune" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="validate" target="fineTune">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="fineTuneToCheckpoints" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fineTune" target="checkpoints">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="checkpointsToRun" value="checkpoints" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;fontColor=#8a4b08;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="checkpoints" target="runCases">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="700" y="662" />
-              <mxPoint x="700" y="377" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="benchmarkToRun" value="cases" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;fontColor=#4d7c3a;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="benchmark" target="runCases">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="runToJudge" value="transcript" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;fontColor=#274c77;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="runCases" target="judge">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="judgeToMetrics" value="scores" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;fontColor=#8f302a;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="judge" target="metrics">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="end" value="Epoch 2 selected&#xa;0/48 judged leakage · 32/48 actionable diagnosis" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#263238;fontFamily=Helvetica;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1200" width="900" height="70" as="geometry" />
         </mxCell>
 
-        <mxCell id="selection" value="&lt;b&gt;SELECTED RESULT · epoch 2 adapter&lt;/b&gt;&lt;br&gt;&lt;br&gt;Earliest checkpoint with &lt;b&gt;0/48 judged leakage&lt;/b&gt; and &lt;b&gt;32/48 actionable diagnosis&lt;/b&gt;.&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#607d8b&quot;&gt;Interpretation: strong evidence on this fixed benchmark, not a universal leak-proof claim. Human calibration and a disjoint benign/holdout suite were not performed.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#263238;fontFamily=Helvetica;fontSize=15;align=left;verticalAlign=middle;spacingLeft=20;spacingRight=20;" vertex="1" parent="1">
-          <mxGeometry x="50" y="860" width="1400" height="125" as="geometry" />
-        </mxCell>
-        <mxCell id="metricsToSelection" value="select earliest zero-leakage checkpoint" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;fontColor=#4d7c3a;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="metrics" target="selection">
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="start" target="validate">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="legend" value="Legend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b0bec5;verticalAlign=top;fontStyle=1;fontFamily=Helvetica;fontSize=12;fontColor=#455a64;" vertex="1" parent="1">
-          <mxGeometry x="50" y="1015" width="420" height="80" as="geometry" />
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="validate" target="finetune">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="legendData" value="Data / cases" style="rounded=0;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Helvetica;fontSize=11;fontColor=#263238;align=left;verticalAlign=middle;" vertex="1" parent="legend">
-          <mxGeometry x="15" y="28" width="115" height="25" as="geometry" />
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="finetune" target="snapshots">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="legendProcess" value="Process / metric" style="rounded=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Helvetica;fontSize=11;fontColor=#263238;align=left;verticalAlign=middle;" vertex="1" parent="legend">
-          <mxGeometry x="145" y="28" width="125" height="25" as="geometry" />
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90a4ae;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="snapshots" target="run">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="legendModel" value="Model / adapter" style="rounded=0;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=11;fontColor=#263238;align=left;verticalAlign=middle;" vertex="1" parent="legend">
-          <mxGeometry x="285" y="28" width="120" height="25" as="geometry" />
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="benchmark" target="run">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="source" value="Sources: train/config-next-sft.yaml · train/README.md · eval/README.md · docs/research/fine-tuning-evolution.md · results/summary.md" style="text;html=1;align=right;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#78909c;" vertex="1" parent="1">
-          <mxGeometry x="500" y="1030" width="950" height="30" as="geometry" />
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="run" target="judge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b85450;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="judge" target="score">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="score" target="end">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
