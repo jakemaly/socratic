@@ -2,12 +2,11 @@
 .env.*
 !.env.example
 
-# Local-only model, evaluation, notebook, and browser outputs.
+# Local-only model, evaluation, and notebook outputs.
 __pycache__/
 .ipynb_checkpoints/
 .lavish/
 .wayfinder/
-.playwright-cli/
 runs/
 data/train*/
 train/*.ipynb

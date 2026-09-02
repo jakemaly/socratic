@@ -209,8 +209,8 @@ The archived run:
 6. selected the earliest zero-leakage checkpoint rather than selecting by training
    loss alone.
 
-The fixture-first release does not execute this training workflow. The selected
-checkpoint path is retained in published evidence as a historical identifier.
+This release does not execute the training workflow. The selected checkpoint
+path is retained in the published evidence as a historical identifier.
 
 ## Acceptance and stop conditions
 

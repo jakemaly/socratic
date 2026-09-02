@@ -1,8 +1,8 @@
 # Training record
 
-The local portfolio release does not ship raw training pools, notebooks, model
-weights, or training environments. Those materials are intentionally archived in
-Git history rather than included in the focused demo tree.
+This release does not ship raw training pools, notebooks, model weights, or
+training environments. Those materials are intentionally archived in Git
+history rather than included in the repository.
 
 ## Selected experiment
 
@@ -31,6 +31,6 @@ and the published evidence in [`results/summary.md`](../results/summary.md).
   inspectable implementation history. The generator requires an explicit output
   directory so it cannot silently recreate a release dataset.
 
-The demo runs entirely from committed fixtures. To connect live chat, provide
-an already-running compatible endpoint as described in [`demo/README.md`](../demo/README.md);
-this repository does not serve the model or include its weights.
+The selected model and adapter weights are not included in Git. The retained
+receipts and evaluation artifacts document the run without requiring a serving
+layer.

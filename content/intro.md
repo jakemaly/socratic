@@ -1,1 +1,0 @@
-This gallery gives adult beginners six small Python exercises, moving from variables and input/output through conditionals, loops, lists, functions, and strings/dictionaries. The tutor helps you find the next step, diagnoses what is blocking you, and redirects requests for a finished answer without writing the solution for you. Choose an exercise and try the first step.
