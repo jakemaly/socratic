@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="31.3.2">
+  <diagram name="Socratic training process">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Socratic tutor: from training data to selected adapter" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="50" y="30" width="900" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="A simplified view of the historical Gemma 4 QLoRA + assistant-only SFT experiment" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="50" y="70" width="900" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="trainingLabel" value="TRAINING: teach the response policy" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="50" y="125" width="500" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="evaluationLabel" value="EVALUATION: test the boundary and preserve utility" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="50" y="450" width="700" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="data" value="Training pool&#xa;400 multi-turn dialogues&#xa;4 balanced behaviour families" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="50" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="contract" value="Validate contract&#xa;roles, prompt, hashes&#xa;non-empty messages" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="template" value="Gemma chat template&#xa;turns → exact token sequence&#xa;check length and boundaries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="530" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="base" value="Frozen base model&#xa;Gemma 4 31B&#xa;pre-quantized 4-bit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="adapter" value="Trainable LoRA adapter&#xa;rank 16 · alpha 32&#xa;all-linear targets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="sft" value="Assistant-only SFT&#xa;cross-entropy on tutor replies&#xa;AdamW 8-bit · 3 core epochs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="190" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="snapshots" value="Saved snapshots&#xa;epoch 2 · epoch 3 · epoch 4&#xa;one controlled four-epoch run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="330" width="190" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="benchmark" value="Fixed benchmark&#xa;48 cases · 4 families&#xa;kept separate from training" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="50" y="510" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="runner" value="Accumulating conversations&#xa;system prompt + learner turns&#xa;greedy decoding, temperature 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="510" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="judge" value="Pinned semantic judge&#xa;score each complete transcript&#xa;judge-v1 · temperature 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="530" y="510" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="metrics" value="Two independent metrics&#xa;leakage: completed artifact?&#xa;diagnosis: useful next step?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#1f2937;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="770" y="510" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="selection" value="Selected checkpoint&#xa;epoch 2: 0/48 leakage&#xa;32/48 actionable diagnosis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#1f2937;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="510" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="versionLabel" value="WHY THE DATA CHANGED" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#374151;" vertex="1" parent="1">
+          <mxGeometry x="50" y="680" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="v1" value="V1&#xa;Baseline pool&#xa;2/48 leakage · 32/48 diagnosis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#1f2937;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="720" width="280" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v2" value="V2&#xa;Hard negatives&#xa;3/48 leakage · 43/48 diagnosis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#1f2937;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="720" width="280" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v3" value="V3&#xa;Named leakage classes&#xa;3/48 leakage · 30/48 diagnosis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#1f2937;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="690" y="720" width="280" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="vnext" value="Next&#xa;Canonical prompt + disjoint concepts&#xa;pressure depth + epoch comparison" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#1f2937;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="720" width="280" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="Legend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;verticalAlign=top;fontStyle=1;fontColor=#374151;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="690" width="180" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="legInput" value="" style="rounded=0;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="30" width="24" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="legInputText" value="data / selected" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#374151;" vertex="1" parent="legend">
+          <mxGeometry x="44" y="28" width="125" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legProcess" value="" style="rounded=1;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="56" width="24" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="legProcessText" value="process / model" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#374151;" vertex="1" parent="legend">
+          <mxGeometry x="44" y="54" width="125" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legModel" value="" style="rounded=1;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="82" width="24" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="legModelText" value="trainable / frozen" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#374151;" vertex="1" parent="legend">
+          <mxGeometry x="44" y="80" width="125" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legMetric" value="" style="rounded=1;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="108" width="24" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="legMetricText" value="judge / risk signal" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#374151;" vertex="1" parent="legend">
+          <mxGeometry x="44" y="106" width="125" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eDataContract" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="data" target="contract">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eContractTemplate" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="contract" target="template">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eTemplateBase" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="template" target="base">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eBaseAdapter" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="base" target="adapter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eAdapterSft" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="adapter" target="sft">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eSftSnapshots" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sft" target="snapshots">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eBenchmarkRunner" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="benchmark" target="runner">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eRunnerJudge" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="runner" target="judge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eJudgeMetrics" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="judge" target="metrics">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eMetricsSelection" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="metrics" target="selection">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eSnapshotsRunner" value="each checkpoint" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="snapshots" target="runner">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1510" y="370" />
+              <mxPoint x="1510" y="490" />
+              <mxPoint x="385" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="eV1V2" value="hard negatives" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#999999;fontColor=#666666;" edge="1" parent="1" source="v1" target="v2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eV2V3" value="failure classes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#999999;fontColor=#666666;" edge="1" parent="1" source="v2" target="v3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eV3Next" value="contract + coverage" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#999999;fontColor=#666666;" edge="1" parent="1" source="v3" target="vnext">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
