@@ -12,6 +12,10 @@ throughout. The current release is a fixture-first demo; the historical
 training data, notebooks, and adapter weights are intentionally archived rather
 than shipped as runnable assets.
 
+![Socratic training process](docs/diagrams/socratic-training-process.png)
+
+[Open the editable draw.io source](docs/diagrams/socratic-training-process.drawio)
+
 ## The problems
 
 Two recurring concerns motivate the project.
