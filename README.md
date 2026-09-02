@@ -2,7 +2,7 @@
 
 A low-rank adaptation fine-tuning example of Gemma 4 31B. View the model card on Hugging Face.
 
-![View the model card on Hugging Face!](https://miro.medium.com/v2/resize:fit:1400/1*7y6-k8o3pwCBw-0ency01g.jpeg)(https://huggingface.co/jakemaly/Gemma4-31B-Socratic-LoRA)
+[![View the model card on Hugging Face!](https://miro.medium.com/v2/resize:fit:1400/1*7y6-k8o3pwCBw-0ency01g.jpeg)](https://huggingface.co/jakemaly/Gemma4-31B-Socratic-LoRA)
 
 *Written by me, not AI, which can explain my not-100%-precise ML language.*
 
