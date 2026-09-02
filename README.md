@@ -7,7 +7,9 @@
 |'....|'   '|..|'  '|...' .||.    '|..'|'  '|.' .||.  '|...' 
                                                
 ```
-A low-rank adaptation fine-tuning example of Gemma 4 31B. *Written by me, not AI, which can explain my not-100%-precise ML language.*
+A low-rank adaptation fine-tuning example of Gemma 4 31B. View the model card on [Hugging Face.](https://huggingface.co/jakemaly/Gemma4-31B-Socratic-LoRA)
+
+*Written by me, not AI, which can explain my not-100%-precise ML language.*
 
 ---
 ## Two problems are frequently brought up in discussions about GenAI.
